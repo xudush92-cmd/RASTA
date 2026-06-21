@@ -17,6 +17,15 @@ Bozorlar, supermarketlar va barcha turdagi sotuvchilar o'z do'konlarini ochib, m
 - **[RASTA_Ekran_Xaritasi.md](./RASTA_Ekran_Xaritasi.md)** — to'liq menyu/ekran xaritasi: 14 ta ekran, har biri uchun maqsad, elementlar, foydalanuvchi amallari va navigatsiya + rollar jadvali.
 - **[RASTA_Wireframes.md](./RASTA_Wireframes.md)** — 7 ta asosiy ekranning matnli (ASCII) wireframe maketlari + dizayn tizimi (ranglar, brending).
 
+### Spec (MVP qurilish rejasi)
+
+`.kiro/specs/rasta-mvp/` papkasida:
+- **[requirements.md](./.kiro/specs/rasta-mvp/requirements.md)** — MVP talablari (11 ta, user stories + qabul mezonlari).
+- **[design.md](./.kiro/specs/rasta-mvp/design.md)** — texnik dizayn (Next.js + Supabase, DB sxemasi, komponentlar).
+- **[tasks.md](./.kiro/specs/rasta-mvp/tasks.md)** — kod yozish bosqichlari (10 bosqich, ~30 vazifa).
+
+> **Texnologiya (MVP):** Next.js 14 + TypeScript + Tailwind + Supabase, Vercel'da bepul deploy.
+
 ## Asosiy model
 
 - **PULLI Do'kon** — oylik obuna (Boshlang'ich ~49k / Standart ~99k / Premium ~199k so'm), keng boshqaruv paneli, batafsil statistika.
