@@ -26,6 +26,11 @@ Bozorlar, supermarketlar va barcha turdagi sotuvchilar o'z do'konlarini ochib, m
 
 > **Texnologiya (MVP):** Next.js 14 + TypeScript + Tailwind + Supabase, Vercel'da bepul deploy.
 
+### Interaktiv prototip (ilova ko'rinishi)
+
+- **[prototype/index.html](./prototype/index.html)** — ilovaning interaktiv demo ko'rinishi (12 ta ekran, bosib o'tiladigan, dark mode). Tashqi bog'liqliksiz, brauzerda darhol ochiladi.
+- **Ko'rish:** [htmlpreview orqali oching](https://htmlpreview.github.io/?https://github.com/xudush92-cmd/RASTA/blob/main/prototype/index.html) yoki faylni yuklab olib brauzerda oching.
+
 ## Asosiy model
 
 - **PULLI Do'kon** — oylik obuna (Boshlang'ich ~49k / Standart ~99k / Premium ~199k so'm), keng boshqaruv paneli, batafsil statistika.

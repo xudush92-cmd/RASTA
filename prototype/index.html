@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RASTA — Interaktiv prototip</title>
+<style>
+  :root{
+    --brand:#13A89E; --brand-d:#0E867E; --accent:#FF6B35; --accent-d:#E85826;
+    --bg:#F4F6F7; --card:#FFFFFF; --text:#10201E; --muted:#6B807D;
+    --line:#E2E8E7; --chip:#EAF3F2; --star:#F5A623;
+  }
+  .dark{
+    --bg:#0E1414; --card:#16201F; --text:#F2F5F4; --muted:#8FA3A0;
+    --line:#22302E; --chip:#1B2725;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:linear-gradient(135deg,#0b3b38,#0E867E 60%,#13A89E);min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;padding:24px 12px;color:#fff}
+  .head{text-align:center;margin-bottom:16px}
+  .head h1{font-size:26px;letter-spacing:1px}
+  .head p{opacity:.85;font-size:13px;margin-top:4px}
+  .toolbar{display:flex;gap:8px;margin:14px 0;flex-wrap:wrap;justify-content:center}
+  .toolbar button{border:0;background:rgba(255,255,255,.15);color:#fff;padding:8px 14px;
+    border-radius:20px;font-size:12px;cursor:pointer;backdrop-filter:blur(4px)}
+  .toolbar button:hover{background:rgba(255,255,255,.28)}
+
+  /* Phone frame */
+  .phone{width:390px;max-width:100%;height:780px;background:var(--bg);border-radius:38px;
+    box-shadow:0 24px 60px rgba(0,0,0,.4);overflow:hidden;position:relative;
+    border:10px solid #05100f;display:flex;flex-direction:column}
+  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:150px;height:26px;
+    background:#05100f;border-radius:0 0 18px 18px;z-index:50}
+  .statusbar{height:34px;display:flex;align-items:center;justify-content:space-between;
+    padding:0 22px;font-size:12px;font-weight:600;color:var(--text);flex:none}
+
+  .viewport{flex:1;overflow-y:auto;position:relative;background:var(--bg)}
+  .viewport::-webkit-scrollbar{width:0}
+  .screen{display:none;animation:fade .25s ease;color:var(--text);padding-bottom:80px}
+  .screen.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* Top app bar */
+  .appbar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--card);
+    border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+  .logo{font-weight:800;color:var(--brand);font-size:20px;letter-spacing:.5px}
+  .loc{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:3px}
+  .iconbtn{margin-left:auto;width:38px;height:38px;border-radius:50%;background:var(--chip);
+    border:0;font-size:16px;cursor:pointer;color:var(--text)}
+  .iconbtn+.iconbtn{margin-left:6px}
+  .back{border:0;background:var(--chip);width:38px;height:38px;border-radius:50%;
+    font-size:18px;cursor:pointer;color:var(--text)}
+
+  .pad{padding:14px 16px}
+  .search{display:flex;align-items:center;gap:8px;background:var(--chip);border-radius:14px;
+    padding:12px 14px;color:var(--muted);font-size:14px;cursor:pointer;margin:12px 16px}
+  .search input{border:0;background:transparent;outline:0;color:var(--text);font-size:14px;width:100%}
+
+  .cats{display:flex;gap:14px;overflow-x:auto;padding:6px 16px 12px}
+  .cats::-webkit-scrollbar{height:0}
+  .cat{flex:none;text-align:center;cursor:pointer}
+  .cat .ic{width:58px;height:58px;border-radius:18px;background:var(--chip);display:flex;
+    align-items:center;justify-content:center;font-size:26px;border:1px solid var(--line)}
+  .cat span{font-size:11px;color:var(--muted);display:block;margin-top:5px}
+
+  .banner{margin:4px 16px 0;height:130px;border-radius:18px;
+    background:linear-gradient(120deg,var(--brand),var(--brand-d));color:#fff;
+    padding:18px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+  .banner h3{font-size:18px}.banner p{font-size:12px;opacity:.9;margin-top:4px;max-width:70%}
+  .banner .em{position:absolute;right:-6px;bottom:-10px;font-size:88px;opacity:.25}
+
+  .sec{display:flex;align-items:center;justify-content:space-between;padding:18px 16px 8px}
+  .sec h4{font-size:16px}.sec a{color:var(--brand);font-size:12px;text-decoration:none}
+
+  .hscroll{display:flex;gap:12px;overflow-x:auto;padding:0 16px 4px}
+  .hscroll::-webkit-scrollbar{height:0}
+  .shopcard{flex:none;width:130px;background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:10px;cursor:pointer}
+  .shopcard .ava{width:100%;height:74px;border-radius:12px;display:flex;align-items:center;
+    justify-content:center;font-size:34px;background:var(--chip)}
+  .shopcard b{font-size:13px;display:block;margin-top:8px}
+  .rate{font-size:11px;color:var(--muted);margin-top:3px}
+  .badge{display:inline-block;background:var(--brand);color:#fff;font-size:9px;font-weight:700;
+    padding:2px 6px;border-radius:6px;margin-left:4px;vertical-align:middle}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:4px 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer}
+  .card .img{height:120px;display:flex;align-items:center;justify-content:center;font-size:44px;
+    background:linear-gradient(135deg,var(--chip),var(--bg));position:relative}
+  .card .fav{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;
+    background:rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;font-size:15px}
+  .dark .card .fav{background:rgba(0,0,0,.5)}
+  .card .pro{position:absolute;top:8px;left:8px;background:var(--brand);color:#fff;font-size:9px;
+    font-weight:700;padding:3px 7px;border-radius:7px}
+  .card .info{padding:9px 10px}
+  .price{color:var(--brand);font-weight:800;font-size:15px}
+  .ttl{font-size:13px;margin:3px 0;line-height:1.3;color:var(--text)}
+  .meta{font-size:11px;color:var(--muted)}
+
+  /* bottom nav */
+  .nav{position:absolute;bottom:0;left:0;right:0;height:66px;background:var(--card);
+    border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;z-index:40}
+  .nav button{border:0;background:none;color:var(--muted);font-size:10px;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;gap:3px;flex:1}
+  .nav button .ic{font-size:20px}
+  .nav button.on{color:var(--brand)}
+  .nav .plus{flex:none;width:56px;height:56px;border-radius:50%;background:var(--brand);
+    color:#fff;font-size:30px;margin-top:-22px;box-shadow:0 8px 18px rgba(19,168,158,.5);
+    display:flex;align-items:center;justify-content:center}
+
+  /* listing detail */
+  .gallery{height:260px;background:linear-gradient(135deg,var(--chip),var(--bg));
+    display:flex;align-items:center;justify-content:center;font-size:96px;position:relative}
+  .dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
+  .dots i{width:7px;height:7px;border-radius:50%;background:#fff;opacity:.5}.dots i.on{opacity:1}
+  .detail-pad{padding:16px}
+  .big-price{color:var(--brand);font-size:26px;font-weight:800}
+  .h-ttl{font-size:18px;margin:6px 0;font-weight:600}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+  .chip{background:var(--chip);color:var(--muted);font-size:12px;padding:6px 12px;border-radius:10px}
+  .seller{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:12px;margin:14px 0;cursor:pointer}
+  .seller .ava{width:46px;height:46px;border-radius:12px;background:var(--chip);display:flex;
+    align-items:center;justify-content:center;font-size:24px}
+  .desc{font-size:14px;color:var(--text);line-height:1.6;opacity:.9}
+  .contactbar{position:absolute;bottom:0;left:0;right:0;display:flex;gap:10px;padding:12px 16px;
+    background:var(--card);border-top:1px solid var(--line);z-index:30}
+  .btn{flex:1;border:0;border-radius:14px;padding:15px;font-size:15px;font-weight:700;cursor:pointer}
+  .btn-out{background:var(--chip);color:var(--text)}
+  .btn-accent{background:var(--accent);color:#fff;box-shadow:0 6px 16px rgba(255,107,53,.4)}
+  .btn-brand{background:var(--brand);color:#fff}
+
+  /* shop profile */
+  .cover{height:120px;background:linear-gradient(120deg,var(--brand),var(--brand-d))}
+  .shophead{padding:0 16px;margin-top:-34px}
+  .shophead .ava{width:72px;height:72px;border-radius:20px;background:var(--card);
+    border:3px solid var(--card);display:flex;align-items:center;justify-content:center;font-size:36px;
+    box-shadow:0 6px 16px rgba(0,0,0,.15)}
+  .tabs{display:flex;gap:6px;padding:14px 16px 6px}
+  .tab{flex:1;text-align:center;padding:10px;border-radius:12px;font-size:13px;cursor:pointer;
+    background:var(--chip);color:var(--muted)}
+  .tab.on{background:var(--brand);color:#fff}
+
+  /* post */
+  .seg{display:flex;gap:12px;padding:16px}
+  .opt{flex:1;border:2px solid var(--line);border-radius:18px;padding:18px;text-align:center;cursor:pointer;background:var(--card)}
+  .opt.on{border-color:var(--brand);background:var(--chip)}
+  .opt .e{font-size:34px}.opt b{display:block;margin-top:8px;font-size:14px}.opt small{color:var(--muted);font-size:11px}
+  .field{padding:6px 16px}
+  .field label{font-size:12px;color:var(--muted);display:block;margin-bottom:6px}
+  .field .inp{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px;
+    color:var(--text);font-size:14px}
+  .uploads{display:flex;gap:10px;padding:6px 16px}
+  .up{width:70px;height:70px;border-radius:12px;border:2px dashed var(--line);display:flex;
+    align-items:center;justify-content:center;font-size:24px;color:var(--muted);background:var(--card)}
+  .up.f{border-style:solid;background:var(--chip)}
+
+  /* messages */
+  .chatrow{display:flex;gap:12px;padding:13px 16px;border-bottom:1px solid var(--line);cursor:pointer;align-items:center}
+  .chatrow .ava{width:48px;height:48px;border-radius:14px;background:var(--chip);display:flex;
+    align-items:center;justify-content:center;font-size:24px;flex:none}
+  .chatrow .c{flex:1;min-width:0}
+  .chatrow b{font-size:14px}.chatrow p{font-size:13px;color:var(--muted);white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+  .chatrow .t{font-size:11px;color:var(--muted);text-align:right}
+  .unread{background:var(--accent);color:#fff;font-size:10px;font-weight:700;border-radius:10px;
+    padding:2px 7px;display:inline-block;margin-top:4px}
+  /* chat thread */
+  .bubble{max-width:75%;padding:10px 14px;border-radius:16px;font-size:14px;margin:6px 16px;line-height:1.4}
+  .b-in{background:var(--card);border:1px solid var(--line);border-bottom-left-radius:4px}
+  .b-out{background:var(--brand);color:#fff;margin-left:auto;border-bottom-right-radius:4px}
+  .pillcard{margin:12px 16px;background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:10px;display:flex;gap:10px;align-items:center}
+  .pillcard .im{width:44px;height:44px;border-radius:10px;background:var(--chip);display:flex;
+    align-items:center;justify-content:center;font-size:22px}
+  .inputbar{position:absolute;bottom:0;left:0;right:0;display:flex;gap:8px;padding:12px 14px;
+    background:var(--card);border-top:1px solid var(--line)}
+  .inputbar .inp{flex:1;background:var(--chip);border:0;border-radius:20px;padding:12px 16px;color:var(--text)}
+  .inputbar .send{width:46px;height:46px;border-radius:50%;background:var(--brand);color:#fff;border:0;font-size:18px}
+
+  /* profile */
+  .profhead{display:flex;align-items:center;gap:14px;padding:18px 16px}
+  .profhead .ava{width:64px;height:64px;border-radius:50%;background:var(--brand);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700}
+  .promo{margin:8px 16px;background:linear-gradient(120deg,var(--accent),var(--accent-d));color:#fff;
+    border-radius:18px;padding:16px;cursor:pointer;display:flex;align-items:center;gap:12px}
+  .promo .e{font-size:30px}
+  .list{margin:10px 16px;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .row{display:flex;align-items:center;gap:12px;padding:15px;border-bottom:1px solid var(--line);cursor:pointer;font-size:14px}
+  .row:last-child{border-bottom:0}.row .ar{margin-left:auto;color:var(--muted)}
+  .row .e{font-size:18px;width:24px;text-align:center}
+  .switch{margin-left:auto;width:42px;height:24px;border-radius:14px;background:var(--brand);position:relative}
+  .switch i{position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;background:#fff}
+
+  /* dashboard */
+  .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 16px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+  .stat .lbl{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px}
+  .stat .val{font-size:24px;font-weight:800;margin:6px 0 2px}
+  .stat .up{font-size:11px;color:var(--brand);font-weight:600}
+  .stat .down{font-size:11px;color:#E5484D;font-weight:600}
+  .subbar{margin:6px 16px;background:linear-gradient(120deg,var(--brand),var(--brand-d));color:#fff;
+    border-radius:16px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+  .subbar small{opacity:.9;font-size:11px}.subbar b{font-size:15px}
+  .subbar button{border:0;background:#fff;color:var(--brand-d);font-weight:700;border-radius:10px;padding:8px 12px;font-size:12px;cursor:pointer}
+  .chart{margin:6px 16px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+  .bars{display:flex;align-items:flex-end;gap:8px;height:90px;margin-top:12px}
+  .bars i{flex:1;background:var(--brand);border-radius:6px 6px 0 0;opacity:.85}
+  .prow{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line)}
+  .prow .im{width:42px;height:42px;border-radius:10px;background:var(--chip);display:flex;align-items:center;justify-content:center;font-size:20px}
+  .prow .st{margin-left:auto;font-size:11px;color:var(--brand)}
+
+  /* plans */
+  .plan{margin:12px 16px;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px;position:relative}
+  .plan.best{border-color:var(--brand)}
+  .plan .tag{position:absolute;top:-10px;right:16px;background:var(--brand);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:8px}
+  .plan h4{font-size:16px}.plan .p{font-size:22px;font-weight:800;color:var(--brand);margin:6px 0}
+  .plan .p small{font-size:12px;color:var(--muted);font-weight:500}
+  .plan ul{list-style:none;margin:8px 0 0;font-size:13px;color:var(--text)}
+  .plan li{padding:4px 0;opacity:.85}.plan li::before{content:'✓ ';color:var(--brand);font-weight:700}
+  .empty{text-align:center;padding:50px 24px;color:var(--muted)}
+  .empty .e{font-size:54px}.empty p{margin-top:12px;font-size:14px}
+  .secttl{font-size:14px;font-weight:700;padding:14px 16px 4px}
+</style>
+</head>
+<body>
+  <div class="head">
+    <h1>RASTA</h1>
+    <p>O'zbekiston onlayn bozori — interaktiv prototip (demo)</p>
+  </div>
+  <div class="toolbar">
+    <button onclick="go('home')">🏠 Bosh sahifa</button>
+    <button onclick="go('detail')">📦 Mahsulot</button>
+    <button onclick="go('shop')">🏪 Do'kon</button>
+    <button onclick="go('post')">➕ Joylash</button>
+    <button onclick="go('dash')">📊 Do'kon paneli</button>
+    <button onclick="go('plans')">💳 Tariflar</button>
+    <button onclick="toggleTheme()">🌗 Tema</button>
+  </div>
+
+  <div class="phone" id="phone">
+    <div class="notch"></div>
+    <div class="statusbar"><span>9:41</span><span>📶 🔋 100%</span></div>
+    <div class="viewport">
+
+      <!-- ============ HOME ============ -->
+      <section class="screen active" id="home">
+        <div class="appbar">
+          <span class="logo">RASTA</span>
+          <span class="loc">📍 Toshkent ▾</span>
+          <button class="iconbtn" onclick="go('msgs')">🔔</button>
+          <button class="iconbtn" onclick="go('fav')">❤️</button>
+        </div>
+        <div class="search" onclick="go('search')">🔍 <span>Mahsulot yoki do'kon qidiring...</span></div>
+        <div class="cats">
+          <div class="cat" onclick="go('search')"><div class="ic">📱</div><span>Texnika</span></div>
+          <div class="cat" onclick="go('search')"><div class="ic">👕</div><span>Kiyim</span></div>
+          <div class="cat" onclick="go('search')"><div class="ic">🏠</div><span>Uy-ro'zg'or</span></div>
+          <div class="cat" onclick="go('search')"><div class="ic">🚗</div><span>Transport</span></div>
+          <div class="cat" onclick="go('search')"><div class="ic">⚽</div><span>Sport</span></div>
+          <div class="cat" onclick="go('search')"><div class="ic">💄</div><span>Go'zallik</span></div>
+        </div>
+        <div class="banner">
+          <h3>Do'koningizni oching!</h3>
+          <p>Minglab xaridorga yeting. Oyiga 49 000 so'mdan.</p>
+          <span class="em">🛍️</span>
+        </div>
+        <div class="sec"><h4>🔥 Tavsiya etilgan do'konlar</h4><a onclick="go('search')">Hammasi ›</a></div>
+        <div class="hscroll">
+          <div class="shopcard" onclick="go('shop')"><div class="ava">📱</div><b>TexnoMart<span class="badge">PRO</span></b><div class="rate">⭐ 4.8 · 213</div></div>
+          <div class="shopcard" onclick="go('shop')"><div class="ava">👟</div><b>SportLine</b><div class="rate">⭐ 4.6 · 98</div></div>
+          <div class="shopcard" onclick="go('shop')"><div class="ava">🏠</div><b>UyMakon<span class="badge">PRO</span></b><div class="rate">⭐ 4.9 · 340</div></div>
+        </div>
+        <div class="sec"><h4>Yangi e'lonlar</h4><a onclick="go('search')">Hammasi ›</a></div>
+        <div class="grid">
+          <div class="card" onclick="go('detail')"><div class="img">📱<span class="pro">Do'kon</span><span class="fav">🤍</span></div><div class="info"><div class="price">3 200 000 so'm</div><div class="ttl">Samsung Galaxy A54 256GB</div><div class="meta">📍 Chilonzor · 2 soat</div></div></div>
+          <div class="card" onclick="go('detail')"><div class="img">💻<span class="fav">🤍</span></div><div class="info"><div class="price">8 500 000 so'm</div><div class="ttl">MacBook Air M1</div><div class="meta">📍 Yunusobod · 5 soat</div></div></div>
+          <div class="card" onclick="go('detail')"><div class="img">👟<span class="fav">❤️</span></div><div class="info"><div class="price">650 000 so'm</div><div class="ttl">Nike Air krossovka</div><div class="meta">📍 Mirzo Ulug'bek</div></div></div>
+          <div class="card" onclick="go('detail')"><div class="img">🪑<span class="fav">🤍</span></div><div class="info"><div class="price">1 200 000 so'm</div><div class="ttl">Yumshoq divan, yangi</div><div class="meta">📍 Sergeli · 1 kun</div></div></div>
+        </div>
+      </section>
+
+      <!-- ============ SEARCH ============ -->
+      <section class="screen" id="search">
+        <div class="appbar">
+          <button class="back" onclick="go('home')">‹</button>
+          <div class="search" style="margin:0;flex:1"><input value="telefon" /></div>
+          <button class="iconbtn" onclick="alert('Filtr paneli (demo)')">⚙️</button>
+        </div>
+        <div class="chips" style="padding:12px 16px 0">
+          <span class="chip">Saralash: Mosligi ▾</span>
+          <span class="chip">Toshkent ✕</span>
+          <span class="chip">1–3 mln ✕</span>
+          <span class="chip" style="background:var(--brand);color:#fff">Do'kon</span>
+        </div>
+        <div class="secttl">248 ta natija</div>
+        <div class="grid">
+          <div class="card" onclick="go('detail')"><div class="img">📱<span class="pro">Do'kon</span><span class="fav">🤍</span></div><div class="info"><div class="price">3 200 000 so'm</div><div class="ttl">Samsung Galaxy A54</div><div class="meta">📍 Toshkent ✓</div></div></div>
+          <div class="card" onclick="go('detail')"><div class="img">📱<span class="fav">🤍</span></div><div class="info"><div class="price">4 100 000 so'm</div><div class="ttl">iPhone 11 64GB</div><div class="meta">📍 Samarqand</div></div></div>
+          <div class="card" onclick="go('detail')"><div class="img">📱<span class="pro">Do'kon</span><span class="fav">❤️</span></div><div class="info"><div class="price">2 800 000 so'm</div><div class="ttl">Redmi Note 13 Pro</div><div class="meta">📍 Toshkent ✓</div></div></div>
+          <div class="card" onclick="go('detail')"><div class="img">📱<span class="fav">🤍</span></div><div class="info"><div class="price">1 500 000 so'm</div><div class="ttl">Samsung A14</div><div class="meta">📍 Andijon</div></div></div>
+        </div>
+      </section>
+
+      <!-- ============ DETAIL ============ -->
+      <section class="screen" id="detail">
+        <div class="appbar">
+          <button class="back" onclick="go('home')">‹</button>
+          <span style="margin-left:6px;font-weight:600">E'lon</span>
+          <button class="iconbtn" onclick="alert('Sevimliga qo\'shildi (demo)')">🤍</button>
+          <button class="iconbtn" onclick="alert('Ulashish (demo)')">↗️</button>
+        </div>
+        <div class="gallery">📱<div class="dots"><i class="on"></i><i></i><i></i></div></div>
+        <div class="detail-pad">
+          <div class="big-price">3 200 000 so'm</div>
+          <div class="h-ttl">Samsung Galaxy A54 256GB</div>
+          <div class="meta">📍 Toshkent, Chilonzor · 2 soat oldin · 👁 1 245 ko'rish</div>
+          <div class="chips">
+            <span class="chip">Holati: Yangi</span>
+            <span class="chip">Kafolat: 12 oy</span>
+            <span class="chip">Original</span>
+          </div>
+          <div class="seller" onclick="go('shop')">
+            <div class="ava">📱</div>
+            <div style="flex:1"><b>TexnoMart <span class="badge">PRO</span></b><div class="rate">⭐ 4.8 (213 sharh)</div></div>
+            <span style="color:var(--muted)">›</span>
+          </div>
+          <p class="desc">Original Samsung Galaxy A54, 256GB xotira, 8GB operativ. Yangi, ochilmagan quti. Rasmiy kafolat 12 oy. Yetkazib berish mavjud. Narx kelishilmaydi.</p>
+        </div>
+        <div class="contactbar">
+          <button class="btn btn-out" onclick="go('chat')">💬 Xabar yozish</button>
+          <button class="btn btn-accent" onclick="alert('📞 +998 90 *** ** 67 (demo)')">📞 BOG'LANISH</button>
+        </div>
+      </section>
+
+      <!-- ============ SHOP ============ -->
+      <section class="screen" id="shop">
+        <div class="appbar" style="position:absolute;background:transparent;border:0;width:100%">
+          <button class="back" onclick="go('home')">‹</button>
+          <span style="margin-left:auto"></span>
+          <button class="iconbtn" onclick="alert('Menyu (demo)')">⋮</button>
+        </div>
+        <div class="cover"></div>
+        <div class="shophead">
+          <div class="ava">📱</div>
+          <div style="margin-top:8px"><span style="font-size:19px;font-weight:700">TexnoMart</span> <span class="badge">PRO ✓</span></div>
+          <div class="rate">⭐ 4.8 (213 sharh) · 📍 Toshkent</div>
+          <p class="desc" style="margin-top:6px">Original texnika, rasmiy kafolat bilan.</p>
+        </div>
+        <div style="display:flex;gap:10px;padding:12px 16px">
+          <button class="btn btn-accent" onclick="alert('📞 (demo)')">📞 Bog'lanish</button>
+          <button class="btn btn-out" onclick="go('chat')">💬 Xabar</button>
+          <button class="btn btn-out" style="flex:none;padding:15px 18px" onclick="alert('Kuzatildi (demo)')">+ Kuzatish</button>
+        </div>
+        <div class="tabs">
+          <div class="tab on">Mahsulotlar (124)</div>
+          <div class="tab">Sharhlar</div>
+          <div class="tab">Haqida</div>
+        </div>
+        <div class="grid">
+          <div class="card" onclick="go('detail')"><div class="img">📱<span class="fav">🤍</span></div><div class="info"><div class="price">3 200 000 so'm</div><div class="ttl">Samsung A54</div><div class="meta">Yangi</div></div></div>
+          <div class="card" onclick="go('detail')"><div class="img">⌚<span class="fav">🤍</span></div><div class="info"><div class="price">1 900 000 so'm</div><div class="ttl">Galaxy Watch 6</div><div class="meta">Yangi</div></div></div>
+          <div class="card" onclick="go('detail')"><div class="img">🎧<span class="fav">🤍</span></div><div class="info"><div class="price">450 000 so'm</div><div class="ttl">Galaxy Buds</div><div class="meta">Yangi</div></div></div>
+          <div class="card" onclick="go('detail')"><div class="img">💻<span class="fav">🤍</span></div><div class="info"><div class="price">6 200 000 so'm</div><div class="ttl">Galaxy Book</div><div class="meta">Yangi</div></div></div>
+        </div>
+      </section>
+
+      <!-- ============ POST ============ -->
+      <section class="screen" id="post">
+        <div class="appbar">
+          <button class="back" onclick="go('home')">‹</button>
+          <span style="margin-left:6px;font-weight:600">Joylash</span>
+        </div>
+        <div class="secttl">Qanday joylaysiz?</div>
+        <div class="seg">
+          <div class="opt on" onclick="selOpt(this)"><div class="e">📢</div><b>Bepul e'lon</b><small>OLX uslubida</small></div>
+          <div class="opt" onclick="selOpt(this)"><div class="e">🏪</div><b>Do'kon mahsuloti</b><small>Obuna kerak</small></div>
+        </div>
+        <div class="secttl">Rasmlar (1/5)</div>
+        <div class="uploads">
+          <div class="up f">📷</div><div class="up">+</div><div class="up">+</div><div class="up">+</div>
+        </div>
+        <div class="field"><label>Sarlavha</label><div class="inp">Samsung A54 256GB</div></div>
+        <div class="field"><label>Kategoriya</label><div class="inp" style="color:var(--muted)">Telefonlar ▾</div></div>
+        <div class="field"><label>Narx</label><div class="inp">3 200 000 so'm</div></div>
+        <div class="field"><label>Hudud</label><div class="inp" style="color:var(--muted)">Toshkent, Chilonzor ▾</div></div>
+        <div class="field"><label>Tavsif</label><div class="inp" style="min-height:70px;color:var(--muted)">Mahsulot haqida batafsil...</div></div>
+        <div style="display:flex;gap:10px;padding:14px 16px">
+          <button class="btn btn-out" onclick="alert('Oldindan ko\'rish (demo)')">Ko'rish</button>
+          <button class="btn btn-brand" onclick="alert('E\'lon joylandi! (demo)')">E'lonni joylash</button>
+        </div>
+      </section>
+
+      <!-- ============ MESSAGES ============ -->
+      <section class="screen" id="msgs">
+        <div class="appbar"><span class="logo" style="font-size:18px">Xabarlar</span></div>
+        <div class="chatrow" onclick="go('chat')">
+          <div class="ava">📱</div>
+          <div class="c"><b>TexnoMart</b><p>Assalomu alaykum, mahsulot bormi?</p></div>
+          <div><div class="t">10:24</div><span class="unread">2</span></div>
+        </div>
+        <div class="chatrow" onclick="go('chat')">
+          <div class="ava">👟</div>
+          <div class="c"><b>SportLine</b><p>Ha, sizga yetkazib beramiz</p></div>
+          <div><div class="t">Kecha</div></div>
+        </div>
+        <div class="chatrow" onclick="go('chat')">
+          <div class="ava">🏠</div>
+          <div class="c"><b>UyMakon</b><p>Rahmat, xaridingiz uchun!</p></div>
+          <div><div class="t">2 kun</div></div>
+        </div>
+      </section>
+
+      <!-- ============ CHAT ============ -->
+      <section class="screen" id="chat">
+        <div class="appbar">
+          <button class="back" onclick="go('msgs')">‹</button>
+          <div class="ava" style="width:36px;height:36px;border-radius:10px;background:var(--chip);display:flex;align-items:center;justify-content:center;margin:0 4px">📱</div>
+          <div><b style="font-size:14px">TexnoMart</b><div class="meta">onlayn</div></div>
+        </div>
+        <div class="pillcard"><div class="im">📱</div><div><b style="font-size:13px">Samsung A54</b><div class="price" style="font-size:14px">3 200 000 so'm</div></div></div>
+        <div class="bubble b-in">Assalomu alaykum! 👋</div>
+        <div class="bubble b-out">Salom, mahsulot hali bormi?</div>
+        <div class="bubble b-in">Ha, bor. Yangi, kafolat bilan.</div>
+        <div class="bubble b-out">Narxi kelishiladimi?</div>
+        <div class="bubble b-in">Narx aniq, lekin yetkazib berish bepul 🚚</div>
+        <div class="inputbar">
+          <input class="inp" placeholder="Xabar yozing..." />
+          <button class="send">➤</button>
+        </div>
+      </section>
+
+      <!-- ============ FAVORITES ============ -->
+      <section class="screen" id="fav">
+        <div class="appbar"><button class="back" onclick="go('home')">‹</button><span style="margin-left:6px;font-weight:600">Sevimlilar</span></div>
+        <div class="tabs"><div class="tab on">E'lonlar</div><div class="tab">Do'konlar</div><div class="tab">Qidiruvlar</div></div>
+        <div class="grid">
+          <div class="card" onclick="go('detail')"><div class="img">👟<span class="fav">❤️</span></div><div class="info"><div class="price">650 000 so'm</div><div class="ttl">Nike Air krossovka</div><div class="meta">📍 Mirzo Ulug'bek</div></div></div>
+          <div class="card" onclick="go('detail')"><div class="img">📱<span class="fav">❤️</span></div><div class="info"><div class="price">2 800 000 so'm</div><div class="ttl">Redmi Note 13</div><div class="meta">📍 Toshkent</div></div></div>
+        </div>
+      </section>
+
+      <!-- ============ PROFILE ============ -->
+      <section class="screen" id="profile">
+        <div class="appbar"><span class="logo" style="font-size:18px">Profil</span><button class="iconbtn" onclick="go('settings')">⚙️</button></div>
+        <div class="profhead">
+          <div class="ava">A</div>
+          <div><b style="font-size:17px">Aziz Karimov</b><div class="meta">+998 90 *** ** 67</div>
+          <div style="margin-top:6px"><span class="chip" style="font-size:11px">Profilni tahrirlash</span></div></div>
+        </div>
+        <div class="promo" onclick="go('plans')"><span class="e">🏪</span><div><b>Do'kon oching / PRO bo'ling</b><div style="font-size:12px;opacity:.9">Statistika, ko'proq mijoz, boost</div></div></div>
+        <div class="list">
+          <div class="row" onclick="go('dash')"><span class="e">🏪</span> Mening do'konim <span class="badge" style="margin-left:6px">PRO</span> <span class="ar">›</span></div>
+          <div class="row" onclick="go('search')"><span class="e">📢</span> Mening e'lonlarim (8) <span class="ar">›</span></div>
+          <div class="row" onclick="go('fav')"><span class="e">❤️</span> Saqlanganlar (24) <span class="ar">›</span></div>
+          <div class="row"><span class="e">👁</span> Ko'rilganlar tarixi <span class="ar">›</span></div>
+        </div>
+        <div class="list">
+          <div class="row"><span class="e">🌙</span> Dark mode <span class="switch" onclick="event.stopPropagation();toggleTheme()"><i></i></span></div>
+          <div class="row"><span class="e">🌐</span> Til <span class="ar">O'zbek ›</span></div>
+          <div class="row"><span class="e">🔔</span> Bildirishnomalar <span class="ar">›</span></div>
+          <div class="row"><span class="e">🛟</span> Yordam <span class="ar">›</span></div>
+          <div class="row" style="color:#E5484D"><span class="e">🚪</span> Chiqish</div>
+        </div>
+      </section>
+
+      <!-- ============ SETTINGS ============ -->
+      <section class="screen" id="settings">
+        <div class="appbar"><button class="back" onclick="go('profile')">‹</button><span style="margin-left:6px;font-weight:600">Sozlamalar</span></div>
+        <div class="secttl">Hisob</div>
+        <div class="list">
+          <div class="row"><span class="e">👤</span> Profilni tahrirlash <span class="ar">›</span></div>
+          <div class="row"><span class="e">📞</span> Telefon raqami <span class="ar">›</span></div>
+        </div>
+        <div class="secttl">Ilova</div>
+        <div class="list">
+          <div class="row"><span class="e">🌙</span> Qorong'i rejim <span class="switch" onclick="toggleTheme()"><i></i></span></div>
+          <div class="row"><span class="e">🌐</span> Til <span class="ar">O'zbek (lotin) ›</span></div>
+          <div class="row"><span class="e">📍</span> Shahar <span class="ar">Toshkent ›</span></div>
+        </div>
+      </section>
+
+      <!-- ============ DASHBOARD ============ -->
+      <section class="screen" id="dash">
+        <div class="appbar"><button class="back" onclick="go('profile')">‹</button><span style="margin-left:6px;font-weight:700">TexnoMart</span><span class="badge" style="margin-left:6px">Premium ✓</span></div>
+        <div class="subbar"><div><small>Obuna: Premium</small><br><b>18 kun qoldi</b></div><button onclick="go('plans')">Uzaytirish</button></div>
+        <div class="secttl">Bu hafta</div>
+        <div class="dgrid">
+          <div class="stat"><div class="lbl">👁 Ko'rishlar</div><div class="val">12 480</div><div class="up">▲ 12%</div></div>
+          <div class="stat"><div class="lbl">💬 Murojaatlar</div><div class="val">342</div><div class="up">▲ 8%</div></div>
+          <div class="stat"><div class="lbl">📞 Qo'ng'iroq</div><div class="val">156</div><div class="down">▼ 3%</div></div>
+          <div class="stat"><div class="lbl">❤️ Saqlangan</div><div class="val">1 204</div><div class="up">▲ 20%</div></div>
+        </div>
+        <div class="chart">
+          <div style="font-size:13px;font-weight:600">Ko'rishlar dinamikasi (7 kun)</div>
+          <div class="bars"><i style="height:40%"></i><i style="height:62%"></i><i style="height:50%"></i><i style="height:78%"></i><i style="height:45%"></i><i style="height:90%"></i><i style="height:70%"></i></div>
+        </div>
+        <div class="sec"><h4 style="font-size:15px">Mening mahsulotlarim (124)</h4><a onclick="go('post')">+ Qo'shish</a></div>
+        <div class="prow"><div class="im">📱</div><div><b style="font-size:13px">Samsung A54</b><div class="meta">👁 980 · 💬 12</div></div><span class="st">● Faol</span></div>
+        <div class="prow"><div class="im">⌚</div><div><b style="font-size:13px">Galaxy Watch 6</b><div class="meta">👁 640 · 💬 5</div></div><span class="st">● Faol</span></div>
+        <div class="prow"><div class="im">🎧</div><div><b style="font-size:13px">Galaxy Buds</b><div class="meta">👁 120 · 💬 0</div></div><span class="st" style="color:var(--muted)">○ Tugagan</span></div>
+      </section>
+
+      <!-- ============ PLANS ============ -->
+      <section class="screen" id="plans">
+        <div class="appbar"><button class="back" onclick="go('profile')">‹</button><span style="margin-left:6px;font-weight:600">Obuna tariflari</span></div>
+        <div class="secttl" style="font-size:16px">Do'kon ochib, ko'proq mijozga yeting 🚀</div>
+        <div class="plan"><h4>Boshlang'ich</h4><div class="p">49 000 <small>so'm/oy</small></div><ul><li>20 tagacha mahsulot</li><li>Asosiy statistika</li><li>Do'kon profili</li></ul></div>
+        <div class="plan best"><span class="tag">OMMABOP</span><h4>Standart</h4><div class="p">99 000 <small>so'm/oy</small></div><ul><li>100 tagacha mahsulot</li><li>To'liq statistika</li><li>Boost chegirmasi</li></ul></div>
+        <div class="plan"><h4>Premium</h4><div class="p">199 000 <small>so'm/oy</small></div><ul><li>Cheksiz mahsulot</li><li>Premium analitika</li><li>TOP joylashuv + xodimlar</li></ul></div>
+        <div style="display:flex;gap:8px;padding:6px 16px"><span class="chip">💳 Payme</span><span class="chip">💳 Click</span><span class="chip">💳 Uzum</span></div>
+        <div style="padding:8px 16px 16px"><button class="btn btn-brand" style="width:100%" onclick="alert('To\'lov oynasi (demo)')">Tarifni tanlash</button></div>
+      </section>
+
+    </div><!-- viewport -->
+
+    <!-- bottom nav -->
+    <div class="nav">
+      <button id="n-home" class="on" onclick="go('home')"><span class="ic">🏠</span>Bosh</button>
+      <button id="n-search" onclick="go('search')"><span class="ic">🔍</span>Qidiruv</button>
+      <button class="plus" onclick="go('post')">+</button>
+      <button id="n-msgs" onclick="go('msgs')"><span class="ic">💬</span>Xabarlar</button>
+      <button id="n-profile" onclick="go('profile')"><span class="ic">👤</span>Profil</button>
+    </div>
+  </div>
+
+<script>
+  function go(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    var el=document.getElementById(id); if(el){el.classList.add('active');}
+    document.querySelector('.viewport').scrollTop=0;
+    var map={home:'n-home',search:'n-search',msgs:'n-msgs',chat:'n-msgs',profile:'n-profile',settings:'n-profile',dash:'n-profile',plans:'n-profile',fav:'n-home'};
+    document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('on'));
+    var n=map[id]; if(n){document.getElementById(n).classList.add('on');}
+  }
+  function toggleTheme(){document.getElementById('phone').classList.toggle('dark');}
+  function selOpt(el){el.parentNode.querySelectorAll('.opt').forEach(o=>o.classList.remove('on'));el.classList.add('on');}
+</script>
+</body>
+</html>
