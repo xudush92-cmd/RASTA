@@ -1,6 +1,6 @@
 # RASTA — Asosiy Ekranlar Wireframe'lari (Matnli Maket)
 
-> Onlayn bozor (katalog-marketplace), to'lovsiz model (OLX/Avito).
+> Onlayn bozor (katalog-marketplace), to'lovsiz model (faqat aloqa).
 > Mobile-first · Dark mode · IKKI bo'lim: pulli **Do'kon** + bepul **E'lon**.
 
 ## Brending va Dizayn Tizimi (umumiy)
@@ -205,7 +205,7 @@ Markazdagi **(+)** firuza doira ichida — diqqat markazida.
 |  Qanday joylaysiz?                               |
 |  +------------------+  +----------------------+  |
 |  | 🏪 DO'KON        |  | 📢 BEPUL E'LON       |  |  <- ikki bo'lim tanlovi
-|  | mahsuloti (obuna)|  | (OLX uslubida)       |  |
+|  | mahsuloti (obuna)|  | (Shaxsiy e'lon)      |  |
 |  +------------------+  +----------------------+  |
 +-------------------------------------------------+
 |  Rasmlar (1/10)                                 |

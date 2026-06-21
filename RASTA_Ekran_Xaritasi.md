@@ -1,7 +1,7 @@
 # RASTA — To'liq Menyu / Ekran Xaritasi
 
 > **Loyiha:** Butun O'zbekiston uchun onlayn bozor (katalog-marketplace).
-> **Model:** Ilova ichida xaridor-sotuvchi to'lovi yo'q (OLX / Avito uslubi). Sotuvchilar do'kon ochib mahsulot joylaydi, xaridor qidirib topadi va chat yoki telefon orqali bog'lanadi.
+> **Model:** Ilova ichida xaridor-sotuvchi to'lovi yo'q (faqat aloqa). Sotuvchilar do'kon ochib mahsulot joylaydi, xaridor qidirib topadi va chat yoki telefon orqali bog'lanadi.
 > **Ikki bo'lim:** (1) PULLI Do'kon — oylik obuna (49k / 99k / 199k so'm), 10 bo'limli boshqaruv paneli, batafsil statistika. (2) BEPUL oddiy e'lon.
 > **Rollar:** Xaridor · Bepul sotuvchi · Do'kon egasi · Admin.
 
@@ -206,7 +206,7 @@ Ilovaning markaziy navigatsiyasi pastki panelda joylashgan 5 ta doimiy menyudan 
 **Maqsad:** Foydalanuvchiga e'lon turini tanlash imkonini berish: BEPUL oddiy e'lon yoki DO'KON mahsuloti.
 
 ### 8.0 Tanlov ekrani (➕ bosilganda)
-- "Bepul e'lon joylash" varianti (OLX uslubi).
+- "Shaxsiy e'lon joylash" varianti (yakka shaxslar uchun, bepul).
 - "Do'kon mahsuloti qo'shish" varianti (faqat do'kon egalari uchun; do'koni yo'q bo'lsa → "Do'kon ochish / Obuna" taklifi).
 - Qisqa farq tushuntirishi (bepul vs PRO imkoniyatlari).
 

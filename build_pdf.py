@@ -349,22 +349,21 @@ def main():
     p.para("Asosiy tamoyil: ilova ichida oldi-sotdi (to'lov) AMALGA OSHIRILMAYDI. "
            "Ilova katalog, do'kon profillari, qidiruv va sotuvchi bilan aloqa vazifasini "
            "bajaradi. Xaridor mahsulotni topadi, so'ngra do'konga boradi yoki sotuvchi "
-           "bilan to'g'ridan-to'g'ri kelishadi. Bu model OLX, Avito va Craigslist "
-           "yondashuviga mos keladi.")
+           "bilan to'g'ridan-to'g'ri kelishadi.")
     p.h2("Loyihaning afzalligi")
     p.bullet("To'lov tizimi bo'lmagani uchun eng murakkab va xavfli qism (escrow, karta, "
              "qaytarish) chiqib ketadi - rivojlantirish tezlashadi.")
     p.bullet("Yuridik va moliyaviy javobgarlik sezilarli kamayadi.")
     p.bullet("Asosiy e'tibor qulay qidiruv, ishonchli do'konlar va tez aloqaga qaratiladi.")
 
-    p.h1("2. O'rganilgan o'xshash ilovalar (referenslar)")
+    p.h1("2. Bozor tahlili (referenslar)")
     p.table(
-        ["Ilova", "Nimani o'rganamiz"],
-        [["OLX / Avito", "C2C/B2C e'lon modeli, kategoriyalar, 'ko'tarish' (boost) monetizatsiyasi"],
-         ["Craigslist", "Soddalik va hududiy bo'linish; oyiga ~360M tashrif"],
-         ["Sharetribe", "Marketplace arxitekturasi va developer yo'riqnomasi"],
-         ["Glovo / Yandex", "Do'kon profili, xarita va geolokatsiya UX tajribasi"]],
-        [0.22, 0.78])
+        ["Yo'nalish", "Nimani o'rganamiz"],
+        [["E'lon platformalari", "C2C/B2C e'lon modeli, kategoriyalar, 'ko'tarish' (boost) monetizatsiyasi"],
+         ["Hududiy bozorlar", "Soddalik va hududiy bo'linish, yuqori trafik"],
+         ["Marketplace yechimlari", "Marketplace arxitekturasi va developer yo'riqnomalari"],
+         ["Yetkazib berish ilovalari", "Do'kon profili, xarita va geolokatsiya UX tajribasi"]],
+        [0.28, 0.72])
     p.para("Global classifieds bozori 2025-yilda taxminan 157 mlrd AQSh dollariga "
            "baholangan va o'sish ustuvor yo'nalish hisoblanadi.", size=9.5, color=GRAY)
 
@@ -462,7 +461,7 @@ def main():
     p.h1("9. Tayyor ochiq kodli shablonlar")
     p.kv("OpenClassify", "Laravel asosidagi zamonaviy classifieds platforma, AI bilan (rasmdan kategoriya/sarlavha avtomatik).")
     p.kv("Osclass", "yengil PHP classifieds, 40+ til, Apache 2.0 litsenziya (tijorat uchun bepul).")
-    p.kv("OLX-React-Firebase", "React va Firebase asosidagi namuna - chat va xarita bilan; o'rganish uchun.")
+    p.kv("React-Firebase namuna", "React va Firebase asosidagi classifieds namuna - chat va xarita bilan; o'rganish uchun.")
     p.kv("Sharetribe", "to'liq marketplace yechimi va developer hujjatlari.")
 
     p.h1("10. Monetizatsiya (daromad modeli)")
@@ -483,7 +482,7 @@ def main():
 
     p.h1("12. Manbalar (havolalar)")
     for s in [
-        "developers.dev - How to build a website like OLX (blueprint & cost)",
+        "developers.dev - classifieds marketplace blueprint & cost",
         "ulansoftware.com - Marketplace software architecture trends",
         "sharetribe.com - Build a marketplace app (developer's guide)",
         "datavidhya.com - Online marketplace two-sided data model",
@@ -499,7 +498,7 @@ def main():
     p.para("Eslatma: ushbu hujjatdagi tashqi manbalardan olingan ma'lumotlar litsenziyaga "
            "rioya qilish uchun qayta ifodalangan (rephrased).", size=8.5, color=GRAY)
 
-    size = p.build("/projects/sandbox/Uzbekiston_Onlayn_Bozor_Loyiha_Rejasi.pdf")
+    size = p.build("/projects/sandbox/RASTA/Uzbekiston_Onlayn_Bozor_Loyiha_Rejasi.pdf")
     print("PDF yaratildi, hajmi:", size, "bayt, sahifalar:", p.page_no)
 
 if __name__ == "__main__":

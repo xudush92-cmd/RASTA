@@ -4,7 +4,7 @@ Butun O'zbekiston uchun **onlayn bozor (katalog-marketplace)** ilovasi.
 
 Bozorlar, supermarketlar va barcha turdagi sotuvchilar o'z do'konlarini ochib, mahsulotlarini joylaydi. Xaridor mahsulotni qidirib topadi, do'konga boradi yoki sotuvchi bilan bog'lanadi.
 
-> **Asosiy tamoyil:** ilova ichida oldi-sotdi (to'lov) amalga oshirilmaydi. Ilova katalog, do'kon profillari, qidiruv va aloqa vazifasini bajaradi (OLX / Avito modeli).
+> **Asosiy tamoyil:** ilova ichida oldi-sotdi (to'lov) amalga oshirilmaydi. Ilova katalog, do'kon profillari, qidiruv va aloqa vazifasini bajaradi.
 
 ## Hujjatlar
 
@@ -16,6 +16,7 @@ Bozorlar, supermarketlar va barcha turdagi sotuvchilar o'z do'konlarini ochib, m
 
 - **[RASTA_Ekran_Xaritasi.md](./RASTA_Ekran_Xaritasi.md)** — to'liq menyu/ekran xaritasi: 14 ta ekran, har biri uchun maqsad, elementlar, foydalanuvchi amallari va navigatsiya + rollar jadvali.
 - **[RASTA_Wireframes.md](./RASTA_Wireframes.md)** — 7 ta asosiy ekranning matnli (ASCII) wireframe maketlari + dizayn tizimi (ranglar, brending).
+- **[RASTA_Kategoriyalar.md](./RASTA_Kategoriyalar.md)** — keng, aniq va ierarxik kategoriya tizimi (16 asosiy kategoriya + kichik kategoriyalar) hamda e'lon turi (Do'kon/Shaxsiy) va holat (Yangi/Ishlatilgan) ajratish.
 
 ### Spec (MVP qurilish rejasi)
 
@@ -28,13 +29,19 @@ Bozorlar, supermarketlar va barcha turdagi sotuvchilar o'z do'konlarini ochib, m
 
 ### Interaktiv prototip (ilova ko'rinishi)
 
-- **[prototype/index.html](./prototype/index.html)** — ilovaning interaktiv demo ko'rinishi (12 ta ekran, bosib o'tiladigan, dark mode). Tashqi bog'liqliksiz, brauzerda darhol ochiladi.
+- **[prototype/index.html](./prototype/index.html)** — ilovaning interaktiv demo ko'rinishi (21 ta ekran: kategoriyalar, e'lon turi va Yangi/Ishlatilgan ajratish, kengaytirilgan do'kon boshqaruvi, dark mode). Tashqi bog'liqliksiz, brauzerda darhol ochiladi.
 - **Ko'rish:** [htmlpreview orqali oching](https://htmlpreview.github.io/?https://github.com/xudush92-cmd/RASTA/blob/main/prototype/index.html) yoki faylni yuklab olib brauzerda oching.
 
 ## Asosiy model
 
-- **PULLI Do'kon** — oylik obuna (Boshlang'ich ~49k / Standart ~99k / Premium ~199k so'm), keng boshqaruv paneli, batafsil statistika.
-- **BEPUL e'lon** — OLX uslubida oddiy e'lon joylash.
+RASTA'da e'lonlar **ikki xil va aniq ajratilgan** turda bo'ladi:
+
+- **🏪 Do'kon e'loni (PULLI)** — ro'yxatdan o'tgan, tasdiqlangan do'konlar. Oylik obuna (Boshlang'ich ~49k / Standart ~99k / Premium ~199k so'm), keng boshqaruv paneli, batafsil statistika. E'lonlarida "Do'kon ✓" belgisi.
+- **👤 Shaxsiy e'lon (BEPUL)** — yakka shaxslar uchun oddiy e'lon joylash (cheklangan imkoniyatlar). E'lonlarida "Shaxsiy" belgisi.
+
+Qo'shimcha tamoyillar:
+- **Yangi** va **ishlatilgan** mahsulotlar har doim ajratiladi (alohida tab/filtr) — aralashmaydi.
+- **Kategoriyalar** keng, aniq va ierarxik (asosiy kategoriya → kichik kategoriya). Batafsil: [RASTA_Kategoriyalar.md](./RASTA_Kategoriyalar.md).
 - Ilova ichida xaridor-sotuvchi to'lovi yo'q; yagona to'lov — do'kon obunasi (Payme/Click/Uzum).
 
 ## Loyiha bosqichlari (qisqa)

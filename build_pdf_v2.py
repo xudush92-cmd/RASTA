@@ -23,10 +23,10 @@ def main():
     p.para("RASTA - butun O'zbekiston uchun raqamli bozor. Nomi bozordagi savdo qatori "
            "(rasta) ma'nosini bildiradi: har bir sotuvchi o'z raqamli rastasini ochadi.")
     p.kv("Asosiy tamoyil", "ilova ichida xaridor-sotuvchi oldi-sotdisi (to'lov) YO'Q. "
-         "Ilova katalog, do'kon profillari, qidiruv va aloqa vazifasini bajaradi (OLX/Avito modeli).")
-    p.kv("Ikki bo'lim", "(1) PULLI Do'kon - oylik obuna, keng boshqaruv paneli, batafsil "
-         "statistika; (2) BEPUL oddiy e'lon - OLX uslubida. Ular interfeys, huquq va "
-         "monetizatsiyada ajratilgan.")
+         "Ilova katalog, do'kon profillari, qidiruv va aloqa vazifasini bajaradi.")
+    p.kv("Ikki bo'lim", "(1) DO'KON E'LONI (pulli) - oylik obuna, keng boshqaruv paneli, batafsil "
+         "statistika; (2) SHAXSIY E'LON (bepul) - yakka shaxslar uchun oddiy e'lon. Ular interfeys, "
+         "huquq va monetizatsiyada ajratilgan. Yangi va ishlatilgan mahsulotlar ham doimo ajratiladi.")
     p.kv("Yagona to'lov", "ilovadagi yagona to'lov - DO'KON OBUNASI to'lovi (xaridorlar "
          "uchun emas). Bu Payme/Click/Uzum orqali amalga oshiriladi.")
 
@@ -34,7 +34,7 @@ def main():
     p.h1("2. Foydalanuvchi rollari")
     p.kv("Xaridor", "qidiradi, ko'radi, sevimlilarga saqlaydi, sotuvchi bilan chat/qo'ng'iroq. "
          "Login faqat bog'lanish paytida talab qilinadi (kam to'siq).")
-    p.kv("Bepul sotuvchi", "cheklangan miqdorda oddiy e'lon joylaydi (OLX uslubida), oddiy ko'rsatkich.")
+    p.kv("Bepul sotuvchi", "cheklangan miqdorda shaxsiy e'lon joylaydi, oddiy ko'rsatkich.")
     p.kv("Do'kon egasi (pulli)", "do'kon ochadi, cheksiz mahsulot, keng boshqaruv paneli, "
          "batafsil statistika, boost, xodimlar.")
     p.kv("Admin / Moderator", "moderatsiya, verifikatsiya, shikoyatlar, bloklash, analitika.")
@@ -55,20 +55,43 @@ def main():
     p.bullet("Til almashtirish (O'zbek lotin / kirill / Rus)")
     p.bullet("Bildirishnomalar (qo'ng'iroqcha)")
 
-    # 4. Do'kon boshqaruv paneli
-    p.h1("4. Do'kon boshqaruv paneli (10 bo'lim)")
-    p.para("Pulli do'kon egasi uchun keng, qulay va tushunarli boshqaruv paneli:")
+    # 3.b Kategoriyalar va e'lon turlari
+    p.h1("3.1 Kategoriyalar va e'lon turlari")
+    p.para("Kategoriyalar keng, aniq va ierarxik (asosiy kategoriya -> kichik kategoriya). "
+           "To'liq ro'yxat alohida hujjatda (RASTA_Kategoriyalar.md). Asosiy kategoriyalar:")
     for b in [
-        "Dashboard - umumiy ko'rsatkichlar bir ekranda",
-        "Mahsulotlarim - qo'shish, tahrirlash, holat (faol/pauza/sotildi)",
-        "So'rovlar - kelgan bog'lanishlar va xabarlar",
-        "Statistika - batafsil grafiklar va hisobotlar",
-        "Sharhlar - mijoz sharhlariga javob berish",
-        "Boost / Reklama - e'lonni ko'tarish, TOP joylashuv",
-        "Sozlamalar - do'kon profili, logo, banner, ish vaqti",
-        "Obuna - joriy tarif, to'lov tarixi, yangilash",
-        "Xodimlar - bir nechta menejer/xodim qo'shish",
-        "Promo / Aksiya - chegirma va kampaniyalar",
+        "Elektronika; Maishiy texnika; Qurilish mollari",
+        "Kiyim-kechak (Ayollar / Erkaklar / Bolalar), Poyabzal, Aksessuar",
+        "Oziq-ovqat; Poliz va dehqonchilik mahsulotlari",
+        "Transport; Uy-ro'zg'or va mebel; Go'zallik va salomatlik",
+        "Bolalar mollari; Sport; Hayvonlar; Ko'chmas mulk; Xizmatlar; Ish va biznes",
+    ]:
+        p.bullet(b)
+    p.h2("E'lon turi va holat - aniq ajratish")
+    p.kv("E'lon turi", "(1) DO'KON E'LONI - pulli, tasdiqlangan do'konlar ('Do'kon ✓' belgisi); "
+         "(2) SHAXSIY E'LON - yakka shaxslar, bepul ('Shaxsiy' belgisi). Qidiruvda alohida filtr.")
+    p.kv("Holat", "har bir e'londa majburiy: YANGI yoki ISHLATILGAN. Qidiruvda alohida tab/filtr - "
+         "yangi va ishlatilgan mahsulotlar aralashmaydi.")
+
+    # 4. Do'kon boshqaruv paneli
+    p.h1("4. Do'kon boshqaruv paneli (kengaytirilgan)")
+    p.para("Pulli do'kon egasi uchun keng, qulay va tushunarli boshqaruv paneli "
+           "(uch guruhga bo'lingan: Asosiy, Sotuv va marketing, Hisob va sozlamalar):")
+    for b in [
+        "Dashboard - umumiy ko'rsatkichlar va tezkor amallar bir ekranda",
+        "Mahsulotlar - qo'shish, tahrirlash, holat (faol/pauza/tugagan)",
+        "So'rovlar / Buyurtmalar - kelgan bog'lanish va so'rovlar (yangi/jarayon/yakun)",
+        "Statistika / Analitika - batafsil grafiklar va hisobotlar",
+        "Ombor / Qoldiq - mahsulot qoldig'i, kam/tugagan tovarlar nazorati",
+        "Promokod / Aksiya - chegirma va kampaniyalar",
+        "Boost / Reklama - e'lonni ko'tarish, TOP joylashuv, banner, highlight",
+        "Xabarlar / Mijozlar - do'kon chatlari va mijozlar bazasi",
+        "Sharhlar va reyting - mijoz sharhlariga javob berish",
+        "Obuna va to'lovlar - joriy tarif, to'lov tarixi, yangilash",
+        "Moliyaviy hisobot - daromad va kampaniya samaradorligi",
+        "Do'kon sozlamalari - profil, logo, banner, ish vaqti, manzil",
+        "Xodimlar / Rollar - bir nechta menejer qo'shish va huquqlar",
+        "Yordam - murojaat va qo'llanma",
     ]:
         p.bullet(b)
 
@@ -113,7 +136,7 @@ def main():
 
     # 7. UI/UX dizayn
     p.h1("7. UI/UX dizayn (Dizayner)")
-    p.kv("Brending", "OLX/Avitodan farqlanish uchun firuza/yashil asosiy rang (ishonch va savdo), "
+    p.kv("Brending", "raqobatchilardan farqlanish uchun firuza/yashil asosiy rang (ishonch va savdo), "
          "issiq aksent CTA tugmasi, qorong'i rejim (dark mode).")
     p.kv("Dizayn tizimi", "token-asoslangan (rang, spacing, radius), qayta ishlatiluvchi "
          "mahsulot kartasi standarti, komponent kutubxonasi.")
@@ -239,7 +262,7 @@ def main():
     # 15. Manbalar
     p.h1("15. Manbalar")
     for s in [
-        "developers.dev - OLX uslubidagi classifieds blueprint",
+        "developers.dev - classifieds marketplace blueprint",
         "ulansoftware.com - Marketplace arxitektura trendlari",
         "sharetribe.com - Marketplace developer yo'riqnomasi",
         "datavidhya.com - Two-sided marketplace data model",

@@ -2,15 +2,18 @@
 
 ## Kirish
 
-RASTA — butun O'zbekiston uchun onlayn bozor (katalog-marketplace). Ilova ichida xaridor-sotuvchi to'lovi yo'q: sotuvchilar do'kon ochib mahsulot joylaydi, xaridor qidirib topadi va chat/telefon orqali bog'lanadi (OLX/Avito modeli).
+RASTA — butun O'zbekiston uchun onlayn bozor (katalog-marketplace). Ilova ichida xaridor-sotuvchi to'lovi yo'q: sotuvchilar do'kon ochib mahsulot joylaydi, xaridor qidirib topadi va chat/telefon orqali bog'lanadi.
+
+E'lonlar ikki turda va aniq ajratilgan bo'ladi: **Do'kon e'loni** (pulli, tasdiqlangan do'konlar) va **Shaxsiy e'lon** (bepul, yakka shaxslar). Yangi va ishlatilgan mahsulotlar ham doimo ajratiladi.
 
 Ushbu hujjat **MVP (birinchi ishlaydigan versiya)** uchun talablarni belgilaydi. MVP web (Next.js) ko'rinishidan boshlanadi.
 
 ### MVP doirasi (Scope)
 - ✅ Telefon (OTP) orqali ro'yxatdan o'tish/kirish
-- ✅ Bepul e'lon joylash
-- ✅ Do'kon ochish va do'kon mahsulotlari
-- ✅ Qidiruv va asosiy filtrlar
+- ✅ Shaxsiy e'lon joylash (bepul)
+- ✅ Do'kon ochish va do'kon e'lonlari (pulli)
+- ✅ Keng, ierarxik kategoriya tizimi
+- ✅ Qidiruv va filtrlar (tur va holat ajratilgan)
 - ✅ Mahsulot/e'lon batafsil sahifasi
 - ✅ Chat (sotuvchi bilan aloqa)
 - ✅ Sevimlilar
@@ -35,17 +38,18 @@ Ushbu hujjat **MVP (birinchi ishlaydigan versiya)** uchun talablarni belgilaydi.
 5. Tizim mehmon (login'siz) rejimida ko'rish va qidiruvga ruxsat berishi KERAK; e'lon joylash yoki chat uchun login talab qilishi KERAK.
 6. OTP so'rovlari uchun tizim rate limiting qo'llashi KERAK (spam/SMS-pumping himoyasi).
 
-### 2-talab: Bepul e'lon joylash
+### 2-talab: Shaxsiy e'lon joylash (bepul)
 
-**Foydalanuvchi hikoyasi:** Oddiy foydalanuvchi sifatida bepul e'lon joylashtirmoqchiman, toki ortiqcha narsamni sota olay.
+**Foydalanuvchi hikoyasi:** Oddiy (yakka) foydalanuvchi sifatida bepul shaxsiy e'lon joylashtirmoqchiman, toki ortiqcha narsamni sota olay.
 
 **Qabul mezonlari:**
-1. Login qilgan foydalanuvchi e'lon formasini to'ldira olishi KERAK: rasm(lar), sarlavha, kategoriya, narx (yoki "Kelishiladi"), holat, hudud, tavsif, aloqa.
+1. Login qilgan foydalanuvchi e'lon formasini to'ldira olishi KERAK: rasm(lar), sarlavha, kategoriya, narx (yoki "Kelishiladi"), **holat (Yangi/Ishlatilgan — majburiy)**, hudud, tavsif, aloqa.
 2. Tizim kamida 1 ta rasm va majburiy maydonlarni talab qilishi KERAK.
-3. Bepul e'lon uchun tizim rasm sonini cheklashi KERAK (masalan 5 tagacha).
+3. Shaxsiy e'lon uchun tizim rasm sonini cheklashi KERAK (masalan 5 tagacha).
 4. E'lon joylanganda, tizim uni "moderatsiyada" yoki "faol" holatida saqlashi KERAK.
 5. Tizim bepul foydalanuvchi uchun bir vaqtda faol e'lonlar sonini cheklashi MUMKIN (masalan 5 ta).
 6. E'lon ma'lum muddatdan keyin (masalan 30 kun) "muddati tugagan" bo'lishi KERAK.
+7. Shaxsiy e'lonlar do'kon e'lonlaridan vizual ravishda aniq ajralib turishi KERAK ("Shaxsiy" belgisi).
 
 ### 3-talab: Do'kon ochish va do'kon mahsulotlari
 
@@ -64,11 +68,11 @@ Ushbu hujjat **MVP (birinchi ishlaydigan versiya)** uchun talablarni belgilaydi.
 
 **Qabul mezonlari:**
 1. Foydalanuvchi kalit so'z bo'yicha qidira olishi KERAK.
-2. Tizim filtrlash imkonini berishi KERAK: kategoriya, narx oralig'i, hudud, holat, tur (do'kon/e'lon).
+2. Tizim filtrlash imkonini berishi KERAK: kategoriya (ierarxik), narx oralig'i, hudud, **e'lon turi (Do'kon / Shaxsiy)** va **holat (Yangi / Ishlatilgan)** — bular alohida va aniq filtrlar bo'lishi KERAK.
 3. Tizim saralash imkonini berishi KERAK: yangiligi, narx (o'sish/kamayish).
-4. Qidiruv natijalari kartochka ko'rinishida (rasm, narx, sarlavha, joylashuv) ko'rsatilishi KERAK.
+4. Qidiruv natijalari kartochka ko'rinishida (rasm, narx, sarlavha, joylashuv, **tur belgisi**) ko'rsatilishi KERAK.
 5. Natija bo'lmasa, tizim bo'sh holat (empty state) ko'rsatishi KERAK.
-6. Do'kon mahsulotlari qidiruvda ustun (yuqorida) chiqishi MUMKIN.
+6. Do'kon e'lonlari va shaxsiy e'lonlar natijalarda vizual ajralib turishi KERAK; yangi va ishlatilgan mahsulotlar aralashmasligi uchun foydalanuvchi holat bo'yicha tezkor filtr ko'ra olishi KERAK.
 
 ### 5-talab: Mahsulot/e'lon batafsil sahifasi
 
@@ -131,6 +135,18 @@ Ushbu hujjat **MVP (birinchi ishlaydigan versiya)** uchun talablarni belgilaydi.
 2. Narxlar so'm formatida (masalan "1 200 000 so'm") ko'rsatilishi KERAK.
 3. Hudud viloyat/tuman ierarxiyasida bo'lishi KERAK.
 4. Telefon +998 formatda bo'lishi KERAK.
+
+### 12-talab: Kategoriya tizimi
+
+**Foydalanuvchi hikoyasi:** Foydalanuvchi sifatida mahsulotlarni keng va aniq kategoriyalar bo'yicha tez topmoqchiman.
+
+**Qabul mezonlari:**
+1. Tizim **ierarxik** (asosiy kategoriya → kichik kategoriya) kategoriyalarni qo'llab-quvvatlashi KERAK.
+2. Kategoriyalar keng va aniq bo'lishi KERAK (masalan: Qurilish mollari, Maishiy texnika, Elektronika, Oziq-ovqat, Poliz/dehqonchilik, Kiyim-kechak → Ayollar/Erkaklar/Bolalar, Transport, Uy-ro'zg'or va h.k.).
+3. Kiyim kabi kategoriyalar jins/yosh bo'yicha alohida kichik kategoriyalarga bo'linishi KERAK (Ayollar / Erkaklar / Bolalar).
+4. Har bir e'lon kamida bitta aniq (eng quyi) kategoriyaga biriktirilishi KERAK.
+5. Kategoriya ro'yxati tartibli va kengaytiriladigan bo'lishi KERAK (yangi kategoriya admin tomonidan qo'shiladi).
+6. To'liq kategoriya tuzilishi loyiha hujjatida (RASTA_Kategoriyalar.md) belgilanadi.
 
 ---
 
