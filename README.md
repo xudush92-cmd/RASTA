@@ -8,8 +8,15 @@ Bozorlar, supermarketlar va barcha turdagi sotuvchilar o'z do'konlarini ochib, m
 
 ## Hujjatlar
 
-- **[Uzbekiston_Onlayn_Bozor_Loyiha_Rejasi.pdf](./Uzbekiston_Onlayn_Bozor_Loyiha_Rejasi.pdf)** — to'liq texnik loyihalashtirish rejasi (arxitektura, modullar, texnologiyalar steki, ma'lumotlar bazasi sxemasi, xavfsizlik, dizayn manbalari, monetizatsiya va yo'l xaritasi).
-- `build_pdf.py` — yuqoridagi PDF'ni qayta yaratuvchi skript (sof Python, tashqi kutubxonasiz).
+- **[RASTA_Loyiha_Rejasi_v2.pdf](./RASTA_Loyiha_Rejasi_v2.pdf)** ⭐ — to'liq reja (v2). To'rt mutaxassis (UI/UX dizayn, mahsulot menejmenti, tizim arxitekturasi, xavfsizlik) tahlili asosida: navigatsiya/menyular, obuna tariflari, do'kon boshqaruv paneli, statistika, texnologiya steki, integratsiyalar, ma'lumotlar bazasi, Trust & Safety, mahalliylashtirish va yo'l xaritasi.
+- [Uzbekiston_Onlayn_Bozor_Loyiha_Rejasi.pdf](./Uzbekiston_Onlayn_Bozor_Loyiha_Rejasi.pdf) — birinchi versiya (v1).
+- `build_pdf.py` / `build_pdf_v2.py` — PDF'larni qayta yaratuvchi skriptlar (sof Python, tashqi kutubxonasiz).
+
+## Asosiy model
+
+- **PULLI Do'kon** — oylik obuna (Boshlang'ich ~49k / Standart ~99k / Premium ~199k so'm), keng boshqaruv paneli, batafsil statistika.
+- **BEPUL e'lon** — OLX uslubida oddiy e'lon joylash.
+- Ilova ichida xaridor-sotuvchi to'lovi yo'q; yagona to'lov — do'kon obunasi (Payme/Click/Uzum).
 
 ## Loyiha bosqichlari (qisqa)
 
