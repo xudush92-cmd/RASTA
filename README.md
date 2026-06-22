@@ -29,7 +29,7 @@ Bozorlar, supermarketlar va barcha turdagi sotuvchilar o'z do'konlarini ochib, m
 
 ### Interaktiv prototip (ilova ko'rinishi)
 
-- **[prototype/index.html](./prototype/index.html)** — ilovaning interaktiv demo ko'rinishi (21 ta ekran: kategoriyalar, e'lon turi va Yangi/Ishlatilgan ajratish, kengaytirilgan do'kon boshqaruvi, dark mode). Tashqi bog'liqliksiz, brauzerda darhol ochiladi.
+- **[prototype/index.html](./prototype/index.html)** — ilovaning interaktiv demo ko'rinishi (20 ta ekran, **professional SVG ikonkalar** — emojisiz, takomillashtirilgan rang palitrasi, aniq tartibli kategoriya gridi, e'lon turi va Yangi/Ishlatilgan ajratish, kengaytirilgan do'kon boshqaruvi, dark mode). Tashqi bog'liqliksiz, brauzerda darhol ochiladi.
 - **Ko'rish:** [htmlpreview orqali oching](https://htmlpreview.github.io/?https://github.com/xudush92-cmd/RASTA/blob/main/prototype/index.html) yoki faylni yuklab olib brauzerda oching.
 
 ## Asosiy model
