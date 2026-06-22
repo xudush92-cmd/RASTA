@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RASTA — Haqiqiy 3D model demo</title>
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+<style>
+  :root{--brand:#0E9C8A;--brand2:#0A7468;--accent:#FF6A3D;--ink:#0F1F1D;--muted:#5F736F;--bg:#F4F7F6;--surface:#fff;--line:#E7EDEB;}
+  *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  body{background:radial-gradient(1000px 500px at 50% -10%,#0E9C8A,#0A5F56 70%,#073f39);min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;padding:24px 14px;color:#fff}
+  h1{font-size:22px;letter-spacing:2px;font-weight:800}
+  .sub{opacity:.85;font-size:13px;margin:6px 0 18px;text-align:center;max-width:420px}
+  .card{width:420px;max-width:100%;background:var(--surface);border-radius:24px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.4)}
+  model-viewer{width:100%;height:420px;background:linear-gradient(135deg,#E4F3F0,#F4F7F6)}
+  .pad{padding:20px;color:var(--ink)}
+  .badge{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:#fff;font-size:11px;font-weight:700;padding:6px 11px;border-radius:9px;margin-bottom:10px}
+  .price{font-size:24px;font-weight:800;color:var(--ink)}
+  .ttl{font-size:17px;margin:6px 0 4px}
+  .muted{color:var(--muted);font-size:13px;line-height:1.6}
+  .row{display:flex;gap:10px;margin-top:16px}
+  .btn{flex:1;border:0;border-radius:14px;padding:15px;font-size:14px;font-weight:700;cursor:pointer}
+  .btn-out{background:#EFF4F3;color:var(--ink)}
+  .btn-ar{background:var(--accent);color:#fff;box-shadow:0 8px 20px rgba(255,106,61,.35)}
+  .note{margin-top:16px;font-size:12px;opacity:.8;text-align:center;max-width:420px;line-height:1.6}
+  .arbtn{position:absolute;bottom:14px;right:14px;background:var(--ink);color:#fff;border:0;border-radius:12px;
+    padding:10px 14px;font-weight:700;font-size:13px;cursor:pointer}
+  a{color:#cfeee9}
+</style>
+</head>
+<body>
+  <h1>RASTA · 3D / AR</h1>
+  <div class="sub">Haqiqiy 3D model demo. Mahsulotni sudrab aylantiring. Telefonda "AR" tugmasi orqali uni xonangizga joylashtirib ko'ring.</div>
+
+  <div class="card">
+    <model-viewer
+      src="https://modelviewer.dev/assets/ShopifyModels/Chair.glb"
+      poster=""
+      alt="3D kreslo modeli"
+      camera-controls
+      auto-rotate
+      auto-rotate-delay="0"
+      rotation-per-second="18deg"
+      shadow-intensity="1"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      camera-orbit="0deg 75deg 105%">
+      <button slot="ar-button" class="arbtn">AR — xonamda ko'rish</button>
+    </model-viewer>
+    <div class="pad">
+      <span class="badge">3D model · 360°</span>
+      <div class="price">1 200 000 so'm</div>
+      <div class="ttl">Zamonaviy kreslo (namuna)</div>
+      <div class="muted">Bu — RASTA ilovasidagi 3D/AR imkoniyatining haqiqiy namunasi. Sotuvchi do'kon panelidan .glb/.gltf model yuklaydi, xaridor esa uni har tomondan ko'radi va AR orqali o'z uyiga "joylashtirib" sinab ko'radi.</div>
+      <div class="row">
+        <button class="btn btn-out" onclick="history.back()">Ortga</button>
+        <button class="btn btn-ar" onclick="document.querySelector('model-viewer').activateAR()">AR rejimida ko'rish</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    Texnologiya: Google <b>&lt;model-viewer&gt;</b> (ochiq kod). Formatlar: <b>GLB / GLTF</b>. AR: Android (Scene Viewer), iOS (Quick Look), WebXR.<br>
+    Agar 3D model ko'rinmasa — internet aloqasini tekshiring (model tashqi serverdan yuklanadi).
+  </div>
+</body>
+</html>

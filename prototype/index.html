@@ -304,6 +304,43 @@
   .empty{text-align:center;padding:54px 24px;color:var(--muted)}
   .empty .ei{font-size:48px;color:var(--brand);opacity:.5}
   .empty p{margin-top:14px;font-size:14px}
+
+  /* professional storefront */
+  .ribbon{position:absolute;top:14px;right:16px;background:rgba(255,255,255,.18);color:#fff;
+    font-size:10.5px;font-weight:800;letter-spacing:1px;padding:6px 12px;border-radius:9px;
+    backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.3)}
+  .shopstats{display:flex;margin:14px 18px 6px;background:var(--surface);border:1px solid var(--line);
+    border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+  .shopstats>div{flex:1;text-align:center;padding:13px 4px;border-right:1px solid var(--line)}
+  .shopstats>div:last-child{border-right:0}
+  .shopstats b{display:block;font-size:16px;color:var(--ink);font-weight:800}
+  .shopstats span{font-size:10.5px;color:var(--muted)}
+  .infocard{margin:6px 18px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+  .inforow{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink);padding:5px 0}
+  .inforow i{color:var(--brand);font-size:16px;flex:none}
+  .shopcats{display:flex;gap:8px;overflow-x:auto;padding:12px 18px 2px}
+  .shopcats::-webkit-scrollbar{height:0}
+  .shopcats .sc{flex:none;background:var(--chip);color:var(--ink);font-size:12.5px;padding:8px 15px;border-radius:20px;cursor:pointer;font-weight:600}
+  .shopcats .sc.on{background:var(--brand);color:#fff}
+
+  /* 3D viewer */
+  .v3dbtn{position:absolute;bottom:16px;right:16px;background:var(--ink);color:#fff;border:0;border-radius:13px;
+    padding:10px 14px;font-size:12.5px;font-weight:700;display:inline-flex;align-items:center;gap:7px;cursor:pointer;
+    box-shadow:0 8px 18px rgba(0,0,0,.28)}
+  .v3dbtn i{font-size:15px}
+  .v3d{height:350px;background:radial-gradient(circle at 50% 38%, var(--brandSoft), var(--bg) 70%);
+    display:flex;align-items:center;justify-content:center;perspective:1000px;position:relative}
+  .v3dbadge{position:absolute;top:14px;left:18px;background:var(--ink);color:#fff;font-size:11px;font-weight:600;
+    padding:7px 12px;border-radius:10px;opacity:.9;display:inline-flex;align-items:center;gap:6px}
+  .scene{width:150px;height:150px;transform-style:preserve-3d}
+  .cube{width:150px;height:150px;position:relative;transform-style:preserve-3d;animation:spin 12s linear infinite}
+  .cube .f{position:absolute;width:150px;height:150px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:40px;background:linear-gradient(135deg,rgba(14,156,138,.92),rgba(10,116,104,.95));
+    border:1px solid rgba(255,255,255,.22);box-shadow:inset 0 0 30px rgba(0,0,0,.12)}
+  .cube .fa{transform:translateZ(75px)} .cube .fb{transform:rotateY(180deg) translateZ(75px)}
+  .cube .fc{transform:rotateY(90deg) translateZ(75px)} .cube .fd{transform:rotateY(-90deg) translateZ(75px)}
+  .cube .fe{transform:rotateX(90deg) translateZ(75px)} .cube .ff{transform:rotateX(-90deg) translateZ(75px)}
+  @keyframes spin{from{transform:rotateX(-20deg) rotateY(0)}to{transform:rotateX(-20deg) rotateY(360deg)}}
 </style>
 </head>
 <body>
@@ -428,7 +465,7 @@
           <button class="iconbtn" onclick="alert('Sevimliga qo\'shildi (demo)')"><i data-i="heart"></i></button>
           <button class="iconbtn" onclick="alert('Ulashish (demo)')"><i data-i="share"></i></button>
         </div>
-        <div class="gallery"><i class="pic" data-i="image"></i><div class="dots"><i class="on"></i><i></i><i></i></div></div>
+        <div class="gallery"><i class="pic" data-i="image"></i><button class="v3dbtn" onclick="go('view3d')"><i data-i="box"></i> 3D ko'rinish</button><div class="dots"><i class="on"></i><i></i><i></i></div></div>
         <div class="dpad">
           <div class="bigprice">3 200 000 so'm</div>
           <div class="htitle">Samsung Galaxy A54 256GB</div>
@@ -451,30 +488,75 @@
         </div>
       </section>
 
+      <!-- ===== 3D VIEW ===== -->
+      <section class="screen" id="view3d">
+        <div class="appbar"><button class="back" onclick="go('detail')"><i data-i="left"></i></button><span class="appttl">3D ko'rinish</span><span class="sp"></span><button class="iconbtn" onclick="alert('To\'liq ekran (demo)')"><i data-i="maximize"></i></button></div>
+        <div class="v3d">
+          <span class="v3dbadge"><i data-i="box"></i> 3D · 360° aylantiring</span>
+          <div class="scene"><div class="cube">
+            <div class="f fa"><i data-i="image"></i></div><div class="f fb"><i data-i="image"></i></div>
+            <div class="f fc"><i data-i="image"></i></div><div class="f fd"><i data-i="image"></i></div>
+            <div class="f fe"><i data-i="image"></i></div><div class="f ff"><i data-i="image"></i></div>
+          </div></div>
+        </div>
+        <div class="dpad">
+          <div class="htitle">Samsung Galaxy A54 256GB</div>
+          <div class="chips" style="padding:6px 0 0">
+            <span class="chip" style="display:inline-flex;align-items:center;gap:5px"><i data-i="refresh"></i> 360°</span>
+            <span class="chip" style="display:inline-flex;align-items:center;gap:5px"><i data-i="maximize"></i> Zoom</span>
+            <span class="chip" style="display:inline-flex;align-items:center;gap:5px"><i data-i="camera"></i> AR rejimi</span>
+          </div>
+          <p class="desc" style="margin-top:12px">Mahsulotni har tomondan aylantirib ko'ring. AR rejimida uni telefon kamerasi orqali <b>o'z xonangizda</b> joylashtirib ko'rishingiz mumkin (mebel, texnika uchun ideal). Haqiqiy ilovada GLB/GLTF 3D modellar va Google model-viewer texnologiyasi qo'llaniladi.</p>
+        </div>
+        <div class="contactbar">
+          <button class="btn btn-out" onclick="go('detail')">Ortga</button>
+          <button class="btn btn-accent" onclick="alert('AR rejimi — telefon kamerangizda xonangizga joylashtirish (demo)')"><i data-i="camera"></i> AR rejimida ko'rish</button>
+        </div>
+      </section>
+
       <!-- ===== SHOP ===== -->
       <section class="screen" id="shop">
         <div class="appbar" style="position:absolute;background:transparent;border:0;width:100%">
           <button class="back" onclick="go('home')"><i data-i="left"></i></button><span class="sp"></span>
+          <button class="iconbtn" onclick="alert('Ulashish (demo)')"><i data-i="share"></i></button>
           <button class="iconbtn" onclick="alert('Menyu (demo)')"><i data-i="more"></i></button>
         </div>
-        <div class="cover"></div>
+        <div class="cover"><span class="ribbon">PREMIUM DO'KON</span></div>
         <div class="shophead">
           <div class="av"><i data-i="smartphone"></i></div>
-          <div style="margin-top:9px;font-size:19px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:7px">TexnoMart <span class="vbadge"><i data-i="check"></i></span> <span class="chip" style="background:var(--brandSoft);color:var(--brand);font-weight:700">Premium</span></div>
-          <div class="stars" style="font-size:13px"><i data-i="star" data-f></i> 4.8 (213 sharh) · <i data-i="pin"></i> Toshkent</div>
-          <p class="desc" style="margin-top:7px;font-size:13.5px">Original texnika, rasmiy kafolat bilan.</p>
+          <div style="margin-top:9px;font-size:20px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:7px">TexnoMart <span class="vbadge"><i data-i="check"></i></span></div>
+          <div class="stars" style="font-size:13px"><i data-i="star" data-f></i> 4.8 · <i data-i="pin"></i> Toshkent · 3 yildan beri</div>
+          <p class="desc" style="margin-top:7px;font-size:13.5px">Original texnika, rasmiy kafolat bilan. Tez yetkazib berish.</p>
         </div>
-        <div style="display:flex;gap:10px;padding:13px 18px">
+        <div class="shopstats">
+          <div><b>124</b><span>Mahsulot</span></div>
+          <div><b>1.2K</b><span>Obunachi</span></div>
+          <div><b>4.8</b><span>Reyting</span></div>
+          <div><b>~5 daq</b><span>Javob</span></div>
+        </div>
+        <div style="display:flex;gap:10px;padding:4px 18px 6px">
           <button class="btn btn-accent" onclick="alert('Bog\'lanish (demo)')"><i data-i="phone"></i> Bog'lanish</button>
           <button class="btn btn-out" onclick="go('chat')"><i data-i="message"></i> Xabar</button>
           <button class="btn btn-out" style="flex:none;padding:15px 16px" onclick="alert('Kuzatildi (demo)')"><i data-i="plus"></i></button>
         </div>
-        <div class="tabs"><div class="tab on">Mahsulotlar 124</div><div class="tab">Sharhlar</div><div class="tab">Haqida</div></div>
+        <div class="infocard">
+          <div class="inforow"><i data-i="clock"></i> Ish vaqti: 09:00 – 20:00 · Hozir ochiq</div>
+          <div class="inforow"><i data-i="pin"></i> Toshkent, Chilonzor, Bunyodkor ko'chasi 12</div>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <span class="chip" style="display:inline-flex;align-items:center;gap:5px"><i data-i="shield"></i> Kafolatli</span>
+            <span class="chip" style="display:inline-flex;align-items:center;gap:5px"><i data-i="truck"></i> Yetkazib berish</span>
+            <span class="chip" style="display:inline-flex;align-items:center;gap:5px"><i data-i="box"></i> 3D ko'rinish</span>
+          </div>
+        </div>
+        <div class="shopcats">
+          <span class="sc on">Hammasi</span><span class="sc">Telefonlar</span><span class="sc">Soatlar</span><span class="sc">Audio</span><span class="sc">Noutbuk</span>
+        </div>
+        <div class="tabs"><div class="tab on">Mahsulotlar 124</div><div class="tab">Sharhlar 213</div><div class="tab">Haqida</div></div>
         <div class="grid">
-          <div class="card" onclick="go('detail')"><div class="ph"><i class="pic" data-i="image"></i><span class="cbadge c-new"><i data-i="sparkle"></i> Yangi</span><span class="fav"><i data-i="heart"></i></span></div><div class="info"><div class="price">3 200 000 so'm</div><div class="ttl">Samsung A54</div></div></div>
+          <div class="card" onclick="go('detail')"><div class="ph"><i class="pic" data-i="image"></i><span class="tag tag-shop" style="background:var(--ink)"><i data-i="box"></i> 3D</span><span class="cbadge c-new"><i data-i="sparkle"></i> Yangi</span><span class="fav"><i data-i="heart"></i></span></div><div class="info"><div class="price">3 200 000 so'm</div><div class="ttl">Samsung A54</div></div></div>
           <div class="card" onclick="go('detail')"><div class="ph"><i class="pic" data-i="image"></i><span class="cbadge c-new"><i data-i="sparkle"></i> Yangi</span><span class="fav"><i data-i="heart"></i></span></div><div class="info"><div class="price">1 900 000 so'm</div><div class="ttl">Galaxy Watch 6</div></div></div>
           <div class="card" onclick="go('detail')"><div class="ph"><i class="pic" data-i="image"></i><span class="cbadge c-new"><i data-i="sparkle"></i> Yangi</span><span class="fav"><i data-i="heart"></i></span></div><div class="info"><div class="price">450 000 so'm</div><div class="ttl">Galaxy Buds</div></div></div>
-          <div class="card" onclick="go('detail')"><div class="ph"><i class="pic" data-i="image"></i><span class="cbadge c-new"><i data-i="sparkle"></i> Yangi</span><span class="fav"><i data-i="heart"></i></span></div><div class="info"><div class="price">6 200 000 so'm</div><div class="ttl">Galaxy Book</div></div></div>
+          <div class="card" onclick="go('detail')"><div class="ph"><i class="pic" data-i="image"></i><span class="tag tag-shop" style="background:var(--ink)"><i data-i="box"></i> 3D</span><span class="cbadge c-new"><i data-i="sparkle"></i> Yangi</span><span class="fav"><i data-i="heart"></i></span></div><div class="info"><div class="price">6 200 000 so'm</div><div class="ttl">Galaxy Book</div></div></div>
         </div>
       </section>
 
@@ -785,7 +867,11 @@
     alert:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
     signal:'<rect x="2" y="14" width="3" height="6" rx="1" fill="currentColor" stroke="none"/><rect x="7.5" y="10" width="3" height="10" rx="1" fill="currentColor" stroke="none"/><rect x="13" y="6" width="3" height="14" rx="1" fill="currentColor" stroke="none"/><rect x="18.5" y="2" width="3" height="18" rx="1" fill="currentColor" stroke="none"/>',
     wifi:'<path d="M5 12.55a11 11 0 0 1 14 0"/><path d="M8.5 16.1a6 6 0 0 1 7 0"/><path d="M2 8.82a15 15 0 0 1 20 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>',
-    battery:'<rect x="1" y="7" width="18" height="10" rx="2"/><line x1="23" y1="11" x2="23" y2="13"/><rect x="3" y="9" width="11" height="6" rx="1" fill="currentColor" stroke="none"/>'
+    battery:'<rect x="1" y="7" width="18" height="10" rx="2"/><line x1="23" y1="11" x2="23" y2="13"/><rect x="3" y="9" width="11" height="6" rx="1" fill="currentColor" stroke="none"/>',
+    clock:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+    truck:'<rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="18.5" cy="18.5" r="2"/>',
+    shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+    maximize:'<path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/>'
   };
   function renderIcons(){
     var els=document.querySelectorAll('i[data-i]');
@@ -800,7 +886,7 @@
     var s=document.querySelectorAll('.screen'); for(var i=0;i<s.length;i++)s[i].classList.remove('active');
     var el=document.getElementById(id); if(el)el.classList.add('active');
     document.getElementById('vp').scrollTop=0;
-    var map={home:'n-home',categories:'n-search',search:'n-search',msgs:'n-msgs',chat:'n-msgs',profile:'n-profile',settings:'n-profile',dash:'n-profile',plans:'n-profile',fav:'n-home',shopmenu:'n-profile',products:'n-profile',reviews:'n-profile',boost:'n-profile',shopsettings:'n-profile',orders:'n-profile',inventory:'n-profile',promo:'n-profile'};
+    var map={home:'n-home',categories:'n-search',search:'n-search',msgs:'n-msgs',chat:'n-msgs',profile:'n-profile',settings:'n-profile',dash:'n-profile',plans:'n-profile',fav:'n-home',shopmenu:'n-profile',products:'n-profile',reviews:'n-profile',boost:'n-profile',shopsettings:'n-profile',orders:'n-profile',inventory:'n-profile',promo:'n-profile',view3d:'n-home'};
     var b=document.querySelectorAll('.nav button'); for(var j=0;j<b.length;j++)b[j].classList.remove('on');
     if(map[id])document.getElementById(map[id]).classList.add('on');
   }

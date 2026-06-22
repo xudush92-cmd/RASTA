@@ -150,6 +150,20 @@ Ushbu hujjat **MVP (birinchi ishlaydigan versiya)** uchun talablarni belgilaydi.
 
 ---
 
+### 13-talab: 3D / AR mahsulot ko'rinishi (Premium imkoniyat)
+
+**Foydalanuvchi hikoyasi:** Xaridor sifatida mahsulotni 3D'da har tomondan ko'rmoqchiman va AR orqali uni o'z xonamda sinab ko'rmoqchiman; sotuvchi sifatida do'konimni boshqalardan ajratmoqchiman.
+
+**Qabul mezonlari:**
+1. Tizim mahsulotga 3D model (GLB/GLTF) biriktirishni qo'llab-quvvatlashi KERAK (Premium do'konlar uchun).
+2. Mahsulot sahifasida 3D model 360° aylantirib ko'riladigan bo'lishi KERAK (Google model-viewer).
+3. Qo'llab-quvvatlovchi qurilmalarda AR rejimi (Android Scene Viewer, iOS Quick Look, WebXR) mavjud bo'lishi KERAK.
+4. 3D modeli bor mahsulotlar katalogda "3D" belgisi bilan ajralib turishi KERAK.
+5. Sotuvchi do'kon panelidan 3D modelni yuklashi va boshqarishi KERAK.
+6. 3D bo'lmagan mahsulotlar oddiy rasm galereyasi bilan ishlashda davom etishi KERAK (3D ixtiyoriy).
+
+> Eslatma: 3D/AR — premium/farqlovchi imkoniyat. MVP'da interfeys va demo, to'liq integratsiya v3 bosqichida (mebel, texnika kabi kategoriyalar uchun avval).
+
 ## MVP bo'lmagan (kelajak)
 - Xarita/geolokatsiya, kengaytirilgan filtr
 - Premium statistika (geografiya, konversiya)

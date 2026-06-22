@@ -14,8 +14,7 @@ Bozorlar, supermarketlar va barcha turdagi sotuvchilar o'z do'konlarini ochib, m
 
 ### Dizayn va menyular
 
-- **[RASTA_Ekran_Xaritasi.md](./RASTA_Ekran_Xaritasi.md)** — to'liq menyu/ekran xaritasi: 14 ta ekran, har biri uchun maqsad, elementlar, foydalanuvchi amallari va navigatsiya + rollar jadvali.
-- **[RASTA_Wireframes.md](./RASTA_Wireframes.md)** — 7 ta asosiy ekranning matnli (ASCII) wireframe maketlari + dizayn tizimi (ranglar, brending).
+- **[RASTA_Ekran_Xaritasi.md](./RASTA_Ekran_Xaritasi.md)** — to'liq menyu/ekran xaritasi: 14 ta ekran, har biri uchun maqsad, elementlar, foydalanuvchi amallari va navigatsiya + rollar jadvali.- **[RASTA_Wireframes.md](./RASTA_Wireframes.md)** — 7 ta asosiy ekranning matnli (ASCII) wireframe maketlari + dizayn tizimi (ranglar, brending).
 - **[RASTA_Kategoriyalar.md](./RASTA_Kategoriyalar.md)** — keng, aniq va ierarxik kategoriya tizimi (16 asosiy kategoriya + kichik kategoriyalar) hamda e'lon turi (Do'kon/Shaxsiy) va holat (Yangi/Ishlatilgan) ajratish.
 
 ### Spec (MVP qurilish rejasi)
@@ -29,7 +28,8 @@ Bozorlar, supermarketlar va barcha turdagi sotuvchilar o'z do'konlarini ochib, m
 
 ### Interaktiv prototip (ilova ko'rinishi)
 
-- **[prototype/index.html](./prototype/index.html)** — ilovaning interaktiv demo ko'rinishi (20 ta ekran, **professional SVG ikonkalar** — emojisiz, takomillashtirilgan rang palitrasi, aniq tartibli kategoriya gridi, e'lon turi va Yangi/Ishlatilgan ajratish, kengaytirilgan do'kon boshqaruvi, dark mode). Tashqi bog'liqliksiz, brauzerda darhol ochiladi.
+- **[prototype/index.html](./prototype/index.html)** — ilovaning interaktiv demo ko'rinishi (21 ta ekran: professional SVG ikonkalar, takomillashtirilgan ranglar, aniq kategoriya gridi, **professional do'kon storefront**, **3D mahsulot ko'rinishi**, e'lon turi va Yangi/Ishlatilgan ajratish, kengaytirilgan do'kon boshqaruvi, dark mode).
+- **[prototype/3d-demo.html](./prototype/3d-demo.html)** — **haqiqiy 3D/AR model demo** (Google model-viewer, GLB format). Brauzerda 3D modelni aylantirib, telefonda AR orqali xonangizda ko'rishingiz mumkin.
 - **Ko'rish:** [htmlpreview orqali oching](https://htmlpreview.github.io/?https://github.com/xudush92-cmd/RASTA/blob/main/prototype/index.html) yoki faylni yuklab olib brauzerda oching.
 
 ## Asosiy model
