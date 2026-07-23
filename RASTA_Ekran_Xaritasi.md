@@ -2,8 +2,8 @@
 
 > **Loyiha:** Butun O'zbekiston uchun onlayn bozor (katalog-marketplace).
 > **Model:** Ilova ichida xaridor-sotuvchi to'lovi yo'q (faqat aloqa). Sotuvchilar do'kon ochib mahsulot joylaydi, xaridor qidirib topadi va chat yoki telefon orqali bog'lanadi.
-> **Ikki bo'lim:** (1) PULLI Do'kon — oylik obuna (49k / 99k / 199k so'm), 10 bo'limli boshqaruv paneli, batafsil statistika. (2) BEPUL oddiy e'lon.
-> **Rollar:** Xaridor · Bepul sotuvchi · Do'kon egasi · Admin.
+> **Ikki bo'lim:** (1) Tasdiqlangan **Do'kon mahsuloti** — pilotda trial/manual entitlement, pullik obuna P1; boshqaruv paneli va statistika. (2) BEPUL **Shaxsiy e'lon**.
+> **Kontekst va rollar:** bitta user xaridor va shaxsiy sotuvchi bo'la oladi; do'konda `Owner` / `Manager` / `Catalog manager` / `Support`, platformada `Moderator` / `Admin` rollari mavjud.
 
 ## Asosiy navigatsiya — Pastki menyu (5 ta)
 
@@ -23,7 +23,7 @@ Ilovaning markaziy navigatsiyasi pastki panelda joylashgan 5 ta doimiy menyudan 
 
 **Ekran elementlari:**
 - RASTA logotipi va qisqa shior.
-- Til tanlash: O'zbekcha · Ruscha · Qoraqalpoqcha.
+- Til tanlash: O'zbekcha (P0) · Ruscha va Qoraqalpoqcha (P1).
 - Shahar / viloyat tanlash ro'yxati (yoki "Joylashuvni aniqlash" tugmasi).
 - 2–3 ta tanishtiruv slayd (ilova nima qiladi: qidir, top, bog'lan).
 - "Davom etish" va "O'tkazib yuborish" tugmalari.
@@ -59,7 +59,7 @@ Ilovaning markaziy navigatsiyasi pastki panelda joylashgan 5 ta doimiy menyudan 
 - Mehmon rejimida kirish.
 
 **Navigatsiya:**
-- Muvaffaqiyatli tasdiq → Bosh sahifa (birinchi marta bo'lsa — profil to'ldirish: ism, rol tanlovi).
+- Muvaffaqiyatli tasdiq → Bosh sahifa (birinchi marta bo'lsa — profil to'ldirish: ism va lokal sozlamalar; qaytmas rol tanlovi yo'q).
 - "Mehmon" → Bosh sahifa (cheklangan: e'lon joylash va chat uchun keyin kirish so'raladi).
 
 ---
@@ -132,7 +132,7 @@ Ilovaning markaziy navigatsiyasi pastki panelda joylashgan 5 ta doimiy menyudan 
 - Filtr va saralashni qo'llash, tozalash.
 - Ko'rinishni almashtirish (ro'yxat/grid/xarita).
 - E'lonni ochish yoki sevimlilarga qo'shish.
-- Qidiruvni saqlash (bildirishnoma uchun).
+- Qidiruvni saqlash va natija bildirishnomasi (P1).
 
 **Navigatsiya:**
 - E'lon kartochkasi → Mahsulot/e'lon batafsil sahifasi.
@@ -153,7 +153,7 @@ Ilovaning markaziy navigatsiyasi pastki panelda joylashgan 5 ta doimiy menyudan 
 - Sotuvchi/do'kon kartochkasi (nomi, reyting, "PRO" belgisi, ro'yxatdagi vaqti).
 - Joylashuv xaritasi (taxminiy nuqta).
 - Ko'rishlar soni, sevimlilarga qo'shilganlar soni.
-- Sharhlar va reyting bo'limi (do'kon mahsuloti uchun).
+- Sharhlar va reyting bo'limi (do'kon mahsuloti uchun, P1).
 - "O'xshash e'lonlar" bo'limi.
 - Pastki doimiy panel: "Yozish (chat)" va "Qo'ng'iroq" tugmalari.
 
@@ -175,7 +175,7 @@ Ilovaning markaziy navigatsiyasi pastki panelda joylashgan 5 ta doimiy menyudan 
 
 ## 7. Do'kon Profili Sahifasi
 
-**Maqsad:** PULLI do'kon (yoki sotuvchi) brendini, barcha mahsulotlarini va aloqa ma'lumotlarini bir joyda ko'rsatish.
+**Maqsad:** Tasdiqlangan do'kon (yoki sotuvchi) brendini, barcha mahsulotlarini va aloqa ma'lumotlarini bir joyda ko'rsatish.
 
 **Ekran elementlari:**
 - Muqova rasmi va do'kon logotipi.
@@ -184,7 +184,7 @@ Ilovaning markaziy navigatsiyasi pastki panelda joylashgan 5 ta doimiy menyudan 
 - Statistika: e'lonlar soni, obunachilar (ixtiyoriy), ro'yxatdagi vaqti.
 - Mahsulot kategoriyalari/bo'limlar bo'yicha tasniflash.
 - Mahsulotlar lentasi (grid).
-- Sharhlar bo'limi.
+- Sharhlar bo'limi (P1).
 - Aloqa: telefon, manzil, ijtimoiy tarmoq havolalari.
 
 **Foydalanuvchi amallari:**
@@ -294,7 +294,7 @@ Ilovaning markaziy navigatsiyasi pastki panelda joylashgan 5 ta doimiy menyudan 
 
 **Ekran elementlari:**
 - Yuqorida: avatar, ism, telefon, reyting (ixtiyoriy), "Profilni tahrirlash".
-- **"Do'kon oching / PRO bo'ling"** banneri (asosiy monetizatsiya yo'nalishi).
+- **"Do'kon oching"** banneri; do'kon yaratish va tekshiruv jarayoniga olib boradi.
 - Mening e'lonlarim (faol / moderatsiyada / muddati tugagan).
 - Sevimlilar havolasi.
 - Ko'rilgan e'lonlar tarixi.
@@ -310,7 +310,7 @@ Ilovaning markaziy navigatsiyasi pastki panelda joylashgan 5 ta doimiy menyudan 
 - Sozlamalar va yordamga o'tish.
 
 **Navigatsiya:**
-- "Do'kon oching" → Obuna / Tariflar ekrani.
+- "Do'kon oching" → Do'kon yaratish va tekshiruv formasiga; tarif/to'lov do'kon ochishga gate emas.
 - "Mening e'lonlarim" → e'lon tahrirlash.
 - Sozlamalar → Sozlamalar ekrani.
 
@@ -318,38 +318,37 @@ Ilovaning markaziy navigatsiyasi pastki panelda joylashgan 5 ta doimiy menyudan 
 
 ## 12. Do'kon Boshqaruv Paneli (10 bo'lim)
 
-**Maqsad:** PULLI do'kon egasiga to'liq biznes boshqaruvi — mahsulot, buyurtma so'rovlari, statistika va sozlamalar.
+**Maqsad:** Tasdiqlangan do'kon egasiga katalog va mijoz murojaatlarini boshqarish — mahsulotlar, qoldiq, murojaatlar, statistika va sozlamalar.
 
-**Asosiy ko'rinish:** Dashboard bosh sahifasi (umumiy ko'rsatkichlar: bugungi ko'rishlar, yangi xabarlar, faol e'lonlar, obuna holati). Quyidagi 10 bo'limga yon menyu yoki kartochkalar orqali o'tiladi:
+**Asosiy ko'rinish:** Dashboard bosh sahifasi (umumiy ko'rsatkichlar: bugungi ko'rishlar, yangi xabarlar, faol e'lonlar, verification va pilot entitlement holati). Quyidagi bo'limlarga alohida dashboard navigatsiyasi orqali o'tiladi:
 
 1. **Dashboard (Bosh ko'rsatkichlar)** — kunlik/oylik xulosa, tezkor statistika va ogohlantirishlar.
 2. **Mahsulotlar** — barcha mahsulotlar ro'yxati, qo'shish/tahrirlash/o'chirish, faol/nofaol, qoldiq.
 3. **Statistika / Analitika** — ko'rishlar, qo'ng'iroqlar, chatlar, sevimlilar, konversiya grafiklari, davr bo'yicha solishtirish.
 4. **Xabarlar / Mijozlar** — do'kon chatlari, tezkor javoblar, mijozlar bazasi.
-5. **Sharhlar va Reyting** — sharhlarni ko'rish, javob berish, o'rtacha reyting.
-6. **Reklama / Boost (Ko'tarish)** — e'lonni yuqoriga ko'tarish, banner reklama, promo-kampaniyalar.
-7. **Obuna va To'lovlar** — joriy tarif, to'lovlar tarixi, hisob-faktura, tarifni o'zgartirish.
+5. **Sharhlar va Reyting (P1)** — sharhlarni ko'rish, javob berish, o'rtacha reyting.
+6. **Reklama / Boost (P1)** — aniq “Reklama” yorlig'i bilan pullik joylashuv va kampaniyalar.
+7. **Obuna va To'lovlar (P1)** — tarif, to'lov tarixi va tarifni o'zgartirish; P0 pilotda faqat trial/manual entitlement holati.
 8. **Do'kon sozlamalari** — nomi, logo, muqova, tavsif, ish vaqti, manzil, ijtimoiy havolalar.
-9. **Xodimlar / Rollar** — qo'shimcha menejerlar qo'shish va huquqlarni belgilash (yuqori tariflarda).
+9. **Xodimlar / Rollar** — `Owner`, `Manager`, `Catalog manager`, `Support` rollari va permissionlar; obunadan qat'i nazar P0 xavfsizligi uchun mavjud.
 10. **Yordam va Qo'llab-quvvatlash** — murojaat, qo'llanma, savdo bo'yicha maslahatlar.
 
 **Foydalanuvchi amallari:**
 - Mahsulot qo'shish/boshqarish.
 - Statistikani ko'rish va eksport qilish.
 - Mijozlarga javob berish.
-- Reklamani sotib olish/yoqish.
-- Tarifni boshqarish.
+- Reklama va tarifni boshqarish (P1).
 
 **Navigatsiya:**
 - Har bir bo'lim → tegishli batafsil ekran.
 - "Mahsulot qo'shish" → Do'kon mahsuloti formasi (8.B).
-- "Obuna va To'lovlar" → Obuna / Tariflar ekrani.
+- "Obuna va To'lovlar" → Obuna / Tariflar ekrani (P1).
 
 ---
 
-## 13. Obuna / Tariflar Ekrani
+## 13. Obuna / Tariflar Ekrani (P1 — muvaffaqiyatli pilotdan keyin)
 
-**Maqsad:** Do'kon obuna tariflarini ko'rsatish va to'lovni amalga oshirish (yagona pullik nuqta).
+**Maqsad:** Do'kon ochishga gate bo'lmasdan, RASTA monetizatsiyasi ishga tushgach obuna tariflarini ko'rsatish va xizmat to'lovini amalga oshirish.
 
 **Ekran elementlari:**
 - Sarlavha va qisqa qiymat taklifi ("Do'kon ochib, ko'proq mijozga yeting").
@@ -365,13 +364,13 @@ Ilovaning markaziy navigatsiyasi pastki panelda joylashgan 5 ta doimiy menyudan 
 
 **Foydalanuvchi amallari:**
 - Tariflarni taqqoslash.
-- Davrни tanlash.
+- Davrni tanlash.
 - To'lov usulini tanlab to'lovni amalga oshirish.
 - Promo-kod kiritish.
 
 **Navigatsiya:**
-- "Tarifni tanlash" → To'lov ekrani (Payme/Click/Uzum) → muvaffaqiyat → Do'kon boshqaruv paneli.
-- Birinchi marta bo'lsa → Do'kon sozlash (nom, logo) → Dashboard.
+- "Tarifni tanlash" → RASTA xizmat to'lovi (Payme/Click/Uzum) → muvaffaqiyat → entitlement yangilanadi.
+- Birinchi do'kon yaratish bu ekranga bog'lanmaydi: Do'kon yaratish → Tekshiruv → trial/manual entitlement → Dashboard.
 
 ---
 
@@ -381,7 +380,7 @@ Ilovaning markaziy navigatsiyasi pastki panelda joylashgan 5 ta doimiy menyudan 
 
 **Ekran elementlari:**
 - **Hisob:** profilni tahrirlash, telefon raqamini o'zgartirish, parol/xavfsizlik.
-- **Til:** O'zbekcha / Ruscha / Qoraqalpoqcha.
+- **Til:** O'zbekcha (P0); Ruscha va Qoraqalpoqcha (P1).
 - **Joylashuv / Shahar:** standart shaharni o'zgartirish.
 - **Bildirishnomalar:** push, chat, narx o'zgarishi, marketing (yoqish/o'chirish).
 - **Maxfiylik:** bloklangan foydalanuvchilar, telefon ko'rinishi, ma'lumotlarni boshqarish.
@@ -407,39 +406,43 @@ Ilovaning markaziy navigatsiyasi pastki panelda joylashgan 5 ta doimiy menyudan 
 ## Navigatsiya xaritasi (qisqa sxema)
 
 ```
-Onboarding (til+shahar)
-      │
-      ▼
-Ro'yxatdan o'tish / OTP ──(mehmon)──┐
-      │                            │
-      ▼                            ▼
-┌──────────── PASTKI 5 MENYU ─────────────┐
-│ Bosh sahifa  Qidiruv  ➕  Xabarlar  Profil│
-└──────────────────────────────────────────┘
-   │           │        │       │        │
-   ▼           ▼        ▼       ▼        ▼
-Kategoriyalar  Filtr   Tanlov  Chatlar  Kabinet
-   │        natijalari  │       │        │
-   ▼           │     ┌──┴──┐    ▼        ├─► Sevimlilar
-Mahsulot ◄─────┘  Bepul  Do'kon Chat     ├─► Sozlamalar
-batafsil          e'lon  mahsuloti        └─► Obuna/Tariflar
-   │                              │              │
-   ▼                              ▼              ▼
-Do'kon profili            Do'kon boshqaruv ◄─ To'lov (Payme/Click/Uzum)
-                          paneli (10 bo'lim)
+Onboarding (til + hudud) → Bosh sahifa (mehmon)
+                              │
+          ┌───────────────────┼───────────────────┐
+          ▼                   ▼                   ▼
+       Qidiruv             Mahsulot           Do'kon vitrinasi
+          │                   │                   │
+          └────────────── chat/saqlash ───────────┘
+                              │
+                           OTP login
+                              │
+                 Shaxsiy profil/kontekst
+                    │                    │
+                    ▼                    ▼
+             Shaxsiy e'lon         Do'kon yaratish
+                                     │
+                                     ▼
+                         Tekshiruv + pilot entitlement
+                                     │
+                                     ▼
+                           DO'KON DASHBOARD SHELL
+                 (mahsulot, qoldiq, murojaat, xodim, analytics)
+                                     │
+                                     └── Obuna/reklama (P1)
 ```
 
 ---
 
-## Rollar bo'yicha ekran ko'rinishi
+## Kontekst va rollar bo'yicha ekran ko'rinishi
 
-| Ekran | Xaridor | Bepul sotuvchi | Do'kon egasi | Admin |
+| Ekran | Mehmon | Shaxsiy profil | Do'kon membershipi | Moderator/Admin |
 |---|---|---|---|---|
-| Bosh sahifa / Qidiruv / Sevimlilar | ✓ | ✓ | ✓ | ✓ |
-| Bepul e'lon joylash | — | ✓ | ✓ | ✓ |
-| Do'kon mahsuloti qo'shish | — | — | ✓ | ✓ |
-| Do'kon boshqaruv paneli | — | — | ✓ | ✓ (ko'rish) |
-| Obuna / Tariflar | ✓ (taklif) | ✓ (taklif) | ✓ | ✓ |
-| Moderatsiya paneli | — | — | — | ✓ |
+| Bosh sahifa / Qidiruv / Do'kon vitrinasi | ✓ | ✓ | ✓ | ✓ |
+| Sevimlilar / Chat | login so'raladi | ✓ | ✓ | ruxsatga qarab |
+| Shaxsiy e'lon joylash | — | ✓ | ✓ | — |
+| Do'kon mahsuloti qo'shish | — | — | permission bo'lsa | moderator faqat ko'rib chiqadi |
+| Do'kon dashboard shell | — | — | `Owner/Manager/Catalog manager/Support` permissioniga qarab | audit/support rejimi |
+| Obuna / Tariflar (P1) | taklif | taklif | owner | admin boshqaradi |
+| Moderatsiya paneli (P0) | — | — | — | ✓ |
 
-> **Eslatma:** Admin moderatsiya paneli (e'lon/do'kon tasdiqlash, shikoyatlar, foydalanuvchilarni boshqarish) alohida web-panel sifatida ko'zda tutiladi va loyiha v3 bosqichida ishlab chiqiladi.
+> **Eslatma:** Asosiy admin moderatsiya paneli (do'kon/e'lon tasdiqlash, shikoyatlar, bloklash va audit) Trust & Safety uchun MVP tarkibiga kiradi va alohida himoyalangan web-panel sifatida ishlab chiqiladi.

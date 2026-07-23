@@ -323,24 +323,6 @@
   .shopcats .sc{flex:none;background:var(--chip);color:var(--ink);font-size:12.5px;padding:8px 15px;border-radius:20px;cursor:pointer;font-weight:600}
   .shopcats .sc.on{background:var(--brand);color:#fff}
 
-  /* 3D viewer */
-  .v3dbtn{position:absolute;bottom:16px;right:16px;background:var(--ink);color:#fff;border:0;border-radius:13px;
-    padding:10px 14px;font-size:12.5px;font-weight:700;display:inline-flex;align-items:center;gap:7px;cursor:pointer;
-    box-shadow:0 8px 18px rgba(0,0,0,.28)}
-  .v3dbtn i{font-size:15px}
-  .v3d{height:350px;background:radial-gradient(circle at 50% 38%, var(--brandSoft), var(--bg) 70%);
-    display:flex;align-items:center;justify-content:center;perspective:1000px;position:relative}
-  .v3dbadge{position:absolute;top:14px;left:18px;background:var(--ink);color:#fff;font-size:11px;font-weight:600;
-    padding:7px 12px;border-radius:10px;opacity:.9;display:inline-flex;align-items:center;gap:6px}
-  .scene{width:150px;height:150px;transform-style:preserve-3d}
-  .cube{width:150px;height:150px;position:relative;transform-style:preserve-3d;animation:spin 12s linear infinite}
-  .cube .f{position:absolute;width:150px;height:150px;border-radius:14px;display:flex;align-items:center;justify-content:center;
-    color:#fff;font-size:40px;background:linear-gradient(135deg,rgba(14,156,138,.92),rgba(10,116,104,.95));
-    border:1px solid rgba(255,255,255,.22);box-shadow:inset 0 0 30px rgba(0,0,0,.12)}
-  .cube .fa{transform:translateZ(75px)} .cube .fb{transform:rotateY(180deg) translateZ(75px)}
-  .cube .fc{transform:rotateY(90deg) translateZ(75px)} .cube .fd{transform:rotateY(-90deg) translateZ(75px)}
-  .cube .fe{transform:rotateX(90deg) translateZ(75px)} .cube .ff{transform:rotateX(-90deg) translateZ(75px)}
-  @keyframes spin{from{transform:rotateX(-20deg) rotateY(0)}to{transform:rotateX(-20deg) rotateY(360deg)}}
 </style>
 </head>
 <body>
@@ -389,7 +371,7 @@
         </div>
         <div class="banner">
           <h3>Do'koningizni oching</h3>
-          <p>Minglab xaridorga yeting. Oyiga 49 000 so'mdan boshlab.</p>
+          <p>Minglab xaridorga yeting. Pilotda do'kon yaratish bepul.</p>
           <span class="cta">Batafsil</span>
           <i class="deco" data-i="store"></i>
         </div>
@@ -465,7 +447,7 @@
           <button class="iconbtn" onclick="alert('Sevimliga qo\'shildi (demo)')"><i data-i="heart"></i></button>
           <button class="iconbtn" onclick="alert('Ulashish (demo)')"><i data-i="share"></i></button>
         </div>
-        <div class="gallery"><i class="pic" data-i="image"></i><button class="v3dbtn" onclick="go('view3d')"><i data-i="box"></i> 3D ko'rinish</button><div class="dots"><i class="on"></i><i></i><i></i></div></div>
+        <div class="gallery"><i class="pic" data-i="image"></i><div class="dots"><i class="on"></i><i></i><i></i></div></div>
         <div class="dpad">
           <div class="bigprice">3 200 000 so'm</div>
           <div class="htitle">Samsung Galaxy A54 256GB</div>
@@ -488,32 +470,6 @@
         </div>
       </section>
 
-      <!-- ===== 3D VIEW ===== -->
-      <section class="screen" id="view3d">
-        <div class="appbar"><button class="back" onclick="go('detail')"><i data-i="left"></i></button><span class="appttl">3D ko'rinish</span><span class="sp"></span><button class="iconbtn" onclick="alert('To\'liq ekran (demo)')"><i data-i="maximize"></i></button></div>
-        <div class="v3d">
-          <span class="v3dbadge"><i data-i="box"></i> 3D · 360° aylantiring</span>
-          <div class="scene"><div class="cube">
-            <div class="f fa"><i data-i="image"></i></div><div class="f fb"><i data-i="image"></i></div>
-            <div class="f fc"><i data-i="image"></i></div><div class="f fd"><i data-i="image"></i></div>
-            <div class="f fe"><i data-i="image"></i></div><div class="f ff"><i data-i="image"></i></div>
-          </div></div>
-        </div>
-        <div class="dpad">
-          <div class="htitle">Samsung Galaxy A54 256GB</div>
-          <div class="chips" style="padding:6px 0 0">
-            <span class="chip" style="display:inline-flex;align-items:center;gap:5px"><i data-i="refresh"></i> 360°</span>
-            <span class="chip" style="display:inline-flex;align-items:center;gap:5px"><i data-i="maximize"></i> Zoom</span>
-            <span class="chip" style="display:inline-flex;align-items:center;gap:5px"><i data-i="camera"></i> AR rejimi</span>
-          </div>
-          <p class="desc" style="margin-top:12px">Mahsulotni har tomondan aylantirib ko'ring. AR rejimida uni telefon kamerasi orqali <b>o'z xonangizda</b> joylashtirib ko'rishingiz mumkin (mebel, texnika uchun ideal). Haqiqiy ilovada GLB/GLTF 3D modellar va Google model-viewer texnologiyasi qo'llaniladi.</p>
-        </div>
-        <div class="contactbar">
-          <button class="btn btn-out" onclick="go('detail')">Ortga</button>
-          <button class="btn btn-accent" onclick="alert('AR rejimi — telefon kamerangizda xonangizga joylashtirish (demo)')"><i data-i="camera"></i> AR rejimida ko'rish</button>
-        </div>
-      </section>
-
       <!-- ===== SHOP ===== -->
       <section class="screen" id="shop">
         <div class="appbar" style="position:absolute;background:transparent;border:0;width:100%">
@@ -521,7 +477,7 @@
           <button class="iconbtn" onclick="alert('Ulashish (demo)')"><i data-i="share"></i></button>
           <button class="iconbtn" onclick="alert('Menyu (demo)')"><i data-i="more"></i></button>
         </div>
-        <div class="cover"><span class="ribbon">PREMIUM DO'KON</span></div>
+        <div class="cover"><span class="ribbon">TASDIQLANGAN DO'KON</span></div>
         <div class="shophead">
           <div class="av"><i data-i="smartphone"></i></div>
           <div style="margin-top:9px;font-size:20px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:7px">TexnoMart <span class="vbadge"><i data-i="check"></i></span></div>
@@ -545,29 +501,29 @@
           <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
             <span class="chip" style="display:inline-flex;align-items:center;gap:5px"><i data-i="shield"></i> Kafolatli</span>
             <span class="chip" style="display:inline-flex;align-items:center;gap:5px"><i data-i="truck"></i> Yetkazib berish</span>
-            <span class="chip" style="display:inline-flex;align-items:center;gap:5px"><i data-i="box"></i> 3D ko'rinish</span>
+            <span class="chip" style="display:inline-flex;align-items:center;gap:5px"><i data-i="shield"></i> Tasdiqlangan do'kon</span>
           </div>
         </div>
         <div class="shopcats">
           <span class="sc on">Hammasi</span><span class="sc">Telefonlar</span><span class="sc">Soatlar</span><span class="sc">Audio</span><span class="sc">Noutbuk</span>
         </div>
-        <div class="tabs"><div class="tab on">Mahsulotlar 124</div><div class="tab">Sharhlar 213</div><div class="tab">Haqida</div></div>
+        <div class="tabs"><div class="tab on">Mahsulotlar 124</div><div class="tab">Sharhlar (P1)</div><div class="tab">Haqida</div></div>
         <div class="grid">
-          <div class="card" onclick="go('detail')"><div class="ph"><i class="pic" data-i="image"></i><span class="tag tag-shop" style="background:var(--ink)"><i data-i="box"></i> 3D</span><span class="cbadge c-new"><i data-i="sparkle"></i> Yangi</span><span class="fav"><i data-i="heart"></i></span></div><div class="info"><div class="price">3 200 000 so'm</div><div class="ttl">Samsung A54</div></div></div>
+          <div class="card" onclick="go('detail')"><div class="ph"><i class="pic" data-i="image"></i><span class="cbadge c-new"><i data-i="sparkle"></i> Yangi</span><span class="fav"><i data-i="heart"></i></span></div><div class="info"><div class="price">3 200 000 so'm</div><div class="ttl">Samsung A54</div></div></div>
           <div class="card" onclick="go('detail')"><div class="ph"><i class="pic" data-i="image"></i><span class="cbadge c-new"><i data-i="sparkle"></i> Yangi</span><span class="fav"><i data-i="heart"></i></span></div><div class="info"><div class="price">1 900 000 so'm</div><div class="ttl">Galaxy Watch 6</div></div></div>
           <div class="card" onclick="go('detail')"><div class="ph"><i class="pic" data-i="image"></i><span class="cbadge c-new"><i data-i="sparkle"></i> Yangi</span><span class="fav"><i data-i="heart"></i></span></div><div class="info"><div class="price">450 000 so'm</div><div class="ttl">Galaxy Buds</div></div></div>
-          <div class="card" onclick="go('detail')"><div class="ph"><i class="pic" data-i="image"></i><span class="tag tag-shop" style="background:var(--ink)"><i data-i="box"></i> 3D</span><span class="cbadge c-new"><i data-i="sparkle"></i> Yangi</span><span class="fav"><i data-i="heart"></i></span></div><div class="info"><div class="price">6 200 000 so'm</div><div class="ttl">Galaxy Book</div></div></div>
+          <div class="card" onclick="go('detail')"><div class="ph"><i class="pic" data-i="image"></i><span class="cbadge c-new"><i data-i="sparkle"></i> Yangi</span><span class="fav"><i data-i="heart"></i></span></div><div class="info"><div class="price">6 200 000 so'm</div><div class="ttl">Galaxy Book</div></div></div>
         </div>
       </section>
 
 
       <!-- ===== POST ===== -->
       <section class="screen" id="post">
-        <div class="appbar"><button class="back" onclick="go('home')"><i data-i="left"></i></button><span class="appttl">E'lon joylash</span></div>
+        <div class="appbar"><button class="back" onclick="backFromContext('home')"><i data-i="left"></i></button><span class="appttl">E'lon joylash</span></div>
         <div class="secttl">E'lon turini tanlang</div>
         <div class="seg">
           <div class="opt on" onclick="selOpt(this)"><div class="oi"><i data-i="user"></i></div><b>Shaxsiy e'lon</b><small>Yakka shaxs · bepul</small></div>
-          <div class="opt" onclick="selOpt(this)"><div class="oi"><i data-i="store"></i></div><b>Do'kon mahsuloti</b><small>Obuna kerak</small></div>
+          <div class="opt" onclick="selOpt(this)"><div class="oi"><i data-i="store"></i></div><b>Do'kon mahsuloti</b><small>Tasdiqlangan do'kon konteksti</small></div>
         </div>
         <div class="secttl">Rasmlar (1/5)</div>
         <div class="uploads"><div class="up f"><i data-i="camera"></i></div><div class="up"><i data-i="plus"></i></div><div class="up"><i data-i="plus"></i></div><div class="up"><i data-i="plus"></i></div></div>
@@ -590,7 +546,7 @@
 
       <!-- ===== MESSAGES ===== -->
       <section class="screen" id="msgs">
-        <div class="appbar"><span class="appttl">Xabarlar</span></div>
+        <div class="appbar"><button class="back" onclick="backFromContext('home')"><i data-i="left"></i></button><span class="appttl">Xabarlar</span></div>
         <div class="chatrow" onclick="go('chat')"><div class="av"><i data-i="smartphone"></i></div><div class="c"><b>TexnoMart</b><p>Assalomu alaykum, mahsulot bormi?</p></div><div><div class="t">10:24</div><span class="pill-n">2</span></div></div>
         <div class="chatrow" onclick="go('chat')"><div class="av"><i data-i="activity"></i></div><div class="c"><b>SportLine</b><p>Ha, sizga yetkazib beramiz</p></div><div class="t">Kecha</div></div>
         <div class="chatrow" onclick="go('chat')"><div class="av"><i data-i="sofa"></i></div><div class="c"><b>UyMakon</b><p>Rahmat, xaridingiz uchun!</p></div><div class="t">2 kun</div></div>
@@ -629,9 +585,9 @@
           <div><b style="font-size:17px;color:var(--ink)">Aziz Karimov</b><div class="meta">+998 90 *** ** 67</div>
           <div style="margin-top:7px"><span class="chip" style="font-size:11.5px">Profilni tahrirlash</span></div></div>
         </div>
-        <div class="promo" onclick="go('plans')"><i class="pi" data-i="store"></i><div><b>Do'kon oching</b><div style="font-size:12px;opacity:.92">Statistika, ko'proq mijoz, boost</div></div></div>
+        <div class="promo" onclick="alert('Do\'kon yaratish va tekshiruv oqimi (demo)')"><i class="pi" data-i="store"></i><div><b>Do'kon oching</b><div style="font-size:12px;opacity:.92">Mahsulot, qoldiq va murojaatlarni boshqaring</div></div></div>
         <div class="list">
-          <div class="row" onclick="go('shopmenu')"><span class="ri"><i data-i="store"></i></span> Mening do'konim <span class="chip" style="background:var(--brandSoft);color:var(--brand);font-weight:700;margin-left:8px">Premium</span> <i class="ar" data-i="right"></i></div>
+          <div class="row" onclick="go('shopmenu')"><span class="ri"><i data-i="store"></i></span> Do'kon konteksti: TexnoMart <span class="chip" style="background:var(--brandSoft);color:var(--brand);font-weight:700;margin-left:8px">Tasdiqlangan</span> <i class="ar" data-i="right"></i></div>
           <div class="row" onclick="go('search')"><span class="ri"><i data-i="list"></i></span> Mening e'lonlarim (8) <i class="ar" data-i="right"></i></div>
           <div class="row" onclick="go('fav')"><span class="ri"><i data-i="heart"></i></span> Saqlanganlar (24) <i class="ar" data-i="right"></i></div>
           <div class="row"><span class="ri"><i data-i="eye"></i></span> Ko'rilganlar tarixi <i class="ar" data-i="right"></i></div>
@@ -665,27 +621,27 @@
       <!-- ===== SHOP MENU ===== -->
       <section class="screen" id="shopmenu">
         <div class="appbar"><button class="back" onclick="go('profile')"><i data-i="left"></i></button><span class="appttl">Do'kon boshqaruvi</span></div>
-        <div class="subbar"><div><small>TexnoMart · Premium</small><br><b>18 kun qoldi</b></div><button onclick="go('plans')">Uzaytirish</button></div>
+        <div class="subbar"><div><small>TexnoMart · Tasdiqlangan</small><br><b>Pilot entitlement: faol</b></div><button onclick="go('shop')">Ko'rish</button></div>
         <div class="grp">Asosiy</div>
         <div class="list">
           <div class="row" onclick="go('dash')"><span class="ri"><i data-i="grid"></i></span> Dashboard <i class="ar" data-i="right"></i></div>
           <div class="row" onclick="go('products')"><span class="ri"><i data-i="box"></i></span> Mahsulotlar <span class="rb">124</span> <i class="ar" data-i="right" style="margin-left:8px"></i></div>
-          <div class="row" onclick="go('orders')"><span class="ri"><i data-i="inbox"></i></span> So'rovlar / Buyurtmalar <span class="pill-n">5</span></div>
+          <div class="row" onclick="go('leads')"><span class="ri"><i data-i="inbox"></i></span> Murojaatlar <span class="pill-n">5</span></div>
           <div class="row" onclick="go('dash')"><span class="ri"><i data-i="chart"></i></span> Statistika / Analitika <i class="ar" data-i="right"></i></div>
         </div>
         <div class="grp">Sotuv va marketing</div>
         <div class="list">
           <div class="row" onclick="go('inventory')"><span class="ri"><i data-i="layers"></i></span> Ombor / Qoldiq <i class="ar" data-i="right"></i></div>
-          <div class="row" onclick="go('promo')"><span class="ri"><i data-i="gift"></i></span> Promokod / Aksiya <i class="ar" data-i="right"></i></div>
-          <div class="row" onclick="go('boost')"><span class="ri"><i data-i="rocket"></i></span> Reklama / Boost <i class="ar" data-i="right"></i></div>
+          <div class="row" onclick="go('promo')"><span class="ri"><i data-i="gift"></i></span> Aksiya / Kampaniya (P1) <i class="ar" data-i="right"></i></div>
+          <div class="row" onclick="go('boost')"><span class="ri"><i data-i="rocket"></i></span> Reklama / Boost (P1) <i class="ar" data-i="right"></i></div>
           <div class="row" onclick="go('msgs')"><span class="ri"><i data-i="message"></i></span> Xabarlar / Mijozlar <span class="pill-n">2</span></div>
-          <div class="row" onclick="go('reviews')"><span class="ri"><i data-i="star"></i></span> Sharhlar va reyting <span class="rb">4.8 · 213</span> <i class="ar" data-i="right" style="margin-left:8px"></i></div>
+          <div class="row" onclick="go('reviews')"><span class="ri"><i data-i="star"></i></span> Sharhlar va reyting (P1) <span class="rb">4.8 · 213</span> <i class="ar" data-i="right" style="margin-left:8px"></i></div>
         </div>
         <div class="grp">Hisob va sozlamalar</div>
         <div class="list">
-          <div class="row" onclick="go('plans')"><span class="ri"><i data-i="card"></i></span> Obuna va to'lovlar <i class="ar" data-i="right"></i></div>
-          <div class="row" onclick="alert('Moliyaviy hisobot (demo)')"><span class="ri"><i data-i="file"></i></span> Moliyaviy hisobot <i class="ar" data-i="right"></i></div>
-          <div class="row" onclick="go('shopsettings')"><span class="ri"><i data-i="sliders"></i></span> Do'kon sozlamalari <i class="ar" data-i="right"></i></div>
+          <div class="row" onclick="go('plans')"><span class="ri"><i data-i="card"></i></span> Obuna va to'lovlar (P1) <i class="ar" data-i="right"></i></div>
+          <div class="row" onclick="alert('Obuna va reklama tarixi (demo)')"><span class="ri"><i data-i="file"></i></span> Obuna va reklama tarixi <i class="ar" data-i="right"></i></div>
+          <div class="row" onclick="alert('Do\'kon sozlamalari (demo)')"><span class="ri"><i data-i="sliders"></i></span> Do'kon sozlamalari <i class="ar" data-i="right"></i></div>
           <div class="row" onclick="alert('Xodimlar (demo)')"><span class="ri"><i data-i="users"></i></span> Xodimlar / Rollar <i class="ar" data-i="right"></i></div>
           <div class="row" onclick="alert('Yordam (demo)')"><span class="ri"><i data-i="help"></i></span> Yordam <i class="ar" data-i="right"></i></div>
         </div>
@@ -694,13 +650,13 @@
       <!-- ===== DASHBOARD ===== -->
       <section class="screen" id="dash">
         <div class="appbar"><button class="back" onclick="go('shopmenu')"><i data-i="left"></i></button><span class="appttl">Dashboard</span><span class="sp"></span><button class="iconbtn" onclick="go('shopmenu')"><i data-i="menu"></i></button></div>
-        <div class="subbar"><div><small>Obuna: Premium</small><br><b>18 kun qoldi</b></div><button onclick="go('plans')">Uzaytirish</button></div>
+        <div class="subbar"><div><small>Do'kon: TexnoMart</small><br><b>Pilot entitlement: faol</b></div><button onclick="go('shop')">Ko'rish</button></div>
         <div class="grp" style="padding-top:12px">Tezkor amallar</div>
         <div class="qact">
           <div class="qa" onclick="go('post')"><div class="qi"><i data-i="plus"></i></div><span>Mahsulot</span></div>
-          <div class="qa" onclick="go('orders')"><div class="qi"><i data-i="inbox"></i></div><span>So'rovlar</span></div>
-          <div class="qa" onclick="go('boost')"><div class="qi"><i data-i="rocket"></i></div><span>Boost</span></div>
-          <div class="qa" onclick="go('promo')"><div class="qi"><i data-i="gift"></i></div><span>Aksiya</span></div>
+          <div class="qa" onclick="go('leads')"><div class="qi"><i data-i="inbox"></i></div><span>So'rovlar</span></div>
+          <div class="qa" onclick="go('boost')"><div class="qi"><i data-i="rocket"></i></div><span>Boost (P1)</span></div>
+          <div class="qa" onclick="go('promo')"><div class="qi"><i data-i="gift"></i></div><span>Aksiya (P1)</span></div>
           <div class="qa" onclick="go('inventory')"><div class="qi"><i data-i="layers"></i></div><span>Ombor</span></div>
         </div>
         <div class="grp">Bu hafta</div>
@@ -751,9 +707,9 @@
         <div class="plan"><h4>Banner reklama</h4><div class="p">50 000 <small>so'm / 7 kun</small></div><ul><li><i data-i="check"></i> Bosh sahifa bannerida</li><li><i data-i="check"></i> Maksimal qamrov</li></ul><button class="btn btn-out" style="width:100%;margin-top:11px" onclick="alert('Banner (demo)')">Tanlash</button></div>
       </section>
 
-      <!-- ===== ORDERS ===== -->
-      <section class="screen" id="orders">
-        <div class="appbar"><button class="back" onclick="go('shopmenu')"><i data-i="left"></i></button><span class="appttl">So'rovlar / Buyurtmalar</span></div>
+      <!-- ===== LEADS ===== -->
+      <section class="screen" id="leads">
+        <div class="appbar"><button class="back" onclick="go('shopmenu')"><i data-i="left"></i></button><span class="appttl">Murojaatlar</span></div>
         <div class="chips" style="padding:13px 18px 4px"><span class="chip" style="background:var(--brand);color:#fff">Yangi 5</span><span class="chip">Jarayonda 3</span><span class="chip">Yakunlangan 41</span></div>
         <div class="prow"><div class="im"><i data-i="image"></i></div><div style="flex:1"><b style="font-size:13px;color:var(--ink)">Samsung A54 — so'rov</b><div class="meta">Aziz K. · "Bormi? Narxi?"</div></div><span class="st" style="color:var(--accent)"><span class="dot"></span>Yangi</span></div>
         <div class="prow"><div class="im"><i data-i="image"></i></div><div style="flex:1"><b style="font-size:13px;color:var(--ink)">Galaxy Watch — so'rov</b><div class="meta">Dilnoza R. · "Yetkazib berasizmi?"</div></div><span class="st" style="color:var(--accent)"><span class="dot"></span>Yangi</span></div>
@@ -780,15 +736,15 @@
         <div class="appbar"><button class="back" onclick="go('shopmenu')"><i data-i="left"></i></button><span class="appttl">Promokod / Aksiya</span></div>
         <div class="grp">Faol aksiyalar</div>
         <div class="list">
-          <div style="padding:15px;border-bottom:1px solid var(--line)"><b style="font-size:14px;color:var(--ink)">Kuzgi chegirma -15%</b><div class="meta" style="margin-top:5px">Promokod: KUZ15 · 31-okt gacha · 42 marta ishlatilgan</div></div>
-          <div style="padding:15px"><b style="font-size:14px;color:var(--ink)">Bepul yetkazib berish</b><div class="meta" style="margin-top:5px">100 000 so'mdan yuqori xaridlarda · faol</div></div>
+          <div style="padding:15px;border-bottom:1px solid var(--line)"><b style="font-size:14px;color:var(--ink)">Kuzgi chegirma -15%</b><div class="meta" style="margin-top:5px">Promokod: KUZ15 · 31-okt gacha · 42 marta ko'rilgan</div></div>
+          <div style="padding:15px"><b style="font-size:14px;color:var(--ink)">Bepul yetkazib berish</b><div class="meta" style="margin-top:5px">100 000 so'mdan yuqori mahsulotlar uchun · faol</div></div>
         </div>
         <div style="padding:16px 18px"><button class="btn btn-brand" style="width:100%" onclick="alert('Yangi aksiya (demo)')"><i data-i="plus"></i> Yangi aksiya yaratish</button></div>
       </section>
 
       <!-- ===== PLANS ===== -->
       <section class="screen" id="plans">
-        <div class="appbar"><button class="back" onclick="go('profile')"><i data-i="left"></i></button><span class="appttl">Obuna tariflari</span></div>
+        <div class="appbar"><button class="back" onclick="backFromContext('profile')"><i data-i="left"></i></button><span class="appttl">Kelajak obuna tariflari (P1)</span></div>
         <div class="secttl" style="font-size:14px;color:var(--ink);font-weight:600">Do'kon ochib, ko'proq mijozga yeting</div>
         <div class="plan"><h4>Boshlang'ich</h4><div class="p">49 000 <small>so'm/oy</small></div><ul><li><i data-i="check"></i> 20 tagacha mahsulot</li><li><i data-i="check"></i> Asosiy statistika</li><li><i data-i="check"></i> Do'kon profili</li></ul></div>
         <div class="plan best"><span class="tg">OMMABOP</span><h4>Standart</h4><div class="p">99 000 <small>so'm/oy</small></div><ul><li><i data-i="check"></i> 100 tagacha mahsulot</li><li><i data-i="check"></i> To'liq statistika</li><li><i data-i="check"></i> Boost chegirmasi</li></ul></div>
@@ -882,14 +838,22 @@
       el.setAttribute('data-done','1');
     }
   }
+  var shopMode=false;
   function go(id){
+    if(id==='shopmenu'||id==='dash'||id==='products'||id==='leads'||id==='inventory')shopMode=true;
+    if(id==='profile'||id==='home')shopMode=false;
     var s=document.querySelectorAll('.screen'); for(var i=0;i<s.length;i++)s[i].classList.remove('active');
     var el=document.getElementById(id); if(el)el.classList.add('active');
     document.getElementById('vp').scrollTop=0;
-    var map={home:'n-home',categories:'n-search',search:'n-search',msgs:'n-msgs',chat:'n-msgs',profile:'n-profile',settings:'n-profile',dash:'n-profile',plans:'n-profile',fav:'n-home',shopmenu:'n-profile',products:'n-profile',reviews:'n-profile',boost:'n-profile',shopsettings:'n-profile',orders:'n-profile',inventory:'n-profile',promo:'n-profile',view3d:'n-home'};
+    var shopScreens=['shopmenu','dash','products','reviews','boost','leads','inventory','promo'];
+    var contextualShopScreens=['post','msgs','chat','plans'];
+    var isShopScreen=shopScreens.indexOf(id)>=0||(shopMode&&contextualShopScreens.indexOf(id)>=0);
+    document.querySelector('.nav').style.display=isShopScreen?'none':'flex';
+    var map={home:'n-home',categories:'n-search',search:'n-search',msgs:'n-msgs',chat:'n-msgs',profile:'n-profile',settings:'n-profile',plans:'n-profile',fav:'n-home'};
     var b=document.querySelectorAll('.nav button'); for(var j=0;j<b.length;j++)b[j].classList.remove('on');
     if(map[id])document.getElementById(map[id]).classList.add('on');
   }
+  function backFromContext(defaultId){go(shopMode?'shopmenu':defaultId);}
   function toggleTheme(){document.getElementById('phone').classList.toggle('dark');}
   function selOpt(el){var o=el.parentNode.querySelectorAll('.opt');for(var i=0;i<o.length;i++)o[i].classList.remove('on');el.classList.add('on');}
   function pick(el,grp){

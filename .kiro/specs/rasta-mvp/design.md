@@ -1,5 +1,7 @@
 # RASTA MVP — Texnik Dizayn (Design)
 
+> **Kanonik manba:** [RASTA_INFRATUZILMA_REJASI.md](../../../RASTA_INFRATUZILMA_REJASI.md). Ushbu hujjatdagi soddalashtirilgan MVP detali kanonik rejaga zid bo'lsa, kanonik reja ustuvor va bu spec implementatsiyadan oldin yangilanadi.
+
 ## Umumiy ko'rinish
 
 RASTA MVP — web ilova (Next.js), Supabase backend bilan. Maqsad: tez ishga tushirish, bepul jonli preview (Vercel) va kelajakda mobil (Flutter) ga kengaytirish imkoni.
@@ -68,19 +70,30 @@ profiles (
   id uuid PK references auth.users,
   phone text,
   name text,
-  role text,            -- 'buyer' | 'seller' | 'admin'
+  locale text default 'uz-Latn',
   created_at timestamptz
 )
 
-shops (
+stores (
   id uuid PK,
-  owner_id uuid FK -> profiles,
+  created_by uuid FK -> profiles,
   name text, logo_url text, banner_url text,
   description text, address text, region text,
   working_hours text, contact text,
   verified bool default false,
   rating numeric default 0,
   created_at timestamptz
+)
+
+store_memberships (
+  id uuid PK,
+  store_id uuid FK -> stores,
+  user_id uuid FK -> profiles,
+  role text,            -- 'owner' | 'manager' | 'catalog_manager' | 'support'
+  permissions jsonb,
+  status text,
+  UNIQUE (store_id, user_id)
+  -- Har bir store uchun aynan bitta active owner membership DB invariant bilan kafolatlanadi.
 )
 
 plans (
@@ -93,7 +106,7 @@ plans (
 
 subscriptions (
   id uuid PK,
-  shop_id uuid FK -> shops,
+  store_id uuid FK -> stores,
   plan_id int FK -> plans,
   status text,          -- 'active' | 'expired' | 'trial'
   start_at timestamptz, end_at timestamptz
@@ -103,18 +116,29 @@ categories (
   id serial PK, parent_id int, name text, icon text, slug text
 )
 
+attribute_definitions (
+  id uuid PK, name text, data_type text, unit text, validation jsonb
+)
+
+category_attributes (
+  category_id int FK -> categories,
+  attribute_id uuid FK -> attribute_definitions,
+  required bool default false
+)
+
 listings (
   id uuid PK,
-  owner_id uuid FK -> profiles,
-  shop_id uuid FK -> shops NULL,    -- NULL = bepul e'lon
-  type text,            -- 'free_ad' | 'shop_product'
+  personal_owner_id uuid FK -> profiles NULL,
+  created_by uuid FK -> profiles,
+  store_id uuid FK -> stores NULL,
+  type text,            -- 'personal_listing' | 'store_product'
   category_id int FK -> categories,
   title text, description text,
   price bigint, currency text default 'UZS',
   is_negotiable bool,
   condition text,       -- 'new' | 'used'
   region text,
-  status text,          -- 'pending' | 'active' | 'paused' | 'expired'
+  status text,          -- 'draft' | 'submitted' | 'under_review' | 'active' | 'rejected' | 'paused' | 'expired'
   views_count int default 0,
   expires_at timestamptz,
   created_at timestamptz
@@ -122,6 +146,14 @@ listings (
 
 listing_images (
   id uuid PK, listing_id uuid FK, url text, position int
+)
+
+product_variants (
+  id uuid PK, listing_id uuid FK, sku text, attributes jsonb, price bigint
+)
+
+inventory_levels (
+  id uuid PK, variant_id uuid FK, store_location_id uuid, quantity int
 )
 
 favorites (
@@ -140,21 +172,21 @@ messages (
 
 reports (
   id uuid PK, reporter_id uuid FK,
-  target_type text,     -- 'listing' | 'shop' | 'user'
+  target_type text,     -- 'listing' | 'store' | 'user' | 'chat'
   target_id uuid, reason text,
   status text default 'open', created_at timestamptz
 )
 
 events (   -- statistika uchun
   id bigserial PK, type text,   -- 'view' | 'contact' | 'favorite'
-  listing_id uuid, shop_id uuid, user_id uuid, created_at timestamptz
+  listing_id uuid, store_id uuid, user_id uuid, created_at timestamptz
 )
 ```
 
 ### Xavfsizlik (RLS — Row Level Security)
 - `profiles`: foydalanuvchi faqat o'z profilini tahrirlaydi.
-- `listings`: hamma faol e'lonni o'qiydi; faqat egasi yaratadi/tahrirlaydi.
-- `shops`: faqat egasi tahrirlaydi.
+- `listings`: hamma faqat moderatsiyadan o'tgan faol listingni o'qiydi; shaxsiy e'lonni egasi, do'kon mahsulotini permissionli membership yaratadi/tahrirlaydi.
+- `stores`: faqat tegishli permissionga ega faol `store_memberships` a'zosi tahrirlaydi; barcha store write so'rovlari `store_id` bo'yicha tenant tekshiruvdan o'tadi.
 - `messages`/`chats`: faqat ishtirokchilar ko'radi.
 - `favorites`: faqat egasi.
 
@@ -183,11 +215,13 @@ events (   -- statistika uchun
 
 ## Asosiy oqimlar (flows)
 
-**E'lon joylash:** Login → Joylash (+) → tur tanlash (bepul/do'kon) → forma → rasm yuklash (Storage) → saqlash (status: pending/active) → Mening e'lonlarim.
+**E'lon joylash:** Login → Joylash (+) → tur tanlash (shaxsiy/do'kon) → forma → rasm yuklash → `draft` → `submitted` → `under_review` → moderator tasdig'idan keyin `active` → Mening e'lonlarim.
 
 **Sotuvchiga bog'lanish:** Mahsulot sahifasi → "Xabar yozish" → (login tekshiruv) → chat yaratish/ochish → realtime xabarlar. Yoki "Bog'lanish" → telefon. Har ikkisi `events` ga `contact` yozadi (statistika).
 
-**Obuna:** Profil → "Do'kon oching" → Tariflar → tarif tanlash → to'lov (MVP stub) → do'kon yaratish/faollashtirish → Dashboard.
+**Do'kon ochish (P0):** Profil → "Do'kon oching" → do'kon ma'lumotlari → tekshiruv → trial/manual entitlement → Dashboard. Tarif va real to'lov do'kon ochishga gate emas.
+
+**Obuna (P1):** Faol do'kon → Tariflar → RASTA xizmat to'lovi → signed/idempotent webhook → entitlement yangilanishi.
 
 ## Texnik qarorlar va asoslari
 
@@ -195,4 +229,4 @@ events (   -- statistika uchun
 2. **Next.js App Router** — SEO muhim (do'kon/mahsulot sahifalari Google'da topilishi kerak).
 3. **RLS** — xavfsizlikni DB darajasida ta'minlaydi.
 4. **events jadvali** — statistika uchun oddiy, kelajakda ClickHouse'ga ko'chiriladi.
-5. **To'lov MVP'da stub** — Payme/Click integratsiyasi murakkab va litsenziya talab qiladi; avval interfeys, keyin to'liq integratsiya.
+5. **Pilot entitlement** — P0 da trial/manual entitlement; real Payme/Click/Uzum integratsiyasi faqat muvaffaqiyatli pilotdan keyingi P1 bosqichida.
