@@ -28,10 +28,11 @@ Bozorlar, supermarketlar va barcha turdagi sotuvchilar o'z do'konlarini ochib, m
 
 > **Texnologiya (MVP):** Next.js + TypeScript + Tailwind + Supabase/PostgreSQL. Aniq versiyalar implementatsiya boshlanganda amaldagi barqaror/LTS relizlarga pin qilinadi.
 
-### Interaktiv prototip (ilova ko'rinishi)
+### Interaktiv prototiplar (ilova ko'rinishi)
 
-- **[prototype/index.html](./prototype/index.html)** — ilovaning interaktiv demo ko'rinishi: professional SVG ikonkalar, aniq kategoriya gridi, professional do'kon storefronti, do'kon/shaxsiy e'lon va Yangi/Ishlatilgan ajratilishi, kengaytirilgan do'kon boshqaruvi va dark mode.
-- **Ko'rish:** [htmlpreview orqali oching](https://htmlpreview.github.io/?https://github.com/xudush92-cmd/RASTA/blob/main/prototype/index.html) yoki faylni yuklab olib brauzerda oching.
+- **[prototype/app-demo.html](./prototype/app-demo.html)** ⭐ — yangi polished namuna: responsive xaridor katalogi, do'kon vitrinasida ichki qidiruv, batafsil mahsulot/variantlar va alohida do'kon dashboardi (mahsulotlar, SKU/qoldiq, murojaatlar, mahsulot preview).
+- **[Yangi namunani brauzerda ko'rish](https://htmlpreview.github.io/?https://github.com/xudush92-cmd/RASTA/blob/main/prototype/app-demo.html)** — desktop yoki telefonda ochiladi.
+- **[prototype/index.html](./prototype/index.html)** — dastlabki keng ekranlar xaritasi va click-demo.
 
 ## Asosiy model
 
