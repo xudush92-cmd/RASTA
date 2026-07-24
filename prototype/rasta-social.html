@@ -90,6 +90,9 @@ img,.ph{display:block}
 .cat-card.on .cat-img{border-color:var(--brand);box-shadow:0 0 0 3px rgba(12,155,136,.14)}
 .cat-card small{font-size:10px;font-weight:700;display:block;line-height:1.15}
 .cat-card.on small{color:var(--brand)}
+.sub-bar{margin:0 0 14px}
+.sub-pill{height:32px;font-size:12px}
+.sub-pill.on{background:var(--brand);border-color:var(--brand);color:#fff}
 .post-actions{display:flex;align-items:center;gap:16px;padding:11px 13px 6px}
 .act{color:var(--ink);transition:.12s}.act:hover{color:var(--muted)}.act.liked{color:var(--accent)}.act.liked svg{fill:var(--accent)}
 .act.saved{color:var(--ink)}.act.saved svg{fill:var(--ink)}
@@ -476,7 +479,7 @@ td{padding:12px 15px;border-top:1px solid var(--soft);font-size:11.5px}
   .mb-profile .ava{border:2px solid var(--surface)}
   .mb-profile.on .ava{box-shadow:0 0 0 2px var(--brand)}
   .stories{padding:10px 14px 16px}
-  .feed-cats,.cat-row{padding-left:14px;padding-right:14px}
+  .feed-cats,.cat-row,.sub-bar{padding-left:14px;padding-right:14px}
   .explore{gap:2px}
   .profile{padding:0 0 84px}
   .pf-top{padding:18px 16px 20px;gap:20px;align-items:center}
@@ -572,7 +575,8 @@ function art(kind,color,bg){
   car:`<path d="M26 80l8-25a11 11 0 0 1 10-8h44a11 11 0 0 1 10 8l8 25v20a4 4 0 0 1-4 4h-8a4 4 0 0 1-4-4v-3H42v3a4 4 0 0 1-4 4h-8a4 4 0 0 1-4-4V80Z" fill="${color}"/><path d="M42 55h52l6 21H36l6-21Z" fill="#dff0ee" opacity=".9"/><circle cx="46" cy="92" r="6" fill="#1c2831"/><circle cx="90" cy="92" r="6" fill="#1c2831"/>`,
   all:`<rect x="26" y="26" width="37" height="37" rx="9" fill="#0c9b88"/><rect x="73" y="26" width="37" height="37" rx="9" fill="#f5633c"/><rect x="26" y="73" width="37" height="37" rx="9" fill="#3f74d6"/><rect x="73" y="73" width="37" height="37" rx="9" fill="#d09220"/>`,
   tshirt:`<path d="M50 24 34 34l-12 16 14 10 6-6v46h52V54l6 6 14-10-12-16-16-10c-4 6-32 6-36 0Z" fill="${color}"/>`,
-  food:`<circle cx="68" cy="70" r="40" fill="${color}"/><path d="M40 66h56a28 28 0 0 1-56 0Z" fill="#fff" opacity=".85"/><rect x="64" y="20" width="8" height="26" rx="4" fill="#8a5a2b"/>`
+  food:`<circle cx="68" cy="70" r="40" fill="${color}"/><path d="M40 66h56a28 28 0 0 1-56 0Z" fill="#fff" opacity=".85"/><rect x="64" y="20" width="8" height="26" rx="4" fill="#8a5a2b"/>`,
+  torch:`<rect x="50" y="58" width="36" height="62" rx="7" fill="${color}"/><path d="M50 58 42 34h52l-8 24Z" fill="${color}"/><rect x="48" y="30" width="40" height="9" rx="4" fill="#f4d06a"/><rect x="60" y="66" width="16" height="7" rx="3" fill="#dfe8e6"/><path d="M68 6v12M50 12l6 9M86 12l-6 9" stroke="#f4d06a" stroke-width="5" stroke-linecap="round"/>`
  };
  return `<svg class="art" viewBox="0 0 136 136" preserveAspectRatio="xMidYMid meet" style="background:${bg||'#eef3f2'}">${g[kind]||g.phone}</svg>`;
 }
@@ -598,26 +602,31 @@ const products=[
  {id:10,title:'2 xonali kvartira, 62 m²',price:'480 000 000',store:'uymakon',type:'store',cond:'Sotuvda',stock:'1 obyekt',area:'Yunusobod',kind:'house',color:'#3f74d6',bg:'#e8eefb',likes:132,time:'bugun'},
  {id:11,title:'Santexnika ustasi xizmati',price:'Kelishiladi',store:null,seller:'usta_akmal',type:'personal',cond:'Xizmat',stock:'Buyurtma qabul qilinadi',area:'Toshkent',kind:'wrench',color:'#2f8fb0',bg:'#e4f0f4',likes:57,time:'2 soat oldin'},
  {id:12,title:'Vitamin C 1000mg, 30 tabletka',price:'45 000',store:'dorimed',type:'store',cond:'Yangi',stock:'120 dona',area:'Chilonzor',kind:'pill',color:'#1f9d57',bg:'#e6f6ec',likes:88,time:'kecha'},
- {id:13,title:'Tabiiy tog‘ asali, 1 kg',price:'95 000',store:null,seller:'asal_uz',type:'personal',cond:'Yangi',stock:'8 dona',area:'Parkent',kind:'honey',color:'#d09220',bg:'#fff3d9',likes:143,time:'kecha'}
+ {id:13,title:'Tabiiy tog‘ asali, 1 kg',price:'95 000',store:null,seller:'asal_uz',type:'personal',cond:'Yangi',stock:'8 dona',area:'Parkent',kind:'honey',color:'#d09220',bg:'#fff3d9',likes:143,time:'kecha'},
+ {id:14,title:'Ijaraga 1 xonali kvartira',price:'4 500 000',store:'uymakon',type:'store',cond:'Ijara',stock:'1 obyekt',area:'Chilonzor',kind:'house',color:'#5b7fd6',bg:'#eaf0fc',likes:76,time:'bugun'},
+ {id:15,title:'Akkumulyatorli LED fonar',price:'120 000',store:'ustamarket',type:'store',cond:'Yangi',stock:'30 dona',area:'Olmazor',kind:'torch',color:'#3a4655',bg:'#eef1f5',likes:41,time:'kecha'}
 ];
-const groups={1:'Elektronika',2:'Elektronika',3:'Uy-ro‘zg‘or',4:'Qurilish',5:'Kiyim',6:'Uy-ro‘zg‘or',7:'Elektronika',8:'Kiyim',9:'Elektronika',10:'Ko‘chmas mulk',11:'Xizmatlar',12:'Apteka',13:'Oziq-ovqat'};
-const kw={1:'telefon samsung android smartfon galaxy',2:'quloqchin naushnik simsiz bluetooth audio',3:'kreslo stul mebel divan',4:'drel asbob shurupavert qurilish',5:'krossovka poyabzal nike sport oyoq kiyim',6:'qahva kofe mashina barista',7:'soat aqlli smart watch galaxy',8:'sumka teri ayollar aksessuar',9:'kolonka audio dinamik bluetooth',10:'kvartira uy ko‘chmas mulk yunusobod 2 xona sotuv',11:'usta santexnik truba kran ta‘mir xizmat',12:'dori vitamin apteka immunitet tabletka',13:'asal tabiiy tog‘ parkent oziq ovqat'};
+const groups={1:'Elektronika',2:'Elektronika',3:'Uy-ro‘zg‘or',4:'Qurilish',5:'Kiyim',6:'Uy-ro‘zg‘or',7:'Elektronika',8:'Kiyim',9:'Elektronika',10:'Ko‘chmas mulk',11:'Xizmatlar',12:'Apteka',13:'Oziq-ovqat',14:'Ko‘chmas mulk',15:'Qurilish'};
+const kw={1:'telefon samsung android smartfon galaxy',2:'quloqchin naushnik simsiz bluetooth audio',3:'kreslo stul mebel divan',4:'drel asbob shurupavert qurilish',5:'krossovka poyabzal nike sport oyoq kiyim',6:'qahva kofe mashina barista',7:'soat aqlli smart watch galaxy',8:'sumka teri ayollar aksessuar',9:'kolonka audio dinamik bluetooth',10:'kvartira uy ko‘chmas mulk yunusobod 2 xona sotuv',11:'usta santexnik truba kran ta‘mir xizmat',12:'dori vitamin apteka immunitet tabletka',13:'asal tabiiy tog‘ parkent oziq ovqat',14:'ijaraga ijara kvartira uy arenda 1 xona chilonzor',15:'fonar fonarik chiroq led fonus qurilish'};
 const priceText=v=>/\d/.test(v||'')?v+' so‘m':(v||'Kelishiladi');
 const cats=[['Barchasi','grid'],['Elektronika','phone'],['Ko‘chmas mulk','pin'],['Xizmatlar','sliders'],['Apteka','shield'],['Oziq-ovqat','shop'],['Kiyim','tag'],['Uy-ro‘zg‘or','box'],['Qurilish','layers']];
 const catArt={'Barchasi':{kind:'all',color:'#0c9b88',bg:'#eef2f1'},'Elektronika':{kind:'phone',color:'#26384a',bg:'#e7f1f2'},'Ko‘chmas mulk':{kind:'house',color:'#3f74d6',bg:'#e8eefb'},'Xizmatlar':{kind:'wrench',color:'#2f8fb0',bg:'#e4f0f4'},'Apteka':{kind:'pill',color:'#1f9d57',bg:'#e6f6ec'},'Oziq-ovqat':{kind:'food',color:'#e0a53c',bg:'#fff3d9'},'Kiyim':{kind:'tshirt',color:'#b0506a',bg:'#fbeaf0'},'Uy-ro‘zg‘or':{kind:'chair',color:'#5a7550',bg:'#eaf1e7'},'Qurilish':{kind:'drill',color:'#d09220',bg:'#fff3d9'}};
 function catCard(c){const a=catArt[c]||{kind:'all',bg:'#eef2f1'};const on=S.cat===c;return `<button class="cat-card ${on?'on':''}" data-cat="${c}"><span class="cat-img" style="background:${a.bg}">${art(a.kind,a.color,a.bg)}</span><small>${c}</small></button>`}
+function subOptions(cat){return {'Ko‘chmas mulk':['Sotuv','Ijara'],'Elektronika':['Telefonlar','Audio','Soatlar'],'Kiyim':['Poyabzal','Sumka'],'Uy-ro‘zg‘or':['Mebel','Oshxona']}[cat]||[]}
+function subOf(p){const g=groups[p.id];if(g==='Ko‘chmas mulk')return p.cond==='Ijara'?'Ijara':'Sotuv';if(g==='Elektronika')return {phone:'Telefonlar',buds:'Audio',watch:'Soatlar'}[p.kind]||'';if(g==='Kiyim')return {shoe:'Poyabzal',bag:'Sumka'}[p.kind]||'';if(g==='Uy-ro‘zg‘or')return {coffee:'Oshxona',chair:'Mebel'}[p.kind]||'';return ''}
+function subBar(){const opts=subOptions(S.cat);if(!opts.length)return '';return `<div class="chips sub-bar">${['Hammasi',...opts].map(o=>`<button class="pill sub-pill ${(S.sub||'Hammasi')===o?'on':''}" data-sub="${o==='Hammasi'?'':o}">${o}</button>`).join('')}</div>`}
 const pById=id=>products.find(p=>p.id===id);
 const sOf=p=>p.store?stores[p.store]:{title:p.seller,color:'#7a8690',cat:p.area,verified:false,followers:'—',products:'—',rating:'—'};
 function avatar(s,cls='ava'){const st=typeof s==='string'?(stores[s]||{title:s,color:'#7a8690'}):s;return `<span class="${cls}" style="background:${st.color}">${st.title[0].toUpperCase()}</span>`}
 function ringAva(s,cls='ava ring'){const st=typeof s==='string'?(stores[s]||{title:s,color:'#7a8690'}):s;return `<span class="${cls}"><span style="background:${st.color}">${st.title[0].toUpperCase()}</span></span>`}
 function vmark(on){return on?`<span class="verified">${I('shield','')}</span>`:''}
-let S={screen:'feed',mode:'buyer',liked:new Set([3]),saved:new Set([7]),following:new Set(['texnomart']),subscribed:new Set(['texnomart']),q:'',storeView:'texnomart',variant:'256 GB',pstatus:'all',lead:'Aziz K.',ctitle:'Samsung Galaxy A54 256GB',cprice:'3 200 000',reelStart:0,prevScreen:'feed',pfTab:'products',cat:'Barchasi',reelCat:'Barchasi',ctype:'product',cdeal:'Sotuv',ccond:'Yangi',csvc:'Kelishiladi',ckeywords:'telefon, samsung, android, smartfon',selectedProducts:new Set([1,7]),editingProduct:null,promoTab:'active',promoType:'Chegirma'};
+let S={screen:'feed',mode:'buyer',liked:new Set([3]),saved:new Set([7]),following:new Set(['texnomart']),subscribed:new Set(['texnomart']),q:'',storeView:'texnomart',variant:'256 GB',pstatus:'all',lead:'Aziz K.',ctitle:'Samsung Galaxy A54 256GB',cprice:'3 200 000',reelStart:0,prevScreen:'feed',pfTab:'products',cat:'Barchasi',sub:'',reelCat:'Barchasi',ctype:'product',cdeal:'Sotuv',ccond:'Yangi',csvc:'Kelishiladi',ckeywords:'telefon, samsung, android, smartfon',selectedProducts:new Set([1,7]),editingProduct:null,promoTab:'active',promoType:'Chegirma'};
 let notifs=[
  {store:'texnomart',pid:7,text:'yangi mahsulot joyladi: Galaxy Watch 6',time:'2 soat oldin',unread:true,type:'post'},
  {store:'audiohouse',pid:2,text:'yangi mahsulot joyladi: ProSound X2',time:'5 soat oldin',unread:true,type:'post'},
  {store:'makonmebel',pid:3,text:'narxni yangiladi: Skandinav kreslo',time:'kecha',unread:false,type:'price'}
 ];
-const specs={1:[['SKU','SM-A54-256-GR'],['Kafolat','12 oy'],['Ekran','6.4” AMOLED'],['Xotira','256 GB'],['Holati','Yangi']],2:[['SKU','PS-X2-BLK'],['Ulanish','Bluetooth 5.3'],['Ishlash','28 soat'],['Holati','Yangi']],3:[['SKU','SC-CHAIR-01'],['Material','Yong‘oq + mato'],['Kafolat','24 oy'],['Holati','Yangi']],4:[['SKU','DR-21V'],['Quvvat','21V'],['Kafolat','6 oy'],['Holati','Yangi']],5:[['Holati','Ishlatilgan'],['O‘lcham','42'],['Egasi','Shaxsiy sotuvchi']],6:[['SKU','BR-MINI-01'],['Bosim','15 bar'],['Kafolat','12 oy'],['Holati','Yangi']],7:[['SKU','GW6-44'],['Ekran','1.5” AMOLED'],['Kafolat','12 oy'],['Holati','Yangi']],8:[['Holati','Yangi'],['Material','Tabiiy teri'],['Egasi','Shaxsiy sotuvchi']],9:[['SKU','BG-40W'],['Quvvat','40W'],['Kafolat','12 oy'],['Holati','Yangi']],10:[['Xonalar','2'],['Maydon','62 m²'],['Qavat','4/9'],['Holati','Ta‘mirli'],['Turi','Sotuv']],11:[['Xizmat turi','Santexnika'],['Tajriba','8 yil'],['Hudud','Toshkent bo‘ylab'],['To‘lov','Ish hajmiga qarab']],12:[['Ishlab chiqaruvchi','PharmaUZ'],['Dozasi','1000 mg'],['Miqdori','30 tabletka'],['Retsept','Talab etilmaydi']],13:[['Tur','Tog‘ asali'],['Og‘irligi','1 kg'],['Yig‘ilgan','2026'],['Qadoq','Shisha idish']]};
+const specs={1:[['SKU','SM-A54-256-GR'],['Kafolat','12 oy'],['Ekran','6.4” AMOLED'],['Xotira','256 GB'],['Holati','Yangi']],2:[['SKU','PS-X2-BLK'],['Ulanish','Bluetooth 5.3'],['Ishlash','28 soat'],['Holati','Yangi']],3:[['SKU','SC-CHAIR-01'],['Material','Yong‘oq + mato'],['Kafolat','24 oy'],['Holati','Yangi']],4:[['SKU','DR-21V'],['Quvvat','21V'],['Kafolat','6 oy'],['Holati','Yangi']],5:[['Holati','Ishlatilgan'],['O‘lcham','42'],['Egasi','Shaxsiy sotuvchi']],6:[['SKU','BR-MINI-01'],['Bosim','15 bar'],['Kafolat','12 oy'],['Holati','Yangi']],7:[['SKU','GW6-44'],['Ekran','1.5” AMOLED'],['Kafolat','12 oy'],['Holati','Yangi']],8:[['Holati','Yangi'],['Material','Tabiiy teri'],['Egasi','Shaxsiy sotuvchi']],9:[['SKU','BG-40W'],['Quvvat','40W'],['Kafolat','12 oy'],['Holati','Yangi']],10:[['Xonalar','2'],['Maydon','62 m²'],['Qavat','4/9'],['Holati','Ta‘mirli'],['Turi','Sotuv']],11:[['Xizmat turi','Santexnika'],['Tajriba','8 yil'],['Hudud','Toshkent bo‘ylab'],['To‘lov','Ish hajmiga qarab']],12:[['Ishlab chiqaruvchi','PharmaUZ'],['Dozasi','1000 mg'],['Miqdori','30 tabletka'],['Retsept','Talab etilmaydi']],13:[['Tur','Tog‘ asali'],['Og‘irligi','1 kg'],['Yig‘ilgan','2026'],['Qadoq','Shisha idish']],14:[['Xonalar','1'],['Maydon','38 m²'],['Qavat','6/9'],['Turi','Ijara'],['To‘lov','oyiga']],15:[['Quvvat','LED 10W'],['Batareya','akkumulyatorli'],['Ishlash','8 soat'],['Holati','Yangi']]};
 function specRows(id){return (specs[id]||specs[1]).map(([k,v])=>`<div class="info-row"><span>${k}</span><b>${v}</b></div>`).join('')}
 const descs={
  1:'Rasmiy Samsung Galaxy A54 256GB, grafit rang. Barcha aksessuarlari va 12 oy rasmiy kafolat bilan. Do‘kondan olib ketish yoki yetkazib berish mavjud.',
@@ -632,7 +641,9 @@ const descs={
  10:'Yunusobodda 2 xonali kvartira, 62 m², 4/9 qavat. Ta‘mirli, mebel bilan. Rasmiy shartnoma orqali sotiladi.',
  11:'Malakali santexnika ustasi. Truba, kran, smesitel o‘rnatish va ta‘mirlash. 8 yil tajriba, Toshkent bo‘ylab chaqiruv.',
  12:'Vitamin C 1000mg, 30 tabletka. Immunitetni qo‘llab-quvvatlash uchun. Litsenziyalangan aptekadan, retseptsiz.',
- 13:'Parkent tog‘laridan tabiiy asal, 1 kg shisha idishda. 2026 yil hosili, qo‘shimchasiz.'
+ 13:'Parkent tog‘laridan tabiiy asal, 1 kg shisha idishda. 2026 yil hosili, qo‘shimchasiz.',
+ 14:'Chilonzorda 1 xonali kvartira ijaraga, 38 m², 6/9 qavat. Mebel va texnika bilan. Oylik to‘lov, uzoq muddatga.',
+ 15:'Akkumulyatorli LED fonar (fonarik), 10W. To‘liq zaryadda 8 soat ishlaydi. Qurilish va uy uchun qulay.'
 };
 const descOf=id=>descs[id]||descs[1];
 const reviews={
@@ -681,13 +692,13 @@ function mbottom(active){const items=[['feed','home'],['explore','compass'],['re
 function rrail(){const sug=['audiohouse','makonmebel','ustamarket'];return `<aside class="rrail"><div class="me"><span class="ava" style="background:var(--grad-cta)">AK</span><div><b>akmal_k</b><span>Akmal Karimov</span></div><button class="sugg" style="margin-left:auto;padding:0;color:var(--brand);font-weight:800;font-size:12px" data-mode="store">Kabinet</button></div><div class="rr-head"><b>Siz uchun do‘konlar</b><button data-go="explore">Barchasi</button></div>${sug.map(s=>{const st=stores[s];const f=S.following.has(s);return `<div class="sugg" data-store="${s}">${avatar(s)}<div><b>${st.title} ${vmark(st.verified)}</b><span>${st.cat}</span></div><button class="follow" data-follow="${s}">${f?'Kuzatilyapti':'Kuzatish'}</button></div>`}).join('')}<div class="rr-foot">RASTA · Katalog-marketplace<br>Ilova ichida to‘lov yo‘q · aloqa orqali<br>© 2026 RASTA</div></aside>`}
 function buyerShell(content,active,single){return `<div class="shell">${buyerRail(active)}<div class="main">${mtop()}<div class="feedwrap ${single?'single':''}"><div class="feedcol">${content}</div>${single?'':rrail()}</div>${mbottom(active)}</div></div>`}
 function pageShell(content,active){return `<div class="shell">${buyerRail(active)}<div class="main">${mtop()}<div class="page">${content}</div>${mbottom(active)}</div></div>`}
-function feed(){const list=products.filter(p=>S.cat==='Barchasi'||groups[p.id]===S.cat);
- const catsBar=`<div class="cat-row">${cats.map(([c])=>catCard(c)).join('')}</div>`;
+function feed(){const list=products.filter(p=>(S.cat==='Barchasi'||groups[p.id]===S.cat)&&(!S.sub||subOf(p)===S.sub));
+ const catsBar=`<div class="cat-row">${cats.map(([c])=>catCard(c)).join('')}</div>${subBar()}`;
  const posts=list.length?list.map(post).join(''):`<div class="empty" style="margin:14px"><span class="empty-ic">${I('search')}</span><h3>«${S.cat}» bo‘yicha e‘lon yo‘q</h3><p>Boshqa kategoriyani tanlang yoki «Barchasi» ni bosing.</p></div>`;
  return buyerShell(`${catsBar}${posts}`,'feed')}
 
-function explore(){const q=S.q.toLowerCase();let list=products.filter(p=>(S.cat==='Barchasi'||groups[p.id]===S.cat)&&(p.title.toLowerCase().includes(q)||sOf(p).title.toLowerCase().includes(q)||(kw[p.id]||'').includes(q)||groups[p.id].toLowerCase().includes(q)));
- return pageShell(`<div class="searchbar">${I('search')}<input id="exSearch" value="${S.q}" placeholder="Mahsulot, do‘kon, xizmat yoki kategoriya"></div><div class="chips cat-chips">${cats.map(([c,ci])=>`<button class="pill ${S.cat===c?'on':''}" data-cat="${c}">${I(ci)} ${c}</button>`).join('')}</div><div class="chips">${['Barchasi','Do‘kon e‘loni','Shaxsiy e‘lon','Yangi','Ishlatilgan'].map((c,i)=>`<button class="pill ${i===0?'on':''}" data-pill>${c}</button>`).join('')}</div>${list.length?`<div class="explore">${list.map(tile).join('')}</div>`:`<div class="empty"><span class="empty-ic">${I('search')}</span><h3>Natija topilmadi</h3><p>«${S.cat}» bo‘yicha boshqa nom yoki kategoriyani sinab ko‘ring.</p></div>`}`,'explore')}
+function explore(){const q=S.q.toLowerCase();let list=products.filter(p=>(S.cat==='Barchasi'||groups[p.id]===S.cat)&&(!S.sub||subOf(p)===S.sub)&&(p.title.toLowerCase().includes(q)||sOf(p).title.toLowerCase().includes(q)||(kw[p.id]||'').includes(q)||groups[p.id].toLowerCase().includes(q)));
+ return pageShell(`<div class="searchbar">${I('search')}<input id="exSearch" value="${S.q}" placeholder="Mahsulot, do‘kon, xizmat yoki kategoriya"></div><div class="chips cat-chips">${cats.map(([c,ci])=>`<button class="pill ${S.cat===c?'on':''}" data-cat="${c}">${I(ci)} ${c}</button>`).join('')}</div>${subBar()}<div class="chips">${['Barchasi','Do‘kon e‘loni','Shaxsiy e‘lon','Yangi','Ishlatilgan'].map((c,i)=>`<button class="pill ${i===0?'on':''}" data-pill>${c}</button>`).join('')}</div>${list.length?`<div class="explore">${list.map(tile).join('')}</div>`:`<div class="empty"><span class="empty-ic">${I('search')}</span><h3>Natija topilmadi</h3><p>«${S.cat}» bo‘yicha boshqa nom yoki kategoriyani sinab ko‘ring.</p></div>`}`,'explore')}
 function product(){const p=pById(1),s=sOf(p),saved=S.saved.has(p.id),liked=S.liked.has(p.id);
  const rel=products.filter(x=>x.id!==p.id&&groups[x.id]===groups[p.id]).concat(products.filter(x=>x.id!==p.id&&groups[x.id]!==groups[p.id])).slice(0,6);
  const moreStore=products.filter(x=>x.id!==p.id&&x.store===p.store).slice(0,3);
@@ -810,7 +821,8 @@ document.addEventListener('click',e=>{
  const ps=e.target.closest('[data-status]');if(ps){S.pstatus=ps.dataset.status;render();return}
  const ld=e.target.closest('[data-lead]');if(ld){S.lead=ld.dataset.lead;render();return}
  const qt=e.target.closest('[data-qty]');if(qt){const el=document.getElementById('q'+qt.dataset.row);el.textContent=Math.max(0,+el.textContent+ +qt.dataset.qty);toast('Qoldiq yangilandi · auditga yozildi');return}
- const cc=e.target.closest('[data-cat]');if(cc){S.cat=cc.dataset.cat;render();return}
+ const cc=e.target.closest('[data-cat]');if(cc){S.cat=cc.dataset.cat;S.sub='';render();return}
+ const sb=e.target.closest('[data-sub]');if(sb){S.sub=sb.dataset.sub;render();return}
  const pl=e.target.closest('[data-pill]');if(pl){pl.parentNode.querySelectorAll('.pill').forEach(x=>x.classList.remove('on'));pl.classList.add('on');toast('Filtr qo‘llandi');return}
  const tp=e.target.closest('[data-toast]');if(tp){toast(tp.dataset.toast);return}
 });
