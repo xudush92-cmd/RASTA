@@ -364,7 +364,15 @@ td{padding:12px 15px;border-top:1px solid var(--soft);font-size:11.5px}
 .reel-top{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:12px;padding:16px;z-index:5}
 .reel-top .rt-title{color:#fff;font-weight:800;font-size:16px}
 .reel-close{margin-left:auto;color:#fff;width:38px;height:38px;display:grid;place-items:center;background:rgba(255,255,255,.14);border-radius:12px;backdrop-filter:blur(6px)}
-.reel-badges{position:absolute;top:62px;left:16px;display:flex;gap:6px;z-index:5}
+.reel-badges{position:absolute;top:108px;left:16px;display:flex;gap:6px;z-index:5}
+.reel-cats{position:absolute;top:52px;left:0;right:0;z-index:9;display:flex;gap:7px;overflow-x:auto;padding:8px 14px;scrollbar-width:none}
+.reel-cats::-webkit-scrollbar{display:none}
+.reel-cat{flex:0 0 auto;height:32px;padding:0 14px;border-radius:18px;font-size:12px;font-weight:800;color:#fff;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(6px);white-space:nowrap}
+.reel-cat.on{background:#fff;color:#0b0b0f;border-color:#fff}
+.reel-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#fff;padding:30px}
+.reel-empty .reel-close{position:absolute;top:16px;right:16px}
+.reel-empty svg{width:44px;height:44px;opacity:.7;margin-bottom:10px}
+.reel-empty h3{font-size:16px}.reel-empty p{opacity:.7;font-size:12px;margin-top:4px}
 .reel-rail{position:absolute;right:12px;bottom:130px;display:flex;flex-direction:column;gap:20px;align-items:center;z-index:6}
 .reel-rail button{color:#fff;display:grid;place-items:center;gap:4px;font-size:11px;font-weight:700}
 .reel-rail .rr-ic{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.16);display:grid;place-items:center;backdrop-filter:blur(6px)}
@@ -585,7 +593,7 @@ const sOf=p=>p.store?stores[p.store]:{title:p.seller,color:'#7a8690',cat:p.area,
 function avatar(s,cls='ava'){const st=typeof s==='string'?(stores[s]||{title:s,color:'#7a8690'}):s;return `<span class="${cls}" style="background:${st.color}">${st.title[0].toUpperCase()}</span>`}
 function ringAva(s,cls='ava ring'){const st=typeof s==='string'?(stores[s]||{title:s,color:'#7a8690'}):s;return `<span class="${cls}"><span style="background:${st.color}">${st.title[0].toUpperCase()}</span></span>`}
 function vmark(on){return on?`<span class="verified">${I('shield','')}</span>`:''}
-let S={screen:'feed',mode:'buyer',liked:new Set([3]),saved:new Set([7]),following:new Set(['texnomart']),subscribed:new Set(['texnomart']),q:'',storeView:'texnomart',variant:'256 GB',pstatus:'all',lead:'Aziz K.',ctitle:'Samsung Galaxy A54 256GB',cprice:'3 200 000',reelStart:0,prevScreen:'feed',pfTab:'products',cat:'Barchasi',ctype:'product',cdeal:'Sotuv',ccond:'Yangi',csvc:'Kelishiladi',ckeywords:'telefon, samsung, android, smartfon',selectedProducts:new Set([1,7]),editingProduct:null,promoTab:'active',promoType:'Chegirma'};
+let S={screen:'feed',mode:'buyer',liked:new Set([3]),saved:new Set([7]),following:new Set(['texnomart']),subscribed:new Set(['texnomart']),q:'',storeView:'texnomart',variant:'256 GB',pstatus:'all',lead:'Aziz K.',ctitle:'Samsung Galaxy A54 256GB',cprice:'3 200 000',reelStart:0,prevScreen:'feed',pfTab:'products',cat:'Barchasi',reelCat:'Barchasi',ctype:'product',cdeal:'Sotuv',ccond:'Yangi',csvc:'Kelishiladi',ckeywords:'telefon, samsung, android, smartfon',selectedProducts:new Set([1,7]),editingProduct:null,promoTab:'active',promoType:'Chegirma'};
 let notifs=[
  {store:'texnomart',pid:7,text:'yangi mahsulot joyladi: Galaxy Watch 6',time:'2 soat oldin',unread:true,type:'post'},
  {store:'audiohouse',pid:2,text:'yangi mahsulot joyladi: ProSound X2',time:'5 soat oldin',unread:true,type:'post'},
@@ -714,8 +722,10 @@ function create(){
  return dashShell(`<div class="dintro"><div><h1>Yangi e‘lon</h1><p>Turini tanlang — forma o‘zi moslashadi</p></div></div>${typeSel}<div class="create"><section class="cpanel"><div class="steps"><div class="step on"><span class="step-n">1</span>Asosiy</div><i class="step-l"></i><div class="step"><span class="step-n">2</span>${step2}</div><i class="step-l"></i><div class="step"><span class="step-n">3</span>Media</div><i class="step-l"></i><div class="step"><span class="step-n">4</span>Preview</div></div><div class="fgrid">${fields}</div><div class="cactions"><button class="btn btn-line" style="flex:none;padding:0 16px" data-toast="Qoralama saqlandi">${I('save','i')} Qoralama</button><button class="btn btn-grad" style="flex:none;padding:0 18px" data-toast="Keyingi bosqichga o‘tildi">Davom etish ${I('arrow','i')}</button></div></section><aside class="preview"><h3>Feed’da qanday ko‘rinadi</h3><div class="pv-post"><div class="post-head" style="padding:9px 11px">${head}</div><div class="pv-media" style="background:${pv.bg}">${art(pv.kind,pv.color,pv.bg)}<div class="badges"><span class="badge ${pv.b1c}">${pv.b1}</span><span class="badge ${pv.b2c}">${pv.b2}</span></div><span class="media-price" id="pvPrice">${priceText(S.cprice)}</span></div><div class="post-cap" style="padding:9px 11px"><b>${t==='product'?'TexnoMart':'akmal_k'}</b> <span id="pvTitle">${S.ctitle}</span></div><div class="pv-kw" id="pvKw">${kwChips}</div></div><div class="di-note" style="margin-top:14px">${I('clock','')}<span>Yuborilgach e‘lon <b>Tekshiruvda</b> holatiga o‘tadi. Tasdiqlanmaguncha public ko‘rinmaydi.</span></div></aside></div>`,'manage','Yangi e‘lon')}
 
 const chev=d=>`<svg class="i" viewBox="0 0 24 24" style="width:22px;height:22px">${d==='up'?'<path d="m6 15 6-6 6 6"/>':'<path d="m6 9 6 6 6-6"/>'}</svg>`;
-function reels(){const list=products;
- return `<div class="reelswrap"><div class="reels" id="reelScroll">${list.map((p,idx)=>{const s=sOf(p);const liked=S.liked.has(p.id),saved=S.saved.has(p.id),foll=p.store&&S.following.has(p.store),sub=p.store&&S.subscribed.has(p.store);
+function reels(){const list=products.filter(p=>S.reelCat==='Barchasi'||groups[p.id]===S.reelCat);
+ const catsBar=`<div class="reel-cats">${cats.map(([c])=>`<button class="reel-cat ${S.reelCat===c?'on':''}" data-reelcat="${c}">${c}</button>`).join('')}</div>`;
+ if(!list.length)return `<div class="reelswrap">${catsBar}<div class="reel-empty"><button class="reel-close" data-reel-close>${I('x','i')}</button><div>${I('compass')}<h3>«${S.reelCat}» bo‘yicha short yo‘q</h3><p>Boshqa kategoriyani tanlang.</p></div></div></div>`;
+ return `<div class="reelswrap">${catsBar}<div class="reels" id="reelScroll">${list.map((p,idx)=>{const s=sOf(p);const liked=S.liked.has(p.id),saved=S.saved.has(p.id),foll=p.store&&S.following.has(p.store),sub=p.store&&S.subscribed.has(p.store);
   return `<section class="reel" data-reel="${idx}"><div class="reel-media"><div class="slides" data-carousel>${[50,28,72].map((x,i)=>`<div class="slide ${i===0?'on':''}" style="background:radial-gradient(120% 80% at ${x}% 25%,${p.bg},#06090c)">${art(p.kind,p.color,'transparent')}</div>`).join('')}</div><div class="dots reel-dots">${[0,1,2].map(i=>`<i class="${i===0?'on':''}"></i>`).join('')}</div></div><div class="reel-shade"></div>
   ${idx===0?`<div class="reel-top"><span class="rt-title">Tomosha</span><button class="reel-close" data-reel-close>${I('x','i')}</button></div>`:`<div class="reel-top"><span class="rt-title"></span><button class="reel-close" data-reel-close>${I('x','i')}</button></div>`}
   <div class="reel-badges"><span class="badge ${p.type}">${p.type==='store'?'Do‘kon':'Shaxsiy'}</span><span class="badge ${p.cond==='Yangi'?'success':'used'}">${p.cond}</span></div>
@@ -742,6 +752,7 @@ document.addEventListener('click',e=>{
  const rClose=e.target.closest('[data-reel-close]');if(rClose){S.screen=S.prevScreen||'feed';S.mode='buyer';render();return}
  const rNext=e.target.closest('[data-reel-next]');if(rNext){const sc=document.getElementById('reelScroll');if(sc)sc.scrollBy({top:sc.clientHeight,behavior:'smooth'});return}
  const rPrev=e.target.closest('[data-reel-prev]');if(rPrev){const sc=document.getElementById('reelScroll');if(sc)sc.scrollBy({top:-sc.clientHeight,behavior:'smooth'});return}
+ const rCat=e.target.closest('[data-reelcat]');if(rCat){S.reelCat=rCat.dataset.reelcat;S.reelStart=0;render();return}
  const rInfo=e.target.closest('[data-rinfo]');if(rInfo){rInfo.closest('.reel').classList.toggle('info-open');return}
  const rLike=e.target.closest('[data-rlike]');if(rLike){const id=+rLike.dataset.rlike;S.liked.has(id)?S.liked.delete(id):S.liked.add(id);rLike.classList.toggle('liked');return}
  const rSave=e.target.closest('[data-rsave]');if(rSave){const id=+rSave.dataset.rsave;S.saved.has(id)?S.saved.delete(id):S.saved.add(id);rSave.classList.toggle('saved');toast(S.saved.has(id)?'Saqlandi':'Olib tashlandi');return}
@@ -763,7 +774,7 @@ document.addEventListener('click',e=>{
  const promoType=e.target.closest('[data-promo-type]');if(promoType){S.promoType=promoType.dataset.promoType;render();return}
  const focusPromo=e.target.closest('[data-focus-promo]');if(focusPromo){document.getElementById('promoBuilder')?.scrollIntoView({behavior:'smooth'});return}
  const launchPromo=e.target.closest('[data-launch-promo]');if(launchPromo){toast('Aksiya preview’i tayyor · boshlash uchun tasdiqlang');return}
- const go=e.target.closest('[data-go]');if(go){const s=go.dataset.go;if(s==='reels'){S.prevScreen=S.screen==='reels'?(S.prevScreen||'feed'):S.screen;S.reelStart=0}S.screen=s;S.mode=storeScreens.includes(s)?'store':'buyer';render();return}
+ const go=e.target.closest('[data-go]');if(go){const s=go.dataset.go;if(s==='reels'){S.prevScreen=S.screen==='reels'?(S.prevScreen||'feed'):S.screen;S.reelStart=0;S.reelCat=S.cat||'Barchasi'}S.screen=s;S.mode=storeScreens.includes(s)?'store':'buyer';render();return}
  const md=e.target.closest('[data-mode]');if(md){S.mode=md.dataset.mode;S.screen=S.mode==='store'?'dashboard':'feed';render();return}
  const pft=e.target.closest('[data-pftab]');if(pft){S.pfTab=pft.dataset.pftab;render();return}
  const st=e.target.closest('[data-store]');if(st&&st.dataset.store){S.storeView=st.dataset.store;S.screen='profile';S.mode='buyer';render();return}
