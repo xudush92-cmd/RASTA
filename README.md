@@ -30,8 +30,9 @@ Bozorlar, supermarketlar va barcha turdagi sotuvchilar o'z do'konlarini ochib, m
 
 ### Interaktiv prototiplar (ilova ko'rinishi)
 
-- **[prototype/app-demo.html](./prototype/app-demo.html)** ⭐ — yangi polished namuna: responsive xaridor katalogi, do'kon vitrinasida ichki qidiruv, batafsil mahsulot/variantlar va alohida do'kon dashboardi (mahsulotlar, SKU/qoldiq, murojaatlar, mahsulot preview).
-- **[Yangi namunani brauzerda ko'rish](https://htmlpreview.github.io/?https://github.com/xudush92-cmd/RASTA/blob/main/prototype/app-demo.html)** — desktop yoki telefonda ochiladi.
+- **[prototype/rasta-social.html](./prototype/rasta-social.html)** ⭐⭐ — Instagram uslubidagi ijtimoiy marketplace ko'rinishi: feed + stories, explore gridi, do'kon profili (kuzatish/statistika/grid), DM inbox va alohida qorong'i do'kon dashboardi (KPI, SKU/qoldiq, murojaatlar, mahsulot yaratish). Responsive: desktop rail + feed, mobil top bar + bottom tab.
+- **[Ijtimoiy namunani brauzerda ko'rish](https://htmlpreview.github.io/?https://github.com/xudush92-cmd/RASTA/blob/main/prototype/rasta-social.html)** — desktop yoki telefonda ochiladi.
+- **[prototype/app-demo.html](./prototype/app-demo.html)** — oldingi polished katalog namunasi (xaridor + do'kon dashboardi).
 - **[prototype/index.html](./prototype/index.html)** — dastlabki keng ekranlar xaritasi va click-demo.
 
 ## Asosiy model
