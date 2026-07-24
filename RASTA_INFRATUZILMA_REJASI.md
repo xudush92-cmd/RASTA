@@ -607,6 +607,8 @@ Bir do'kon boshqa do'konning xom analytics ma'lumotini ko'rmaydi. Kichik segment
 - Reklama organik natijadan “Reklama” labeli bilan ajratiladi.
 - Status faqat rang bilan emas, matn va ikonka bilan ham ko'rsatiladi.
 - Har bir e'lon rasmlari galereya sifatida: karta va batafsil sahifada **avtomatik slayd** (taxminan har 5 soniyada) va qo'lda surish, dot indikatori bilan. Birinchi rasm muqova; slayd faqat vizual, holat/URLni buzmaydi va accessibility uchun to'xtatib bo'ladigan qilib rejalashtiriladi.
+- **Moslashuvchi e'lon formasi:** foydalanuvchi turini tanlaydi (mahsulot / ko'chmas mulk / avtomobil / xizmat) va forma o'zi mos maydonlarni ko'rsatadi — masalan ko'chmas mulkda `sotuv/ijara`, `xona`, `m²`, `qavat`; avtomobilda `yil`, `probeg`, `yoqilg'i`; xizmatda `narx turi`, `tajriba`, `hudud`. Keraksiz maydon ko'rsatilmaydi.
+- **Kalit so'zlar (teglar):** har bir e'longa sotuvchi qidiruv uchun kalit so'z/teg qo'shadi (masalan «naushnik» → quloqchin). Bu qidiruv qamrovini (recall) oshiradi va sinonim/mahalliy nomlar bilan topilishni ta'minlaydi. Kalit so'zlar sarlavha va tavsif bilan birga indekslanadi, lekin ranking’da past vaznda — spam’ga qarshi cheklov bilan.
 
 ### Forma sifati
 
