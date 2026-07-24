@@ -6,34 +6,26 @@ Bozorlar, supermarketlar va barcha turdagi sotuvchilar o'z do'konlarini ochib, m
 
 > **Asosiy tamoyil:** ilova ichida oldi-sotdi (to'lov) amalga oshirilmaydi. Ilova katalog, do'kon profillari, qidiruv va aloqa vazifasini bajaradi.
 
+> **Yagona manba:** loyihaning rasmiy rejasi — **RASTA_INFRATUZILMA_REJASI.md**, rasmiy dizayn/ilova ko'rinishi — **prototype/rasta-social.html**. Eski reja, wireframe va prototip fayllari chalkashmaslik uchun olib tashlangan.
+
 ## Hujjatlar
 
-- **[RASTA_INFRATUZILMA_REJASI.md](./RASTA_INFRATUZILMA_REJASI.md)** ⭐ — amaldagi kanonik mahsulot va texnik reja: 3D/AR'siz ko'p turdagi do'konlar, rollar, katalog, qidiruv, xavfsizlik, tenant izolatsiyasi, infratuzilma, bosqichlar va qabul mezonlari.
-- [RASTA_Loyiha_Rejasi_v2.pdf](./RASTA_Loyiha_Rejasi_v2.pdf) — oldingi reja (v2); yangi qarorlarda kanonik infratuzilma rejasiga ustuvorlik beriladi.
-- [Uzbekiston_Onlayn_Bozor_Loyiha_Rejasi.pdf](./Uzbekiston_Onlayn_Bozor_Loyiha_Rejasi.pdf) — birinchi versiya (v1).
-- `build_pdf.py` / `build_pdf_v2.py` — PDF'larni qayta yaratuvchi skriptlar (sof Python, tashqi kutubxonasiz).
+- **[RASTA_INFRATUZILMA_REJASI.md](./RASTA_INFRATUZILMA_REJASI.md)** ⭐ — kanonik mahsulot va texnik reja: 3D/AR'siz ko'p turdagi do'konlar, rollar, katalog, qidiruv, xavfsizlik, tenant izolatsiyasi, infratuzilma, bosqichlar va qabul mezonlari.
+- **[RASTA_Kategoriyalar.md](./RASTA_Kategoriyalar.md)** — keng, aniq va ierarxik kategoriya tizimi hamda e'lon turi (Do'kon/Shaxsiy) va holat (Yangi/Ishlatilgan) ajratish.
 
-### Dizayn va menyular
+### Spec (implementatsiya uchun)
 
-- **[RASTA_Ekran_Xaritasi.md](./RASTA_Ekran_Xaritasi.md)** — to'liq menyu/ekran xaritasi: 14 ta ekran, har biri uchun maqsad, elementlar, foydalanuvchi amallari va navigatsiya + rollar jadvali.
-- **[RASTA_Wireframes.md](./RASTA_Wireframes.md)** — 7 ta asosiy ekranning matnli (ASCII) wireframe maketlari + dizayn tizimi (ranglar, brending).
-- **[RASTA_Kategoriyalar.md](./RASTA_Kategoriyalar.md)** — keng, aniq va ierarxik kategoriya tizimi (16 asosiy kategoriya + kichik kategoriyalar) hamda e'lon turi (Do'kon/Shaxsiy) va holat (Yangi/Ishlatilgan) ajratish.
-
-### Dastlabki Spec (implementatsiyadan oldin yangilanadi)
-
-`.kiro/specs/rasta-mvp/` papkasidagi hujjatlar ilk MVP draftidir. Yangi qarorlarda **RASTA_INFRATUZILMA_REJASI.md ustuvor**; kod boshlanishidan oldin spec shu reja asosida qayta generatsiya qilinadi:
-- **[requirements.md](./.kiro/specs/rasta-mvp/requirements.md)** — MVP talablari (12 ta, user stories + qabul mezonlari).
-- **[design.md](./.kiro/specs/rasta-mvp/design.md)** — texnik dizayn (Next.js + Supabase, DB sxemasi, komponentlar).
-- **[tasks.md](./.kiro/specs/rasta-mvp/tasks.md)** — kod yozish bosqichlari (10 bosqich, ~30 vazifa).
+`.kiro/specs/rasta-mvp/` papkasi kanonik rejaga bo'ysunadi (kod boshlanishidan oldin shu reja asosida yangilanadi):
+- **[requirements.md](./.kiro/specs/rasta-mvp/requirements.md)** — MVP talablari (user stories + qabul mezonlari).
+- **[design.md](./.kiro/specs/rasta-mvp/design.md)** — texnik dizayn (DB sxemasi, komponentlar).
+- **[tasks.md](./.kiro/specs/rasta-mvp/tasks.md)** — kod yozish bosqichlari.
 
 > **Texnologiya (MVP):** Next.js + TypeScript + Tailwind + Supabase/PostgreSQL. Aniq versiyalar implementatsiya boshlanganda amaldagi barqaror/LTS relizlarga pin qilinadi.
 
-### Interaktiv prototiplar (ilova ko'rinishi)
+### Rasmiy dizayn / ilova ko'rinishi
 
-- **[prototype/rasta-social.html](./prototype/rasta-social.html)** ⭐⭐ — Instagram uslubidagi ijtimoiy marketplace ko'rinishi: feed + stories, **Reels uslubidagi yuqoriga surib tomosha** (boshqa do'kon mahsulotlariga ham o'tadi), rasm ustida **tugma orqali mahsulot ma'lumoti**, do'konga **obuna + qo'ng'iroqcha** (yangi mahsulotda bildirishnoma), bildirishnomalar ekrani, explore gridi, do'kon profili (kuzatish/statistika/grid), DM inbox, saqlanganlar va alohida qorong'i do'kon dashboardi (KPI, SKU/qoldiq, murojaatlar, mahsulot yaratish). Responsive: desktop rail + feed, mobil top bar + bottom tab.
-- **[Ijtimoiy namunani brauzerda ko'rish](https://htmlpreview.github.io/?https://github.com/xudush92-cmd/RASTA/blob/main/prototype/rasta-social.html)** — desktop yoki telefonda ochiladi.
-- **[prototype/app-demo.html](./prototype/app-demo.html)** — oldingi polished katalog namunasi (xaridor + do'kon dashboardi).
-- **[prototype/index.html](./prototype/index.html)** — dastlabki keng ekranlar xaritasi va click-demo.
+- **[prototype/rasta-social.html](./prototype/rasta-social.html)** ⭐ — Instagram uslubidagi ijtimoiy marketplace ko'rinishi: feed + stories, **Reels uslubidagi yuqoriga surib tomosha** (boshqa do'kon mahsulotlariga ham o'tadi), rasm ustida **tugma orqali mahsulot ma'lumoti**, do'konga **obuna + qo'ng'iroqcha** (yangi mahsulotda bildirishnoma), bildirishnomalar ekrani, explore gridi, do'kon profili (kuzatish/statistika/grid), DM inbox, saqlanganlar va alohida qorong'i do'kon dashboardi (KPI, SKU/qoldiq, murojaatlar, mahsulot yaratish). Responsive: desktop rail + feed, mobil top bar + bottom tab.
+- **[Brauzerda ko'rish](https://htmlpreview.github.io/?https://github.com/xudush92-cmd/RASTA/blob/main/prototype/rasta-social.html)** — desktop yoki telefonda ochiladi.
 
 ## Asosiy model
 
