@@ -80,6 +80,7 @@ img,.ph{display:block}
 .reel-dots{top:14px;bottom:auto;z-index:5}
 .reel-dots i{background:rgba(255,255,255,.45)}.reel-dots i.on{background:#fff}
 .pill svg.i{width:15px;height:15px;flex:none}
+.feed-cats{padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid var(--line)}
 .post-actions{display:flex;align-items:center;gap:16px;padding:11px 13px 6px}
 .act{color:var(--ink);transition:.12s}.act:hover{color:var(--muted)}.act.liked{color:var(--accent)}.act.liked svg{fill:var(--accent)}
 .act.saved{color:var(--ink)}.act.saved svg{fill:var(--ink)}
@@ -464,6 +465,7 @@ td{padding:12px 15px;border-top:1px solid var(--soft);font-size:11.5px}
   .mb-profile .ava{border:2px solid var(--surface)}
   .mb-profile.on .ava{box-shadow:0 0 0 2px var(--brand)}
   .stories{padding:10px 14px 16px}
+  .feed-cats{padding-left:14px;padding-right:14px}
   .explore{gap:2px}
   .profile{padding:0 0 84px}
   .pf-top{padding:18px 16px 20px;gap:20px;align-items:center}
@@ -663,7 +665,10 @@ function mbottom(active){const items=[['feed','home'],['explore','compass'],['re
 function rrail(){const sug=['audiohouse','makonmebel','ustamarket'];return `<aside class="rrail"><div class="me"><span class="ava" style="background:var(--grad-cta)">AK</span><div><b>akmal_k</b><span>Akmal Karimov</span></div><button class="sugg" style="margin-left:auto;padding:0;color:var(--brand);font-weight:800;font-size:12px" data-mode="store">Kabinet</button></div><div class="rr-head"><b>Siz uchun do‘konlar</b><button data-go="explore">Barchasi</button></div>${sug.map(s=>{const st=stores[s];const f=S.following.has(s);return `<div class="sugg" data-store="${s}">${avatar(s)}<div><b>${st.title} ${vmark(st.verified)}</b><span>${st.cat}</span></div><button class="follow" data-follow="${s}">${f?'Kuzatilyapti':'Kuzatish'}</button></div>`}).join('')}<div class="rr-foot">RASTA · Katalog-marketplace<br>Ilova ichida to‘lov yo‘q · aloqa orqali<br>© 2026 RASTA</div></aside>`}
 function buyerShell(content,active,single){return `<div class="shell">${buyerRail(active)}<div class="main">${mtop()}<div class="feedwrap ${single?'single':''}"><div class="feedcol">${content}</div>${single?'':rrail()}</div>${mbottom(active)}</div></div>`}
 function pageShell(content,active){return `<div class="shell">${buyerRail(active)}<div class="main">${mtop()}<div class="page">${content}</div>${mbottom(active)}</div></div>`}
-function feed(){return buyerShell(`<div class="stories">${'<button class="story"><span class="story-ring add"><span class="story-inner" style="background:var(--soft);color:var(--brand);font-size:26px">+</span></span><small class="plus">Do‘koningiz</small></button>'}${Object.keys(stores).map((s,i)=>story(s,i>2)).join('')}${Object.keys(stores).map((s,i)=>story(s,true)).slice(0,2).join('')}</div>${products.map(post).join('')}`,'feed')}
+function feed(){const list=products.filter(p=>S.cat==='Barchasi'||groups[p.id]===S.cat);
+ const catsBar=`<div class="chips cat-chips feed-cats">${cats.map(([c,ci])=>`<button class="pill ${S.cat===c?'on':''}" data-cat="${c}">${I(ci)} ${c}</button>`).join('')}</div>`;
+ const posts=list.length?list.map(post).join(''):`<div class="empty" style="margin:14px"><span class="empty-ic">${I('search')}</span><h3>«${S.cat}» bo‘yicha e‘lon yo‘q</h3><p>Boshqa kategoriyani tanlang yoki «Barchasi» ni bosing.</p></div>`;
+ return buyerShell(`<div class="stories">${'<button class="story"><span class="story-ring add"><span class="story-inner" style="background:var(--soft);color:var(--brand);font-size:26px">+</span></span><small class="plus">Do‘koningiz</small></button>'}${Object.keys(stores).map((s,i)=>story(s,i>2)).join('')}${Object.keys(stores).map((s,i)=>story(s,true)).slice(0,2).join('')}</div>${catsBar}${posts}`,'feed')}
 
 function explore(){const q=S.q.toLowerCase();let list=products.filter(p=>(S.cat==='Barchasi'||groups[p.id]===S.cat)&&(p.title.toLowerCase().includes(q)||sOf(p).title.toLowerCase().includes(q)||(kw[p.id]||'').includes(q)||groups[p.id].toLowerCase().includes(q)));
  return pageShell(`<div class="searchbar">${I('search')}<input id="exSearch" value="${S.q}" placeholder="Mahsulot, do‘kon, xizmat yoki kategoriya"></div><div class="chips cat-chips">${cats.map(([c,ci])=>`<button class="pill ${S.cat===c?'on':''}" data-cat="${c}">${I(ci)} ${c}</button>`).join('')}</div><div class="chips">${['Barchasi','Do‘kon e‘loni','Shaxsiy e‘lon','Yangi','Ishlatilgan'].map((c,i)=>`<button class="pill ${i===0?'on':''}" data-pill>${c}</button>`).join('')}</div>${list.length?`<div class="explore">${list.map(tile).join('')}</div>`:`<div class="empty"><span class="empty-ic">${I('search')}</span><h3>Natija topilmadi</h3><p>«${S.cat}» bo‘yicha boshqa nom yoki kategoriyani sinab ko‘ring.</p></div>`}`,'explore')}
