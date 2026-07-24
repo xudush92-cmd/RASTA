@@ -2,6 +2,7 @@
 
 > **Holat:** kanonik reja, v1.0  
 > **Yo'nalish:** 3D/AR funksiyalarsiz; turli xil do'konlar va individual sotuvchilar bitta ilovada, lekin aniq ajratilgan.  
+> **Qamrov:** RASTA — **universal savdo rastasi**. Mahsulot, xizmat/usta, ko'chmas mulk, oziq-ovqat, apteka/dori-darmon va ish o'rni (vakansiya) bitta platformada, har biri o'ziga mos forma, atribut va filtr bilan. Kategoriya va e'lon turi aniqligi asosiy sifat mezoni.  
 > **Biznes modeli:** RASTA katalog-marketplace. Xaridor va sotuvchi o'rtasidagi mahsulot to'lovi ilova ichida bajarilmaydi. Ilovadagi pullik operatsiyalar faqat RASTA xizmatlari — obuna va reklama — uchun ishlatiladi.
 
 ## 1. Mahsulot maqsadi
@@ -33,7 +34,7 @@ RASTA xaridorga kerakli mahsulotni, uning qaysi do'konda mavjudligini va sotuvch
 - Bitta foydalanuvchi profilidan xaridor/shaxsiy sotuvchi sifatida foydalanish.
 - Do'kon yaratish, tekshiruvga yuborish va holatini ko'rish.
 - Do'kon kontekstini tanlash va do'kon xodimlari rollari.
-- Kategoriya va kategoriyaga mos dinamik mahsulot atributlari.
+- E'lon turi (product/service/property/vacancy), kategoriya va turga mos dinamik atributlar.
 - Do'kon mahsuloti va shaxsiy e'lon yaratish, qoralama, oldindan ko'rish va moderatsiya.
 - Rasm galereyasi, variant/SKU va oddiy qoldiq boshqaruvi.
 - Bosh sahifa, kategoriya, qidiruv, filtr va saralash.
@@ -121,15 +122,30 @@ Barcha do'konlar bitta texnik yadrodan foydalanadi. Alohida ilovalar yaratilmayd
 
 Do'kon bir nechta ruxsat etilgan kategoriyada ishlashi mumkin. Tur UI shablonini, tavsiya etilgan atributlarni va filtrlarni belgilaydi, lekin ma'lumotlarni boshqa do'konlardan ajratish uchun ishlatilmaydi — buning uchun `store_id` va membership mavjud.
 
+### E'lon turi (listing_type)
+
+Har bir e'lon kategoriyadan tashqari **turga** ega: `product`, `service`, `property`, `vacancy` (kelajakda kengaytiriladi). Tur formani, majburiy atributlarni, filtr va ko'rinishni belgilaydi:
+
+- `product` — narx, **holat (yangi/ishlatilgan)**, variant/SKU va qoldiq bor.
+- `service` — narx turi (soatbay/ish hajmi/kelishiladi), tajriba, xizmat hududi; holat/qoldiq **yo'q**.
+- `property` — sotuv/ijara, xona, maydon (m²), qavat; qoldiq **yo'q**.
+- `vacancy` — lavozim, maosh oralig'i, band bo'lish; narx/holat **yo'q**.
+
+`yangi/ishlatilgan` holat maydoni faqat `product` turida ko'rsatiladi. Shu bilan forma har bir bozorga aniq mos keladi va foydalanuvchi keraksiz maydonni ko'rmaydi.
+
 ### Dinamik atribut misollari
 
-| Kategoriya | Majburiy atributlar | Ixtiyoriy atributlar |
+| Kategoriya / tur | Majburiy atributlar | Ixtiyoriy atributlar |
 |---|---|---|
 | Telefon | brend, model, xotira, holat | rang, SIM, kafolat |
 | Kiyim | jins/yosh, o'lcham, material | rang, mavsum |
 | Oziq-ovqat | birlik, og'irlik/hajm, yaroqlilik | ishlab chiqaruvchi, tarkib |
 | Qurilish | material/tur, o'lcham, birlik | marka, texnik standart |
 | Avto ehtiyot qism | marka, model mosligi, detal kodi | yil oralig'i, ishlab chiqaruvchi |
+| Ko'chmas mulk | sotuv/ijara, xona, maydon (m²), qavat | ta'mir holati, mebel, hujjat |
+| Xizmat / usta | xizmat turi, narx turi, hudud | tajriba (yil), chaqiruv/uyga borish |
+| Dori-darmon | ishlab chiqaruvchi, doza/miqdor, retsept holati | yaroqlilik muddati, ko'rsatma |
+| Vakansiya | lavozim, band bo'lish, maosh oralig'i | tajriba talabi, ish jadvali |
 
 Admin atribut ta'rifini boshqaradi. Sotuvchi faqat kategoriya uchun berilgan maydonlarni ko'radi. Shu yo'l bilan forma qisqa, aniq va turli do'konlarga mos bo'ladi.
 
@@ -281,7 +297,7 @@ Quyidagi jadvallar konseptual minimum. Har bir jadvalda `id`, `created_at`, `upd
 - `categories` — ierarxiya, slug, holat va tartib.
 - `attribute_definitions` — nom, data type, unit, validatsiya.
 - `category_attributes` — qaysi kategoriyada qaysi atribut majburiy.
-- `listings` — umumiy qidiriladigan obyekt: `store_product` yoki `personal_listing`.
+- `listings` — umumiy qidiriladigan obyekt. Ikki o'lchamli: egalik (`store_product` yoki `personal_listing`) va tur (`listing_type`: product/service/property/vacancy). `listing_type` mavjud maydon va validatsiya to'plamini belgilaydi (masalan, `property` da qoldiq/holat maydonlari o'chiriladi).
 - `listing_attribute_values` — dinamik xususiyatlar.
 - `listing_media` — rasm, tartib, o'lcham, moderation status.
 - `product_variants` — rang/o'lcham kabi variant, SKU, narx override.
@@ -480,6 +496,7 @@ P0 da video va fayl yuborish o'chiriladi yoki qat'iy whitelist bilan cheklanadi.
 P0 dan quyidagilar mavjud bo'ladi:
 
 - taqiqlangan mahsulot va xizmatlar siyosati;
+- litsenziya talab qiladigan kategoriyalar uchun maxsus qoidalar: **apteka/dori-darmon** faqat tekshirilgan litsenziyaga ega do'konga ochiladi; retsept talab qiladigan yoki nazorat ostidagi dorilar taqiqlanadi; ko'chmas mulk va xizmatlarda oldindan to'lov firibgarligiga qarshi ogohlantirish va signal;
 - matn va rasm moderatsiya navbati;
 - shikoyat, bloklash va spam belgilash;
 - bir xil rasm/telefon/matn asosida duplicate va risk signali;
@@ -589,6 +606,7 @@ Bir do'kon boshqa do'konning xom analytics ma'lumotini ko'rmaydi. Kichik segment
 - Yangi/ishlatilgan alohida chip.
 - Reklama organik natijadan “Reklama” labeli bilan ajratiladi.
 - Status faqat rang bilan emas, matn va ikonka bilan ham ko'rsatiladi.
+- Har bir e'lon rasmlari galereya sifatida: karta va batafsil sahifada **avtomatik slayd** (taxminan har 5 soniyada) va qo'lda surish, dot indikatori bilan. Birinchi rasm muqova; slayd faqat vizual, holat/URLni buzmaydi va accessibility uchun to'xtatib bo'ladigan qilib rejalashtiriladi.
 
 ### Forma sifati
 
