@@ -374,6 +374,8 @@ td{padding:12px 15px;border-top:1px solid var(--soft);font-size:11.5px}
 .reel-empty .reel-close{position:absolute;top:16px;right:16px}
 .reel-empty svg{width:44px;height:44px;opacity:.7;margin-bottom:10px}
 .reel-empty h3{font-size:16px}.reel-empty p{opacity:.7;font-size:12px;margin-top:4px}
+.reel-tap{position:absolute;top:150px;bottom:300px;width:34%;z-index:5;background:transparent;border:0;cursor:pointer}
+.reel-tap.left{left:0}.reel-tap.right{right:0}
 .reel-rail{position:absolute;right:12px;bottom:130px;display:flex;flex-direction:column;gap:20px;align-items:center;z-index:6}
 .reel-rail button{color:#fff;display:grid;place-items:center;gap:4px;font-size:11px;font-weight:700}
 .reel-rail .rr-ic{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.16);display:grid;place-items:center;backdrop-filter:blur(6px)}
@@ -731,7 +733,7 @@ function reels(){const list=products.filter(p=>S.reelCat==='Barchasi'||groups[p.
  const catsBar=`<div class="reel-cats">${cats.map(([c])=>`<button class="reel-cat ${S.reelCat===c?'on':''}" data-reelcat="${c}">${c}</button>`).join('')}</div>`;
  if(!list.length)return `<div class="reelswrap">${catsBar}<div class="reel-empty"><button class="reel-close" data-reel-close>${I('x','i')}</button><div>${I('compass')}<h3>«${S.reelCat}» bo‘yicha short yo‘q</h3><p>Boshqa kategoriyani tanlang.</p></div></div></div>`;
  return `<div class="reelswrap">${catsBar}<div class="reels" id="reelScroll">${list.map((p,idx)=>{const s=sOf(p);const liked=S.liked.has(p.id),saved=S.saved.has(p.id),foll=p.store&&S.following.has(p.store),sub=p.store&&S.subscribed.has(p.store);
-  return `<section class="reel" data-reel="${idx}"><div class="reel-media"><div class="slides" data-carousel>${[50,28,72].map((x,i)=>`<div class="slide ${i===0?'on':''}" style="background:radial-gradient(120% 80% at ${x}% 25%,${p.bg},#06090c)">${art(p.kind,p.color,'transparent')}</div>`).join('')}</div><div class="dots reel-dots">${[0,1,2].map(i=>`<i class="${i===0?'on':''}"></i>`).join('')}</div></div><div class="reel-shade"></div>
+  return `<section class="reel" data-reel="${idx}"><div class="reel-media"><div class="slides" data-carousel>${[50,28,72].map((x,i)=>`<div class="slide ${i===0?'on':''}" style="background:radial-gradient(120% 80% at ${x}% 25%,${p.bg},#06090c)">${art(p.kind,p.color,'transparent')}</div>`).join('')}</div><div class="dots reel-dots">${[0,1,2].map(i=>`<i class="${i===0?'on':''}"></i>`).join('')}</div></div><div class="reel-shade"></div><button class="reel-tap left" data-reelslide="-1" aria-label="Oldingi rasm"></button><button class="reel-tap right" data-reelslide="1" aria-label="Keyingi rasm"></button>
   ${idx===0?`<div class="reel-top"><span class="rt-title">Tomosha</span><button class="reel-close" data-reel-close>${I('x','i')}</button></div>`:`<div class="reel-top"><span class="rt-title"></span><button class="reel-close" data-reel-close>${I('x','i')}</button></div>`}
   <div class="reel-badges"><span class="badge ${p.type}">${p.type==='store'?'Do‘kon':'Shaxsiy'}</span><span class="badge ${p.cond==='Yangi'?'success':'used'}">${p.cond}</span></div>
   <div class="info-card"><h4>${I('info','')} Mahsulot ma‘lumoti</h4><p class="info-desc">${descOf(p.id)}</p>${specRows(p.id)}<div class="info-row"><span>Mavjud</span><b>${p.stock}</b></div><div class="info-row"><span>Hudud</span><b>${p.area}</b></div></div>
@@ -757,6 +759,7 @@ document.addEventListener('click',e=>{
  const rClose=e.target.closest('[data-reel-close]');if(rClose){S.screen=S.prevScreen||'feed';S.mode='buyer';render();return}
  const rNext=e.target.closest('[data-reel-next]');if(rNext){const sc=document.getElementById('reelScroll');if(sc)sc.scrollBy({top:sc.clientHeight,behavior:'smooth'});return}
  const rPrev=e.target.closest('[data-reel-prev]');if(rPrev){const sc=document.getElementById('reelScroll');if(sc)sc.scrollBy({top:-sc.clientHeight,behavior:'smooth'});return}
+ const rSlide=e.target.closest('[data-reelslide]');if(rSlide){const c=rSlide.closest('.reel').querySelector('[data-carousel]');if(c)slideCarousel(c,+rSlide.dataset.reelslide);return}
  const rCat=e.target.closest('[data-reelcat]');if(rCat){S.reelCat=rCat.dataset.reelcat;S.reelStart=0;render();return}
  const rInfo=e.target.closest('[data-rinfo]');if(rInfo){rInfo.closest('.reel').classList.toggle('info-open');return}
  const rLike=e.target.closest('[data-rlike]');if(rLike){const id=+rLike.dataset.rlike;S.liked.has(id)?S.liked.delete(id):S.liked.add(id);rLike.classList.toggle('liked');return}
@@ -798,8 +801,14 @@ document.addEventListener('click',e=>{
  const tp=e.target.closest('[data-toast]');if(tp){toast(tp.dataset.toast);return}
 });
 let _tt;function toast(t){const el=document.getElementById('toast');el.innerHTML=I('check','i')+' '+t;el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2200)}
+// Bitta karusel slaydini yo'nalish bo'yicha almashtirish (auto va qo'lda uchun)
+function slideCarousel(c,dir){const sl=[...c.querySelectorAll('.slide')];if(sl.length<2)return;let cur=sl.findIndex(s=>s.classList.contains('on'));if(cur<0)cur=0;const nx=(cur+dir+sl.length)%sl.length;sl[cur].classList.remove('on');sl[nx].classList.add('on');const dots=c.nextElementSibling;if(dots&&dots.classList.contains('dots')){[...dots.children].forEach((d,i)=>d.classList.toggle('on',i===nx));}}
 // Har 5 soniyada mahsulot rasmlari avtomatik slayd bo'ladi
-setInterval(()=>{document.querySelectorAll('[data-carousel]').forEach(c=>{const sl=[...c.querySelectorAll('.slide')];if(sl.length<2)return;let cur=sl.findIndex(s=>s.classList.contains('on'));if(cur<0)cur=0;const nx=(cur+1)%sl.length;sl[cur].classList.remove('on');sl[nx].classList.add('on');const dots=c.nextElementSibling;if(dots&&dots.classList.contains('dots')){[...dots.children].forEach((d,i)=>d.classList.toggle('on',i===nx));}});},5000);
+setInterval(()=>{document.querySelectorAll('[data-carousel]').forEach(c=>slideCarousel(c,1));},5000);
+// Shorts: rasmni qo'lda yon tomonga surib almashtirish
+let _tsx=0,_tsy=0,_tReel=null;
+document.addEventListener('touchstart',e=>{const t=e.touches[0];_tsx=t.clientX;_tsy=t.clientY;_tReel=e.target.closest?e.target.closest('.reel'):null;},{passive:true});
+document.addEventListener('touchend',e=>{if(!_tReel)return;const t=e.changedTouches[0];const dx=t.clientX-_tsx,dy=t.clientY-_tsy;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.3){const c=_tReel.querySelector('[data-carousel]');if(c)slideCarousel(c,dx<0?1:-1);}_tReel=null;},{passive:true});
 render();
 </script>
 </body>
