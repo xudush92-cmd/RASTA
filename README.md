@@ -8,6 +8,23 @@ Bozorlar, supermarketlar va barcha turdagi sotuvchilar o'z do'konlarini ochib, m
 
 > **Yagona manba:** loyihaning rasmiy rejasi — **RASTA_INFRATUZILMA_REJASI.md**, rasmiy dizayn/ilova ko'rinishi — **prototype/rasta-social.html**. Eski reja, wireframe va prototip fayllari chalkashmaslik uchun olib tashlangan.
 
+## 🚀 Ishlaydigan ilova
+
+**[app/](./app/)** — haqiqiy ishlaydigan ilova: server, SQLite baza, autentifikatsiya, e'lon CRUD,
+rasm yuklash, moderatsiya va super admin panel. Ma'lumotlar haqiqatan saqlanadi.
+
+```bash
+cd app
+npm run seed    # namuna ma'lumotlar
+npm start       # http://localhost:3000
+npm test        # 33 ta uchidan-uchiga test
+```
+
+Talab: Node.js 22.5+ (tashqi kutubxona ishlatilmaydi). Sinov hisoblari va batafsil ma'lumot:
+**[app/README.md](./app/README.md)**.
+
+`prototype/rasta-social.html` esa interaktiv **dizayn namunasi** sifatida qoladi (baza ulanmagan).
+
 ## Hujjatlar
 
 - **[RASTA_INFRATUZILMA_REJASI.md](./RASTA_INFRATUZILMA_REJASI.md)** ⭐ — kanonik mahsulot va texnik reja: 3D/AR'siz ko'p turdagi do'konlar, rollar, katalog, qidiruv, xavfsizlik, tenant izolatsiyasi, infratuzilma, bosqichlar va qabul mezonlari.

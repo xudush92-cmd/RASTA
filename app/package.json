@@ -1,0 +1,16 @@
+{
+  "name": "rasta",
+  "version": "0.1.0",
+  "private": true,
+  "description": "RASTA — universal katalog-marketplace (Node.js + SQLite, tashqi kutubxonasiz)",
+  "type": "module",
+  "engines": {
+    "node": ">=22.5"
+  },
+  "scripts": {
+    "start": "node --experimental-sqlite src/server.js",
+    "seed": "node --experimental-sqlite src/seed.js",
+    "reset": "node --experimental-sqlite src/seed.js --reset",
+    "test": "node --experimental-sqlite test/smoke.js"
+  }
+}
