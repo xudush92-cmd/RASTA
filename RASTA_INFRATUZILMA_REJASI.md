@@ -509,7 +509,43 @@ P0 dan quyidagilar mavjud bo'ladi:
 
 Boshlang'ich maqsad: oddiy listing tekshiruvi 24 soat ichida, xavfli shikoyat darhol yuqori navbatga. Bu operatsion jamoa quvvatiga qarab tasdiqlanadi.
 
-## 15. Tezlik va masshtablash
+## 15. Super Admin paneli (platforma boshqaruvi)
+
+Super Admin paneli — platforma operatori uchun alohida boshqaruv yuzasi. Xaridor ilovasi va do'kon kabinetidan **butunlay ajratilgan**.
+
+### Ajratish va kirish
+- **Alohida ilova/domen** (`admin.rasta.uz`) — mijoz ilovasidan mutlaqo ajratilgan kod, deploy va sessiya.
+- Public ro'yxatdan o'tish yo'q — hisob faqat mavjud admin tomonidan taklif/tayinlash orqali yaratiladi.
+- **Majburiy 2FA** (TOTP) va **IP allowlist / VPN cheklovi**.
+- Qisqa sessiya muddati, faolsizlikda avtomatik chiqish, qurilma va sessiya nazorati.
+
+### Rollar (RBAC) — har birida cheklangan huquq
+| Rol | Ruxsat | Ta'qiq |
+|---|---|---|
+| **Super admin** | to'liq boshqaruv, rol tayinlash, tizim sozlamalari | — |
+| **Moderator** | e'lon/kontent moderatsiyasi, shikoyatlar, do'kon verifikatsiyasi | tizim sozlamasi, rol berish, moliyaviy |
+| **Support** | foydalanuvchi/do'konga yordam, cheklangan ko'rish (PII maskalangan) | o'chirish, moderatsiya qarori, sozlama |
+| **Analyst** | faqat analitika va hisobotlarni ko'rish | har qanday yozuv/o'zgartirish |
+
+- Har bir ruxsat **eng kam imtiyoz (least privilege)** tamoyilida beriladi.
+- Xavfli amallar (do'kon/foydalanuvchi bloklash, o'chirish, kategoriya o'zgartirish) qayta tasdiqlash va sabab talab qiladi.
+
+### Modullar
+- **Umumiy holat** — platforma KPI'lari (foydalanuvchi, do'kon, e'lon, murojaat), faollik va tizim sog'lig'i.
+- **Moderatsiya** — yangi/tahrirlangan e'lonlar navbati; tasdiqlash yoki sabab kodi bilan rad etish.
+- **Do'konlar** — verifikatsiya (litsenziya, hujjat), kuzatuv, vaqtincha yoki butunlay bloklash.
+- **Foydalanuvchilar** — hisob, rol, holat; spam/abuse bloklash.
+- **Shikoyatlar** — foydalanuvchi va tizim signallari (firibgarlik, taqiqlangan mahsulot, duplicate) va hal qilish oqimi.
+- **Kategoriyalar** — kategoriya, ichki bo'lim va dinamik atributlarni boshqarish.
+- **Tizim** — global sozlamalar, feature flag, litsenziya siyosatlari.
+
+### Audit va javobgarlik
+- **Har bir amal audit logga yoziladi: kim, qachon, nima** (eski → yangi qiymat), IP va sabab bilan.
+- Audit yozuvlari **immutable** (o'zgartirib yoki o'chirib bo'lmaydi) va alohida saqlanadi.
+- Support ko'rinishida PII maskalanadi; to'liq ma'lumot faqat aniq ruxsat va sabab bilan ochiladi.
+- Moderator qarorlari apellyatsiya qilinadi va to'liq tarixi saqlanadi.
+
+## 16. Tezlik va masshtablash
 
 Boshlang'ich SLOlar:
 
@@ -535,7 +571,7 @@ Boshlang'ich SLOlar:
 - Cache invalidation domain event/outbox orqali.
 - Listing view count har requestda bitta hot rowni update qilmaydi; event yig'ilib agregatsiya qilinadi.
 
-## 16. Ishonchlilik va operatsiya
+## 17. Ishonchlilik va operatsiya
 
 ### Muhitlar
 
@@ -567,7 +603,7 @@ Production ma'lumoti stagingga xom holda ko'chirilmaydi.
 - Alert: 5xx, OTP abuse, queue backlog, DB saturation, search latency, backup failure.
 - Runbook: provider uzilishi, DB overload, noto'g'ri moderatsiya, account takeover va data leak.
 
-## 17. Analytics
+## 18. Analytics
 
 ### Xaridor funnel
 
@@ -590,7 +626,7 @@ Production ma'lumoti stagingga xom holda ko'chirilmaydi.
 
 Bir do'kon boshqa do'konning xom analytics ma'lumotini ko'rmaydi. Kichik segmentlarda maxfiylik uchun aggregation threshold ishlatiladi. “Sotuv” yoki “daromad” checkout bo'lmagani uchun hisoblanmaydi.
 
-## 18. Dizayn tizimi va UX sifati
+## 19. Dizayn tizimi va UX sifati
 
 ### Navigatsiya
 
@@ -625,7 +661,7 @@ Bir do'kon boshqa do'konning xom analytics ma'lumotini ko'rmaydi. Kichik segment
 - O'zbek lotin P0; sana, telefon va UZS formatlari markaziy formatter orqali.
 - Loading skeleton, empty, validation, offline, 403, 404, 429 va 500 holatlari dizayn qilinadi.
 
-## 19. Monorepo tuzilishi
+## 20. Monorepo tuzilishi
 
 ```text
 rasta/
@@ -651,7 +687,7 @@ rasta/
 
 Birinchi kod bosqichida hammasi birdan yaratilmaydi. Avval workspace, `web`, `admin`, `database`, `ui` va `validation` skeleti; keyin modullar vertikal kesimlarda to'ldiriladi.
 
-## 20. Bosqichma-bosqich amalga oshirish
+## 21. Bosqichma-bosqich amalga oshirish
 
 ### 0-bosqich — qaror va dizayn poydevori
 
@@ -731,7 +767,7 @@ Birinchi kod bosqichida hammasi birdan yaratilmaydi. Avval workspace, `web`, `ad
 
 **Chiqish mezoni:** do'kon ochish to'lovga bog'lanmagan holda obuna sotib olish/yangilash ishlaydi; webhook takror yuborilganda ikki marta entitlement bermaydi; to'lov uzilishi katalog ma'lumotini yo'qotmaydi.
 
-## 21. Umumiy Definition of Done
+## 22. Umumiy Definition of Done
 
 Har bir funksiya “tayyor” hisoblanishi uchun:
 
@@ -746,7 +782,7 @@ Har bir funksiya “tayyor” hisoblanishi uchun:
 - migratsiya rollback/forward rejasi bor;
 - foydalanuvchi hujjati yoki admin yo'riqnomasi yangilangan.
 
-## 22. Ishga tushirish uchun yakuniy qabul mezonlari
+## 23. Ishga tushirish uchun yakuniy qabul mezonlari
 
 1. Mehmon katalog, mahsulot va do'konni login qilmasdan ko'ra oladi.
 2. Bir user shaxsiy profil va ruxsat berilgan do'kon kontekstlari orasida aniq almashadi.
@@ -767,7 +803,7 @@ Har bir funksiya “tayyor” hisoblanishi uchun:
 17. Parallel qoldiq yangilanishi atomik/versionlangan, idempotent va manfiy qoldiq yaratmaydi; har o'zgarish inventory movementda izlanadi.
 18. Suspend qilingan do'kon yoki listing direct URL, qidiruv va CDN orqali ko'pi bilan 60 soniyada ko'rinmay qoladi.
 
-## 23. Ochiq biznes qarorlari
+## 24. Ochiq biznes qarorlari
 
 Kod boshlanishidan oldin quyidagilar egasi va sanasi bilan tasdiqlanadi:
 
