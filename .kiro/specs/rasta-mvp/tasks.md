@@ -1,5 +1,7 @@
 # RASTA MVP — Vazifalar (Implementation Tasks)
 
+> **Kanonik manba:** [RASTA_INFRATUZILMA_REJASI.md](../../../RASTA_INFRATUZILMA_REJASI.md). Batafsil bosqichlar, xavfsizlik mezonlari va yangi rol/tenant modeli shu hujjatda; ushbu atomik vazifalar kod boshlanishidan oldin unga moslab yangilanadi.
+>
 > Har bir vazifa kichik va tekshiriladigan. Vazifalar ketma-ket bajariladi. Har bir vazifa tugagach, siz natijani ko'rib tasdiqlaysiz, keyin keyingisiga o'tamiz.
 > Belgilar: `[ ]` bajarilmagan · `[x]` bajarilgan
 
@@ -15,7 +17,7 @@
 
 ## Bosqich 1 — Ma'lumotlar bazasi
 
-- [ ] 1.1 Migratsiya: barcha jadvallar (profiles, shops, plans, subscriptions, categories, listings, listing_images, favorites, chats, messages, reports, events)
+- [ ] 1.1 Migratsiya: identity/tenant, do'kon membershipi, kategoriya atributlari, listing/variant/qoldiq, chat, moderatsiya, audit va analytics jadvallari
   - _Talablar: 1-10_
 - [ ] 1.2 RLS siyosatlari (har bir jadval uchun)
   - _Talablar: 1, 3, 6_
@@ -26,7 +28,7 @@
 
 - [ ] 2.1 OTP kirish ekrani (telefon kiritish → kod → tasdiqlash)
   - _Talablar: 1.1, 1.2, 1.3_
-- [ ] 2.2 Birinchi kirishda profil to'ldirish (ism, rol)
+- [ ] 2.2 Birinchi kirishda profil to'ldirish (ism va lokal sozlamalar; qaytmas xaridor/sotuvchi roli yo'q)
   - _Talablar: 1.4_
 - [ ] 2.3 Mehmon rejimi + himoyalangan amallar uchun login tekshiruvi
   - _Talablar: 1.5_
@@ -52,7 +54,7 @@
   - _Talablar: 2.1, 3.2_
 - [ ] 4.2 E'lon formasi + rasm yuklash (Supabase Storage), validatsiya
   - _Talablar: 2.1, 2.2, 2.3_
-- [ ] 4.3 E'lon holatlari (pending/active/expired) va "Mening e'lonlarim"
+- [ ] 4.3 E'lon holatlari (`draft → submitted → under_review → active`; rejected/paused/expired) va "Mening e'lonlarim"; `active` faqat moderator tasdig'idan keyin
   - _Talablar: 2.4, 2.5, 2.6_
 
 ## Bosqich 5 — Sevimlilar
@@ -71,26 +73,26 @@
 - [ ] 6.4 Bog'lanish hodisasini yozish (`events`: contact)
   - _Talablar: 5.2, 8.1_
 
-## Bosqich 7 — Do'kon va obuna
+## Bosqich 7 — Do'kon va pilot entitlementi
 
-- [ ] 7.1 Do'kon ochish formasi (nom, logo, banner, ma'lumot)
+- [ ] 7.1 Do'kon ochish, tekshiruv holati va membership formasi (nom, logo, banner, ma'lumot)
   - _Talablar: 3.1_
-- [ ] 7.2 Tariflar ekrani (`PlanCard` x3) + to'lov stub
-  - _Talablar: 9.1, 9.2, 9.3_
-- [ ] 7.3 Do'kon mahsuloti qo'shish (tarif limiti tekshiruvi)
+- [ ] 7.2 Pilot trial/manual entitlement va mahsulot limitini ko'rsatish; real to'lov P1
+  - _Talablar: 9.1, 9.2_
+- [ ] 7.3 Do'kon mahsuloti qo'shish (trial/manual entitlement limiti tekshiruvi)
   - _Talablar: 3.2, 3.5_
 
 ## Bosqich 8 — Do'kon boshqaruv paneli (statistika)
 
 - [ ] 8.1 Dashboard: KPI kartalar (ko'rishlar, bog'lanishlar, sevimlilar)
   - _Talablar: 8.1, 8.2_
-- [ ] 8.2 Mahsulotlar ro'yxati (har birida mini-statistika) + obuna holati
-  - _Talablar: 8.3, 9.4_
+- [ ] 8.2 Mahsulotlar ro'yxati (har birida mini-statistika) + pilot entitlement holati
+  - _Talablar: 8.3, 9.2_
 
 ## Bosqich 9 — Moderatsiya va yakuniy
 
-- [ ] 9.1 Shikoyat (report) tugmasi va saqlash
-  - _Talablar: 10.1, 10.2_
+- [ ] 9.1 Himoyalangan admin panel: do'kon/e'lon moderatsiyasi, shikoyat, bloklash, sabab va audit
+  - _Talablar: 10_
 - [ ] 9.2 Oddiy avto-tekshiruv (taqiqlangan so'zlar) — ixtiyoriy
   - _Talablar: 10.3_
 - [ ] 9.3 Mahalliylashtirish: so'm format, +998 maska, hudud ro'yxati, til matnlari
@@ -106,5 +108,5 @@
 3. Tasdiqlaganingizdan keyin keyingi vazifaga o'taman.
 
 ## Eslatma
-- To'lov (Payme/Click/Uzum) to'liq integratsiyasi MVP'dan keyin (v2).
+- To'lov (Payme/Click/Uzum) integratsiyasi muvaffaqiyatli pilotdan keyingi P1 bosqichida.
 - Mobil (Flutter) versiyasi — web MVP tayyor bo'lgach.

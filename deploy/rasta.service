@@ -1,0 +1,24 @@
+[Unit]
+Description=RASTA — katalog-marketplace
+After=network.target
+
+[Service]
+Type=simple
+User=rasta
+WorkingDirectory=/opt/rasta/app
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=RASTA_DATA_DIR=/var/lib/rasta
+ExecStart=/usr/bin/node --experimental-sqlite src/start.js
+Restart=always
+RestartSec=3
+
+# Xavfsizlik cheklovlari
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/rasta
+
+[Install]
+WantedBy=multi-user.target

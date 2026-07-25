@@ -1,8 +1,32 @@
-# RASTA — Kategoriyalar tizimi
+# RASTA — Kategoriyalar tizimi (universal bozor)
 
-> Keng, aniq va tartibli ierarxik kategoriyalar. Tuzilish: **Asosiy kategoriya → Kichik kategoriya**.
-> Har bir e'lon eng quyi (aniq) kategoriyaga biriktiriladi. Kiyim kabi bo'limlar jins/yosh bo'yicha ajratiladi.
-> Eslatma: **Yangi** va **Ishlatilgan** ajratish kategoriya ichida emas, balki har bir e'londa **holat** maydoni orqali amalga oshiriladi (qidiruvda alohida filtr/tab).
+> RASTA — **universal savdo rastasi**: mahsulot, xizmat, ko‘chmas mulk, oziq-ovqat, dori-darmon, ish o‘rni va boshqalar bitta ilovada, lekin **aniq ajratilgan** holda.
+> Tuzilish: **Asosiy kategoriya → Kichik kategoriya → (kerak bo‘lsa) uchinchi daraja**. Har bir e'lon eng quyi (aniq) kategoriyaga biriktiriladi.
+> **Kategoriya aniqligi — platformaning asosiy sifat mezoni.** Noto‘g‘ri kategoriya moderatsiyada tuzatiladi yoki rad etiladi.
+
+---
+
+## 0. E'lon turi (listing_type) — eng muhim ajratish
+
+Kategoriyadan oldin har bir e'lon **turi** aniqlanadi. Tur formani, atributlarni, filtrlarni va ko‘rinishni belgilaydi:
+
+| Tur | Misol | Xususiyati |
+|-----|-------|-----------|
+| 🛍️ **Mahsulot** | telefon, kiyim, mebel | narx, **holat (yangi/ishlatilgan)**, qoldiq/SKU |
+| 🛠️ **Xizmat** | usta, repetitor, tozalash | narx turi (soatbay/ish hajmi/kelishiladi), tajriba, xizmat hududi — *qoldiq/holat yo‘q* |
+| 🏡 **Ko‘chmas mulk** | kvartira, uy, ofis | sotuv/ijara, xona, maydon (m²), qavat — *qoldiq yo‘q* |
+| 🍎 **Oziq-ovqat** | asal, go‘sht, mevalar | birlik/og‘irlik, yaroqlilik muddati, ishlab chiqaruvchi |
+| 💊 **Dori-darmon** | vitamin, dori, tibbiy mol | doza, ishlab chiqaruvchi, **retsept holati** (litsenziya majburiy) |
+| 💼 **Ish o‘rni (vakansiya)** | sotuvchi, haydovchi | ish turi, maosh oralig‘i, band bo‘lish — *narx/holat yo‘q* |
+
+> **Muhim:** `yangi/ishlatilgan` **holat** faqat **mahsulot** turida bor. Xizmat, ko‘chmas mulk va vakansiyada bu maydon ko‘rsatilmaydi — forma har turga moslashadi.
+
+E'lon egaligi ham ajratiladi:
+
+| Belgi | Variantlar |
+|-------|-----------|
+| **Egalik** | 🏪 Do‘kon e'loni (tasdiqlangan) · 👤 Shaxsiy e'lon |
+| **Reklama** | organik natija · «Reklama» yorlig‘i bilan pullik joylashuv |
 
 ---
 
@@ -14,55 +38,56 @@
 - Audio: quloqchin, kolonka
 - Foto va video texnika
 - Smart soat va gadjetlar
-- O'yin konsollari (PlayStation, Xbox)
+- O‘yin konsollari (PlayStation, Xbox)
 - Kompyuter ehtiyot qismlari
 
 ## 2. 🔌 Maishiy texnika
-- Muzlatgich va muzlatkichlar
+- Muzlatgich
 - Kir yuvish mashinasi
 - Konditsioner va isitgich
-- Oshxona texnikasi (plita, pech, mikroto'lqinli)
+- Oshxona texnikasi (plita, pech, mikroto‘lqinli)
 - Changyutgich
 - Suv isitgich (boyler)
 - Dazmol va mayda texnika
 - Idish yuvish mashinasi
 
 ## 3. 🏗️ Qurilish mollari
-- Bo'yoq va lak
+- Bo‘yoq va lak
 - Sement, gips, qurilish aralashmalari
-- G'isht, bloklar, shifer
+- G‘isht, bloklar, shifer
 - Elektr mollari (kabel, rozetka, lampalar)
 - Santexnika (truba, kran, smesitel)
 - Eshik va derazalar
 - Pol qoplamalari (laminat, plitka, linoleum)
-- Asboblar (drel, bolg'a, shurupavert)
+- Asboblar (drel, bolg‘a, shurupavert)
 - Issiqlik va izolatsiya materiallari
 
 ## 4. 👕 Kiyim-kechak
-- 👩 **Ayollar kiyimlari** (ko'ylak, palto, kostyum, ich kiyim)
-- 👨 **Erkaklar kiyimlari** (ko'ylak, shim, kurtka, kostyum)
-- 🧒 **Bolalar kiyimlari** (qiz/o'g'il, chaqaloq)
-- 👟 Poyabzal (ayollar / erkaklar / bolalar)
+- 👩 Ayollar kiyimlari
+- 👨 Erkaklar kiyimlari
+- 🧒 Bolalar kiyimlari (qiz/o‘g‘il, chaqaloq)
+- 👟 Poyabzal
 - 👜 Sumka va aksessuarlar
 - ⌚ Soat va zargarlik
-- 🧣 Bosh kiyim, sharf, qo'lqop
+- 🧣 Bosh kiyim, sharf, qo‘lqop
 
 ## 5. 🍎 Oziq-ovqat
-- Go'sht va parranda
+- Go‘sht va parranda
 - Sut mahsulotlari
 - Non va shirinliklar
-- Quruq mevalar va yong'oqlar
+- Quruq mevalar va yong‘oqlar
 - Asal va murabbo
 - Ziravorlar va qadoqlangan mahsulotlar
 - Ichimliklar
+> Atribut: birlik, og‘irlik/hajm, yaroqlilik muddati, ishlab chiqaruvchi, tarkib.
 
-## 6. 🌽 Poliz va dehqonchilik mahsulotlari
+## 6. 🌽 Poliz va dehqonchilik
 - Poliz mahsulotlari (tarvuz, qovun, qovoq)
 - Mevalar
 - Sabzavotlar
-- Ko'katlar
-- Don va urug'lik
-- Ko'chat va o'simliklar
+- Ko‘katlar
+- Don va urug‘lik
+- Ko‘chat va o‘simliklar
 - Yem-xashak
 
 ## 7. 🚗 Transport
@@ -73,88 +98,114 @@
 - Avto ehtiyot qismlar
 - Avto aksessuarlar
 - Shina va disklar
+> Atribut: marka, model, yil, probeg, yoqilg‘i, uzatmalar qutisi.
 
-## 8. 🛋️ Uy-ro'zg'or va mebel
+## 8. 🛋️ Uy-ro‘zg‘or va mebel
 - Divan va yumshoq mebel
 - Stol va stullar
 - Karavot va matras
 - Shkaf va javonlar
 - Oshxona mebeli
-- Bog' va dala mebeli
-- Gilam va to'shamalar
+- Bog‘ va dala mebeli
+- Gilam va to‘shamalar
 - Idish-tovoq
-- Dekor va naqshlar
+- Dekor
 
-## 9. 💄 Go'zallik va salomatlik
+## 9. 💄 Go‘zallik va parvarish
 - Parfyumeriya
 - Dekorativ kosmetika
 - Yuz va tana parvarishi
 - Soch parvarishi
-- Tibbiy mollar va vositalar
 - Sport ozuqasi
 
-## 10. 🧸 Bolalar mollari
-- O'yinchoqlar
+## 10. 💊 Apteka va dori-darmon
+- Dori vositalari (retseptsiz)
+- Vitamin va biologik faol qo‘shimchalar (BAD)
+- Tibbiy mollar (bint, shpris, maska, tonometr)
+- Ona va bola mahsulotlari (tibbiy)
+- Ortopediya va parvarish vositalari
+- Optika (ko‘zoynak, linza)
+> **Majburiy:** faqat **litsenziyalangan apteka** do‘konlari joylashtira oladi.
+> Atribut: ishlab chiqaruvchi, doza/miqdor, yaroqlilik muddati, **retsept holati**.
+> **Taqiqlangan:** retsept talab qiladigan/nazorat ostidagi dorilar, notarkibiy va soxta vositalar — Trust & Safety siyosati bo‘yicha bloklanadi.
+
+## 11. 🧸 Bolalar mollari
+- O‘yinchoqlar
 - Bolalar aravachalari
 - Bolalar mebeli (beshik, stul)
 - Chaqaloq mollari (tagliklar, idishlar)
-- Maktab va o'quv anjomlari
+- Maktab va o‘quv anjomlari
 
-## 11. ⚽ Sport va dam olish
+## 12. ⚽ Sport va dam olish
 - Sport anjomlari va trenajyorlar
 - Velosiped (sport)
 - Turizm va kemping
 - Baliq ovi va ov
 - Sport kiyimlari
 
-## 12. 📚 Hobbi va bo'sh vaqt
+## 13. 📚 Hobbi va bo‘sh vaqt
 - Kitoblar
 - Musiqa asboblari
-- San'at va to'plamlar (kolleksiya)
+- San'at va kolleksiyalar
 - Antikvariat
-- Qo'lda yasalgan buyumlar (hand-made)
+- Qo‘lda yasalgan buyumlar
 
-## 13. 🐈 Hayvonlar
+## 14. 🐈 Hayvonlar
 - Uy hayvonlari (it, mushuk)
 - Qushlar
 - Akvarium va baliqlar
 - Hayvonlar uchun yem va aksessuar
 - Chorva mollari
 
-## 14. 🏡 Ko'chmas mulk
+## 15. 🏡 Ko‘chmas mulk
 - Kvartiralar (sotuv / ijara)
 - Uy va hovlilar
 - Yer uchastkalari
-- Tijorat ob'ektlari (do'kon, ofis, ombor)
+- Tijorat ob'ektlari (do‘kon, ofis, ombor)
 - Garaj va dachalar
+> Atribut: sotuv/ijara, xonalar soni, maydon (m²), qavat/qavatlar, ta'mir holati, hujjat.
 
-## 15. 🛠️ Xizmatlar
-- Ta'mirlash va qurilish xizmatlari
-- Tashish va yetkazib berish
-- Repetitor va ta'lim
-- Go'zallik xizmatlari
-- IT va dizayn xizmatlari
-- Tadbir va bayram xizmatlari
+## 16. 🛠️ Xizmatlar va ustalar
+- **Ta'mirlash va montaj:** santexnik, elektrik, konditsioner ustasi, mebel yig‘uvchi
+- **Qurilish ishchilari:** g‘isht teruvchi, suvoqchi, bo‘yoqchi, kafelchi
+- **Uy xizmatlari:** tozalash, kir yuvish, ko‘chirish (gruzchik)
+- **Transport va yetkazish:** yuk tashish, taksi, evakuator
+- **Ta'lim:** repetitor, kurslar, murabbiy
+- **Go‘zallik xizmatlari:** sartarosh, manikyur, kosmetolog (uyda/salonda)
+- **IT va dizayn:** dasturlash, grafik dizayn, SMM
+- **Tadbir:** fotograf, oshpaz, bezatish, boshlovchi
+> Atribut: narx turi (soatbay / ish hajmi / kelishiladi), tajriba (yil), xizmat hududi, chaqiruv/uyga borish. *Holat va qoldiq yo‘q.*
 
-## 16. 💼 Ish va biznes
-- Ish o'rinlari (vakansiya)
+## 17. 💼 Ish va biznes
+- Ish o‘rinlari (vakansiya)
 - Tayyor biznes
 - Biznes uskunalari
 - Ofis jihozlari
+> Vakansiya atributi: lavozim, band bo‘lish (to‘liq/qisman), maosh oralig‘i, tajriba talabi.
 
 ---
 
-## E'lon turi va holat (muhim ajratishlar)
+## Kategoriyaga mos dinamik atributlar (aniqlik uchun)
 
-Har bir e'lon ikki muhim belgiga ega:
+| Kategoriya / tur | Majburiy atributlar | Ixtiyoriy |
+|---|---|---|
+| Telefon | brend, model, xotira, holat | rang, SIM, kafolat |
+| Kiyim | jins/yosh, o‘lcham, material | rang, mavsum |
+| Oziq-ovqat | birlik, og‘irlik/hajm, yaroqlilik | ishlab chiqaruvchi, tarkib |
+| Dori-darmon | ishlab chiqaruvchi, doza, retsept holati | miqdor, yaroqlilik |
+| Ko‘chmas mulk | sotuv/ijara, xona, maydon (m²), qavat | ta'mir, mebel, hujjat |
+| Xizmat / usta | xizmat turi, narx turi, hudud | tajriba, chaqiruv |
+| Transport | marka, model, yil, probeg | yoqilg‘i, rang |
+| Qurilish | material/tur, o‘lcham, birlik | marka, standart |
+| Vakansiya | lavozim, band bo‘lish, maosh oralig‘i | tajriba, jadval |
 
-| Belgi | Variantlar | Izoh |
-|-------|-----------|------|
-| **E'lon turi** | 🏪 Do'kon e'loni (pulli, tasdiqlangan) · 👤 Shaxsiy e'lon (bepul) | Qidiruvda alohida filtr; vizual ajraladi |
-| **Holat** | 🆕 Yangi · ♻️ Ishlatilgan | Majburiy maydon; qidiruvda alohida tab/filtr — aralashmaydi |
+Admin atribut ta'rifini boshqaradi. Sotuvchi faqat tanlangan kategoriya/tur uchun berilgan maydonlarni ko‘radi — shu bilan forma qisqa, aniq va turli bozorlarga mos bo‘ladi.
 
-Shunday qilib foydalanuvchi, masalan, faqat **"Yangi · Do'kon e'loni · Telefonlar"** yoki faqat **"Ishlatilgan · Shaxsiy e'lon · Mebel"** ni ko'rishi mumkin.
+## Media (rasm) qoidasi
+- Har bir e'lon **bir nechta rasm** (galereya) qabul qiladi.
+- Kartada va batafsil sahifada rasmlar **avtomatik slayd** bo‘ladi (har ~5 soniyada) hamda qo‘lda suriladi; nuqta (dot) indikatori ko‘rsatiladi.
+- Birinchi rasm — asosiy (muqova); tartib sotuvchi tomonidan belgilanadi.
 
 ## Kengaytirish
-- Kategoriyalar admin paneli orqali qo'shiladi/tahrirlanadi.
-- Har bir kategoriyaga maxsus maydonlar (atribut) qo'shilishi mumkin (masalan, Transport uchun: yil, probeg, yoqilg'i turi).
+- Kategoriyalar va atributlar admin paneli orqali qo‘shiladi/tahrirlanadi.
+- Yangi bozor turi (masalan, «yo‘qolgan buyumlar», «ijaraga texnika») kod o‘zgartirmasdan, kategoriya + atribut shabloni orqali qo‘shiladi.

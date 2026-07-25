@@ -4,23 +4,24 @@
 
 RASTA — butun O'zbekiston uchun onlayn bozor (katalog-marketplace). Ilova ichida xaridor-sotuvchi to'lovi yo'q: sotuvchilar do'kon ochib mahsulot joylaydi, xaridor qidirib topadi va chat/telefon orqali bog'lanadi.
 
-E'lonlar ikki turda va aniq ajratilgan bo'ladi: **Do'kon e'loni** (pulli, tasdiqlangan do'konlar) va **Shaxsiy e'lon** (bepul, yakka shaxslar). Yangi va ishlatilgan mahsulotlar ham doimo ajratiladi.
+E'lonlar ikki turda va aniq ajratilgan bo'ladi: **Do'kon mahsuloti** (ro'yxatdan o'tgan va tasdiqlangan do'konlar; pilotda trial/manual entitlement, pullik obuna P1) va **Shaxsiy e'lon** (bepul, yakka shaxslar). Yangi va ishlatilgan mahsulotlar ham doimo ajratiladi.
 
 Ushbu hujjat **MVP (birinchi ishlaydigan versiya)** uchun talablarni belgilaydi. MVP web (Next.js) ko'rinishidan boshlanadi.
 
 ### MVP doirasi (Scope)
 - ✅ Telefon (OTP) orqali ro'yxatdan o'tish/kirish
 - ✅ Shaxsiy e'lon joylash (bepul)
-- ✅ Do'kon ochish va do'kon e'lonlari (pulli)
+- ✅ Do'kon ochish/tekshirish va do'kon mahsulotlari (pilot trial/manual entitlement)
 - ✅ Keng, ierarxik kategoriya tizimi
 - ✅ Qidiruv va filtrlar (tur va holat ajratilgan)
 - ✅ Mahsulot/e'lon batafsil sahifasi
 - ✅ Chat (sotuvchi bilan aloqa)
 - ✅ Sevimlilar
 - ✅ Oddiy do'kon statistikasi
-- ✅ Obuna tariflari (ko'rsatish; to'lov stub/keyin to'liq)
+- ✅ Pilot entitlementi va limit holati; real obuna/to'lov P1
 - ✅ Shikoyat (report) tizimi
-- ❌ MVP'dan tashqari: xarita, AI tavsiya, video, mikroservis, admin web-panel (v2+)
+- ✅ Asosiy admin moderatsiya paneli (do'kon/e'lon/shikoyat)
+- ❌ MVP'dan tashqari: xarita, AI tavsiya, video, mikroservis, 3D/AR
 
 ---
 
@@ -34,7 +35,7 @@ Ushbu hujjat **MVP (birinchi ishlaydigan versiya)** uchun talablarni belgilaydi.
 1. Foydalanuvchi telefon raqamini (+998 formatda) kiritsa, tizim SMS orqali OTP kod yuborishi KERAK.
 2. To'g'ri OTP kiritilganda, tizim foydalanuvchini tizimga kiritishi va sessiya tokeni berishi KERAK.
 3. Noto'g'ri yoki muddati o'tgan OTP kiritilganda, tizim xatolik ko'rsatishi KERAK.
-4. Foydalanuvchi birinchi marta kirganda, tizim ism va rol (xaridor/sotuvchi) so'rashi KERAK.
+4. Foydalanuvchi birinchi marta kirganda, tizim ismni so'rashi KERAK; xaridor/sotuvchi qaytmas rol tanlovi so'ralmasligi KERAK, chunki bitta akkaunt ikkala kontekstda ishlaydi.
 5. Tizim mehmon (login'siz) rejimida ko'rish va qidiruvga ruxsat berishi KERAK; e'lon joylash yoki chat uchun login talab qilishi KERAK.
 6. OTP so'rovlari uchun tizim rate limiting qo'llashi KERAK (spam/SMS-pumping himoyasi).
 
@@ -46,7 +47,7 @@ Ushbu hujjat **MVP (birinchi ishlaydigan versiya)** uchun talablarni belgilaydi.
 1. Login qilgan foydalanuvchi e'lon formasini to'ldira olishi KERAK: rasm(lar), sarlavha, kategoriya, narx (yoki "Kelishiladi"), **holat (Yangi/Ishlatilgan — majburiy)**, hudud, tavsif, aloqa.
 2. Tizim kamida 1 ta rasm va majburiy maydonlarni talab qilishi KERAK.
 3. Shaxsiy e'lon uchun tizim rasm sonini cheklashi KERAK (masalan 5 tagacha).
-4. E'lon joylanganda, tizim uni "moderatsiyada" yoki "faol" holatida saqlashi KERAK.
+4. E'lon yuborilganda, tizim uni `submitted` holatida saqlashi, moderatsiya boshlanganda `under_review`ga o'tkazishi KERAK; faqat muvaffaqiyatli tekshiruvdan keyin `active` bo'lishi va public qidiruvga chiqishi KERAK.
 5. Tizim bepul foydalanuvchi uchun bir vaqtda faol e'lonlar sonini cheklashi MUMKIN (masalan 5 ta).
 6. E'lon ma'lum muddatdan keyin (masalan 30 kun) "muddati tugagan" bo'lishi KERAK.
 7. Shaxsiy e'lonlar do'kon e'lonlaridan vizual ravishda aniq ajralib turishi KERAK ("Shaxsiy" belgisi).
@@ -60,7 +61,11 @@ Ushbu hujjat **MVP (birinchi ishlaydigan versiya)** uchun talablarni belgilaydi.
 2. Do'kon egasi mahsulot qo'sha olishi KERAK (e'lon bilan o'xshash, lekin do'konga bog'langan).
 3. Do'kon mahsulotlari do'kon profili sahifasida ko'rinishi KERAK.
 4. Tizim do'kon mahsulotlarida "Do'kon/Tasdiqlangan" belgisini ko'rsatishi KERAK.
-5. Obuna tarifiga qarab tizim mahsulot sonini cheklashi KERAK (Boshlang'ich/Standart/Premium).
+5. P0 da tizim trial/manual entitlement bo'yicha mahsulot sonini cheklashi, P1 da shu limitni tanlangan tarif entitlementidan olishi KERAK.
+6. Bitta foydalanuvchi bir yoki bir nechta do'konga `Owner`, `Manager`, `Catalog manager` yoki `Support` membershipi orqali bog'lanishi, faqat permissioni bor do'konni boshqarishi KERAK.
+7. Do'kon mahsuloti `store_id` bilan, shaxsiy e'lon esa shaxsiy egasi bilan bog'lanishi va bu ikki egalik turi aralashmasligi KERAK.
+8. Membership bekor qilinganda yoki permission pasaytirilganda, tizim yangi write/realtime amallarini darhol rad etishi va cached ruxsatni ko'pi bilan 60 soniyada yangilashi KERAK.
+9. Parallel qoldiq yangilanishi atomik yoki versionlangan bo'lishi, idempotent retryni qo'llashi, manfiy qoldiq yaratmasligi va inventory movement yozishi KERAK.
 
 ### 4-talab: Qidiruv va filtrlar
 
@@ -111,22 +116,26 @@ Ushbu hujjat **MVP (birinchi ishlaydigan versiya)** uchun talablarni belgilaydi.
 2. Statistika kunlik/haftalik ko'rinishda bo'lishi KERAK.
 3. Har bir mahsulot uchun ko'rishlar soni ko'rsatilishi KERAK.
 
-### 9-talab: Obuna tariflari
+### 9-talab: Pilot entitlementi va P1 obuna tariflari
 
-**Foydalanuvchi hikoyasi:** Sotuvchi sifatida do'kon tariflarini ko'rib, mosini tanlamoqchiman.
-
-**Qabul mezonlari:**
-1. Tizim 3 ta tarifni ko'rsatishi KERAK: Boshlang'ich (~49k), Standart (~99k), Premium (~199k so'm/oy).
-2. Har bir tarif imkoniyatlari (mahsulot soni, statistika darajasi) ko'rsatilishi KERAK.
-3. Tizim to'lov usullarini (Payme/Click/Uzum) ko'rsatishi KERAK. (MVP'da to'lov stub bo'lishi MUMKIN, integratsiya keyin.)
-4. Obuna holati (faol/muddati) do'kon panelida ko'rinishi KERAK.
-
-### 10-talab: Shikoyat va moderatsiya (asosiy)
+**Foydalanuvchi hikoyasi:** Do'kon egasi sifatida pilotda do'konimning ruxsat va limitlarini ko'rmoqchiman; monetizatsiya ishga tushgach mos tarifni tanlamoqchiman.
 
 **Qabul mezonlari:**
-1. Foydalanuvchi e'lon, do'kon yoki foydalanuvchi haqida shikoyat yubora olishi KERAK (sabab bilan).
-2. Tizim shikoyatlarni saqlashi va admin ko'rishi uchun belgilashi KERAK.
-3. Tizim taqiqlangan so'zlar/spam uchun oddiy avto-tekshiruv qo'llashi MUMKIN.
+1. P0 pilotda tizim do'konga vaqtli trial yoki admin tomonidan manual entitlement berishi, do'kon ochishni real to'lovga bog'lamasligi KERAK.
+2. Entitlement holati va mahsulot limiti do'kon panelida ko'rinishi KERAK.
+3. P1 da tizim Boshlang'ich, Standart va Premium tariflarini hamda ularning aniq imkoniyatlarini ko'rsatishi KERAK.
+4. P1 to'lov integratsiyasi signed/idempotent webhook va trial/grace/expired siyosati bilan alohida qabul qilinishi KERAK.
+
+### 10-talab: Shikoyat va moderatsiya (P0)
+
+**Qabul mezonlari:**
+1. Foydalanuvchi e'lon, do'kon, foydalanuvchi yoki chat haqida sabab kodi va izoh bilan shikoyat yubora olishi KERAK.
+2. Tizim yangi do'kon va listingni public qilishdan oldin moderator navbatiga yuborishi KERAK.
+3. Moderator obyektni tasdiqlashi, sabab kodi bilan rad etishi, qo'shimcha ma'lumot so'rashi yoki suspend qilishi KERAK.
+4. Rad etish/takedown natijasi sotuvchiga tushunarli ko'rsatilishi va apellyatsiya yuborish imkoniyati bo'lishi KERAK.
+5. Moderatsiya, bloklash va qayta faollashtirish qarorlari actor, vaqt, sabab va target bilan audit jurnaliga yozilishi KERAK.
+6. Suspend qilingan do'kon yoki listing public qidiruv, direct URL va CDN cachedan ko'pi bilan 60 soniyada yashirilishi KERAK; purge muvaffaqiyatsiz bo'lsa origin public o'qishni rad etishi KERAK.
+7. Tizim taqiqlangan so'zlar, spam va duplicate signallari uchun avtomatik risk tekshiruvini qo'llashi MUMKIN; yakuniy qaror izohlanadigan bo'lishi KERAK.
 
 ### 11-talab: Mahalliylashtirish
 
@@ -150,23 +159,10 @@ Ushbu hujjat **MVP (birinchi ishlaydigan versiya)** uchun talablarni belgilaydi.
 
 ---
 
-### 13-talab: 3D / AR mahsulot ko'rinishi (Premium imkoniyat)
-
-**Foydalanuvchi hikoyasi:** Xaridor sifatida mahsulotni 3D'da har tomondan ko'rmoqchiman va AR orqali uni o'z xonamda sinab ko'rmoqchiman; sotuvchi sifatida do'konimni boshqalardan ajratmoqchiman.
-
-**Qabul mezonlari:**
-1. Tizim mahsulotga 3D model (GLB/GLTF) biriktirishni qo'llab-quvvatlashi KERAK (Premium do'konlar uchun).
-2. Mahsulot sahifasida 3D model 360° aylantirib ko'riladigan bo'lishi KERAK (Google model-viewer).
-3. Qo'llab-quvvatlovchi qurilmalarda AR rejimi (Android Scene Viewer, iOS Quick Look, WebXR) mavjud bo'lishi KERAK.
-4. 3D modeli bor mahsulotlar katalogda "3D" belgisi bilan ajralib turishi KERAK.
-5. Sotuvchi do'kon panelidan 3D modelni yuklashi va boshqarishi KERAK.
-6. 3D bo'lmagan mahsulotlar oddiy rasm galereyasi bilan ishlashda davom etishi KERAK (3D ixtiyoriy).
-
-> Eslatma: 3D/AR — premium/farqlovchi imkoniyat. MVP'da interfeys va demo, to'liq integratsiya v3 bosqichida (mebel, texnika kabi kategoriyalar uchun avval).
-
 ## MVP bo'lmagan (kelajak)
-- Xarita/geolokatsiya, kengaytirilgan filtr
-- Premium statistika (geografiya, konversiya)
-- To'lov to'liq integratsiyasi va avto-yangilanish
-- Admin moderatsiya web-paneli
-- AI tavsiya, rasm orqali qidiruv, Telegram Mini App, mobil (Flutter)
+- Xarita/geolokatsiya va kengaytirilgan filtr
+- Premium statistika (geografiya va chuqur funnel tahlili)
+- To'lovning to'liq integratsiyasi va avto-yangilanish
+- AI tavsiya, rasm orqali qidiruv, Telegram Mini App va native mobil ilova
+
+> **Qat'iy doiradan tashqari:** 3D model va AR funksiyalari ishlab chiqilmaydi.

@@ -1,0 +1,901 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>RASTA — ijtimoiy marketplace</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fafafa;--surface:#fff;--ink:#0f1115;--muted:#8a8f98;--soft:#f1f2f4;--line:#e9ebef;
+  --brand:#0c9b88;--brand-2:#12b8a2;--accent:#f5633c;
+  --ring:linear-gradient(135deg,#0c9b88,#12b8a2 40%,#f5633c);
+  --grad-cta:linear-gradient(135deg,#0c9b88,#f5633c);
+  --success:#1f9d57;--warn:#d1893b;--danger:#e0405a;--info:#3f74d6;
+  --shadow:0 12px 40px rgba(18,32,30,.1);--shadow-sm:0 4px 16px rgba(18,32,30,.07);
+  --r:16px;--r-sm:11px;
+}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer;background:none;border:0}a{color:inherit;text-decoration:none}
+svg.i{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block}
+.hidden{display:none!important}.muted{color:var(--muted)}
+img,.ph{display:block}
+/* ---------- shell ---------- */
+.shell{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:100vh}
+.rail{position:sticky;top:0;height:100vh;border-right:1px solid var(--line);background:var(--surface);padding:26px 12px 18px;display:flex;flex-direction:column}
+.logo{font-family:"Segoe Script","Snell Roundhand",cursive;font-size:27px;font-weight:800;letter-spacing:-.5px;padding:6px 12px 30px;background:var(--grad-cta);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.rail-item{display:flex;align-items:center;gap:16px;width:100%;padding:12px;border-radius:12px;font-size:15px;font-weight:500;color:var(--ink);transition:.15s;position:relative}
+.rail-item:hover{background:var(--soft)}
+.rail-item.on{font-weight:800}
+.rail-item .i{flex:0 0 24px}
+.rail-item.on .i{stroke-width:2.4}
+.rail-badge{position:absolute;left:26px;top:8px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--accent);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;border:2px solid var(--surface)}
+.rail-ava{width:26px;height:26px;border-radius:50%;background:var(--grad-cta);display:grid;place-items:center;color:#fff;font-weight:800;font-size:12px}
+.rail-spacer{flex:1}
+.rail-cta{margin:4px 8px 8px;padding:13px;border-radius:14px;background:linear-gradient(135deg,#0d2b28,#0c7d70);color:#fff;position:relative;overflow:hidden}
+.rail-cta b{font-size:13px;display:block}.rail-cta span{font-size:11px;opacity:.8;display:block;margin:3px 0 10px}
+.rail-cta button{background:#fff;color:#0b6a5f;font-weight:800;font-size:11px;padding:8px 12px;border-radius:9px}
+.main{min-width:0}
+/* ---------- topbar / bottomnav (mobile) ---------- */
+.mtop,.mbottom{display:none}
+/* ---------- feed layout ---------- */
+.feedwrap{max-width:935px;margin:0 auto;display:grid;grid-template-columns:minmax(0,470px) 1fr;gap:56px;padding:26px 20px 90px}
+.feedwrap.single{grid-template-columns:minmax(0,614px);justify-content:center}
+.feedcol{min-width:0}
+/* stories */
+.stories{display:flex;gap:15px;overflow-x:auto;padding:6px 2px 20px;scrollbar-width:none}
+.stories.two-row{display:grid;grid-auto-flow:column;grid-auto-columns:70px;grid-template-rows:auto auto;gap:16px 14px;align-items:start}
+.stories::-webkit-scrollbar{display:none}
+.story{flex:0 0 auto;width:70px;text-align:center}
+.story-ring{width:66px;height:66px;border-radius:50%;padding:3px;background:var(--ring);margin:0 auto 6px;display:grid;place-items:center}
+.story-ring.seen{background:var(--line)}
+.story-ring.add{background:var(--soft);display:grid;place-items:center;border:1px dashed #c8ccd2}
+.story-inner{width:100%;height:100%;border-radius:50%;border:2px solid var(--surface);display:grid;place-items:center;font-weight:800;color:#fff;overflow:hidden}
+.story small{font-size:11px;color:var(--ink);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.story .plus{color:var(--brand)}
+/* post */
+.post{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:22px}
+.post-head{display:flex;align-items:center;gap:11px;padding:11px 13px}
+.ava{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;flex:0 0 38px}
+.ava.ring{padding:2px;background:var(--ring)}
+.ava.ring>span{width:100%;height:100%;border-radius:50%;border:2px solid var(--surface);display:grid;place-items:center;background:var(--brand)}
+.post-head b{font-size:13px;font-weight:700;display:flex;align-items:center;gap:4px}
+.post-head .sub{font-size:11px;color:var(--muted)}
+.verified{display:inline-grid;place-items:center}
+.verified svg{width:14px;height:14px;fill:var(--brand);stroke:#fff;stroke-width:1.5}
+.post-head .more{margin-left:auto;color:var(--ink)}
+.post-media{position:relative;aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden}
+.post-media svg.art{width:74%;height:74%}
+.badges{position:absolute;left:12px;top:12px;display:flex;gap:6px;z-index:2}
+.badge{display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 9px;border-radius:8px;font-size:10.5px;font-weight:800;background:rgba(255,255,255,.94);color:var(--ink);backdrop-filter:blur(6px)}
+.badge.store{color:var(--brand)}.badge.personal{color:#9a6512}
+.badge.success{color:var(--success)}.badge.used{color:#9a6512}
+.media-price{position:absolute;right:12px;bottom:12px;z-index:2;background:rgba(15,17,21,.82);color:#fff;font-weight:800;font-size:14px;padding:7px 12px;border-radius:11px;backdrop-filter:blur(6px)}
+.dots{position:absolute;bottom:12px;left:0;right:0;display:flex;gap:5px;justify-content:center;z-index:2}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.6);transition:.3s}.dots i.on{background:#fff;transform:scale(1.15)}
+.slides{position:absolute;inset:0;z-index:1}
+.slide{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .7s ease}
+.slide.on{opacity:1}
+.slide-dots{z-index:3}
+.reel-dots{top:14px;bottom:auto;z-index:5}
+.reel-dots i{background:rgba(255,255,255,.45)}.reel-dots i.on{background:#fff}
+.pill svg.i{width:15px;height:15px;flex:none}
+.feed-cats{padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.cat-row{display:flex;gap:12px;overflow-x:auto;padding:12px 2px 14px;scrollbar-width:none;border-bottom:1px solid var(--line);margin-bottom:14px}
+.cat-row::-webkit-scrollbar{display:none}
+.cat-card{flex:0 0 auto;width:70px;text-align:center;color:var(--ink)}
+.cat-img{width:62px;height:62px;border-radius:20px;display:grid;place-items:center;margin:0 auto 7px;overflow:hidden;border:2px solid transparent;transition:.15s}
+.cat-img svg.art{width:76%;height:76%}
+.cat-card.on .cat-img{border-color:var(--brand);box-shadow:0 0 0 3px rgba(12,155,136,.14)}
+.cat-card small{font-size:10px;font-weight:700;display:block;line-height:1.15}
+.cat-card.on small{color:var(--brand)}
+.sub-bar{margin:0 0 14px}
+.sub-pill{height:32px;font-size:12px}
+.sub-pill.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.post-actions{display:flex;align-items:center;gap:16px;padding:11px 13px 6px}
+.act{color:var(--ink);transition:.12s}.act:hover{color:var(--muted)}.act.liked{color:var(--accent)}.act.liked svg{fill:var(--accent)}
+.act.saved{color:var(--ink)}.act.saved svg{fill:var(--ink)}
+.act.spacer{margin-left:auto}
+.contact-mini{margin-left:auto;height:34px;padding:0 14px;border-radius:10px;background:var(--grad-cta);color:#fff;font-weight:800;font-size:12px;display:inline-flex;align-items:center;gap:6px}
+.post-likes{padding:2px 13px;font-size:13px;font-weight:700}
+.post-cap{padding:3px 13px 4px;font-size:13px}
+.post-cap b{font-weight:700}
+.post-cap .ttl{color:var(--ink)}
+.post-meta{padding:2px 13px}
+.post-comments{padding:3px 13px;color:var(--muted);font-size:13px}
+.post-time{padding:4px 13px 13px;color:var(--muted);font-size:10px;letter-spacing:.4px;text-transform:uppercase}
+/* right rail */
+.rrail{padding-top:10px}
+.me{display:flex;align-items:center;gap:13px;margin-bottom:22px}
+.me .ava{width:54px;height:54px;flex:0 0 54px;font-size:18px}
+.me b{font-size:14px}.me span{font-size:13px;color:var(--muted)}
+.rr-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.rr-head b{font-size:13px;color:var(--muted)}.rr-head button{font-size:12px;font-weight:800}
+.sugg{display:flex;align-items:center;gap:12px;padding:7px 0}
+.sugg .ava{width:44px;height:44px;flex:0 0 44px;font-size:15px}
+.sugg b{font-size:13px;display:flex;gap:4px;align-items:center}.sugg span{font-size:11px;color:var(--muted)}
+.sugg .follow{margin-left:auto;color:var(--brand);font-weight:800;font-size:12px}
+.rr-foot{margin-top:22px;color:#c2c7cd;font-size:11px;line-height:1.9}
+
+/* ---------- generic page ---------- */
+.page{max-width:975px;margin:0 auto;padding:26px 20px 90px}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px}
+.page-head h1{font-size:26px;letter-spacing:-.6px}
+.page-head p{color:var(--muted);margin-top:4px}
+.searchbar{position:relative;margin-bottom:18px}
+.searchbar .i{position:absolute;left:14px;top:12px;width:20px;height:20px;color:var(--muted)}
+.searchbar input{width:100%;height:46px;border:1px solid var(--line);background:var(--surface);border-radius:13px;padding:0 44px;outline:0}
+.searchbar input:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(12,155,136,.1)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.pill{flex:0 0 auto;height:36px;padding:0 14px;border:1px solid var(--line);background:var(--surface);border-radius:20px;font-weight:700;font-size:12.5px;color:#5a6169;display:inline-flex;align-items:center;gap:6px}
+.pill.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+/* explore grid */
+.explore{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.tile{position:relative;aspect-ratio:1/1;overflow:hidden;border-radius:4px;background:var(--soft)}
+.tile.tall{grid-row:span 2;aspect-ratio:auto}
+.tile svg.art{width:100%;height:100%}
+.tile .tprice{position:absolute;left:8px;bottom:8px;background:rgba(15,17,21,.82);color:#fff;font-size:11px;font-weight:800;padding:4px 8px;border-radius:8px}
+.tile .tbadge{position:absolute;right:8px;top:8px;width:22px;height:22px;border-radius:7px;background:rgba(255,255,255,.92);display:grid;place-items:center;color:var(--brand)}
+.tile .tbadge svg{width:13px;height:13px}
+.tile:hover:after{content:"";position:absolute;inset:0;background:rgba(15,17,21,.12)}
+/* product detail */
+.detail{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.detail-media{position:relative;background:var(--soft);display:grid;place-items:center;min-height:540px}
+.detail-media svg.art{width:78%;height:78%}
+.detail-info{padding:20px;display:flex;flex-direction:column}
+.di-head{display:flex;align-items:center;gap:11px;padding-bottom:15px;border-bottom:1px solid var(--line)}
+.di-head b{font-size:13px;display:flex;gap:4px;align-items:center}.di-head span{font-size:11px;color:var(--muted)}
+.di-head .more{margin-left:auto}
+.di-body{padding:16px 0;overflow:auto;flex:1}
+.di-badges{display:flex;gap:7px;margin-bottom:12px}
+.di-title{font-size:19px;font-weight:700;letter-spacing:-.4px;line-height:1.3}
+.di-price{font-size:26px;font-weight:800;margin:12px 0 6px;background:var(--grad-cta);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.di-avail{display:inline-flex;align-items:center;gap:7px;color:var(--success);font-weight:800;font-size:12px}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.di-label{font-size:11px;font-weight:800;color:#586069;margin:18px 0 8px;text-transform:uppercase;letter-spacing:.4px}
+.variants{display:flex;gap:8px;flex-wrap:wrap}
+.variant{height:38px;padding:0 14px;border:1px solid var(--line);border-radius:11px;font-weight:700;color:#5a6169}
+.variant.on{border:2px solid var(--brand);color:var(--brand);background:rgba(12,155,136,.06)}
+.attrs{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:6px}
+.attr{display:flex;justify-content:space-between;padding:11px 13px;font-size:12px;border-bottom:1px solid var(--soft)}
+.attr:last-child{border:0}.attr span{color:var(--muted)}.attr b{font-weight:700}
+.di-actions{display:flex;gap:9px;padding-top:15px;border-top:1px solid var(--line)}
+.btn{height:46px;border-radius:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px;flex:1}
+.btn-grad{background:var(--grad-cta);color:#fff}
+.btn-line{border:1px solid var(--line);background:var(--surface)}
+.di-note{margin-top:12px;padding:10px 12px;background:#fff6ea;color:#8a5a13;border-radius:11px;font-size:10.5px;display:flex;gap:7px}
+.di-note svg{width:15px;height:15px;flex:0 0 15px}
+.detail-back{display:inline-flex;align-items:center;gap:7px;font-weight:800;color:var(--brand);margin-bottom:14px}
+.di-desc{font-size:13px;line-height:1.6;color:#3d444d;margin-top:2px}
+.ov-desc{font-size:11.5px;line-height:1.5;opacity:.82;margin:5px 0 7px}
+/* reviews / ratings */
+.rating-sum{display:flex;align-items:center;gap:13px;margin:6px 0 8px}
+.rating-sum .big{font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1}
+.rev-stars{display:inline-flex;gap:1px}
+.rev-stars svg{width:14px;height:14px;fill:#f5a623;stroke:#f5a623;stroke-width:1.4}
+.rev-stars svg.off{fill:none;stroke:#cbd2d8}
+.reviews{margin-top:4px}
+.rev{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--soft)}
+.rev:last-child{border:0}
+.rev .ava{width:34px;height:34px;flex:0 0 34px;font-size:13px;border-radius:50%;display:grid;place-items:center;font-weight:800}
+.rev-h{display:flex;align-items:center;gap:8px}
+.rev-h b{font-size:12.5px;font-weight:700}
+.rev p{font-size:12.5px;color:#3d444d;margin-top:3px;line-height:1.5}
+.rev .t{font-size:10.5px;color:var(--muted);margin-top:4px}
+.pf-reviews{max-width:640px;margin:0 auto;padding:18px 16px 44px}
+.rel-sec{margin-top:24px}
+.rel-head{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:800;margin-bottom:12px;padding:0 2px}
+.rel-head svg{width:17px;height:17px;color:var(--brand);flex:none}
+.rel-grid{gap:8px}.rel-grid .tile{border-radius:12px}
+/* store profile */
+.profile{max-width:935px;margin:0 auto}
+.pf-top{display:flex;gap:36px;align-items:center;padding:16px 0 26px}
+.pf-ava{width:150px;height:150px;flex:0 0 150px;border-radius:50%;padding:4px;background:var(--ring)}
+.pf-ava>span{width:100%;height:100%;border-radius:50%;border:4px solid var(--surface);display:grid;place-items:center;color:#fff;font-weight:800;font-size:48px;background:var(--brand)}
+.pf-meta{min-width:0}
+.pf-name{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.pf-name h1{font-size:22px;font-weight:600;display:flex;align-items:center;gap:7px}
+.pf-name .verified svg{width:20px;height:20px}
+.pf-btns{display:flex;gap:9px}
+.pf-btn{height:36px;padding:0 18px;border-radius:10px;font-weight:800;font-size:13px;display:inline-flex;align-items:center;gap:7px}
+.pf-btn.follow{background:var(--grad-cta);color:#fff}
+.pf-btn.line{background:var(--soft)}
+.pf-stats{display:flex;gap:34px;margin:18px 0}
+.pf-stats b{font-weight:800}.pf-stats span{color:var(--muted)}
+.pf-bio{max-width:520px}.pf-bio b{display:block}.pf-bio p{color:#3d444d;margin-top:2px}
+.pf-bio .loc{color:var(--muted);font-size:12px;margin-top:6px;display:flex;align-items:center;gap:5px}
+.pf-bio .loc svg{width:14px;height:14px;flex:none}
+.hl-c svg{width:24px;height:24px}
+.pf-highlights{display:flex;gap:20px;padding:8px 0 22px;overflow-x:auto;scrollbar-width:none}
+.pf-highlights::-webkit-scrollbar{display:none}
+.hl{text-align:center;flex:0 0 auto}
+.hl-c{width:62px;height:62px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:#4a525b;margin:0 auto 6px;background:var(--surface)}
+.hl small{font-size:11px}
+.pf-tabs{display:flex;justify-content:center;gap:52px;border-top:1px solid var(--line)}
+.pf-tab{padding:14px 0;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border-top:1px solid transparent;margin-top:-1px;display:flex;align-items:center;gap:6px}
+.pf-tab.on{color:var(--ink);border-top:1px solid var(--ink)}
+.pf-tab svg{width:15px;height:15px}
+.pf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:5px 0 40px}
+/* inbox */
+.inbox{max-width:935px;margin:0 auto;border:1px solid var(--line);border-radius:16px;background:var(--surface);overflow:hidden;display:grid;grid-template-columns:360px 1fr;min-height:600px}
+.ib-list{border-right:1px solid var(--line)}
+.ib-head{padding:16px;font-weight:800;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.ib-item{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer}
+.ib-item:hover,.ib-item.on{background:var(--soft)}
+.ib-item .ava{width:48px;height:48px;flex:0 0 48px}
+.ib-item b{font-size:13px;display:flex;align-items:center;gap:4px}
+.ib-item p{font-size:12px;color:var(--muted)}
+.ib-item .t{margin-left:auto;font-size:10px;color:var(--muted)}
+.ib-thread{display:flex;flex-direction:column}
+.ib-tophead{display:flex;align-items:center;gap:11px;padding:13px 16px;border-bottom:1px solid var(--line)}
+.ib-msgs{flex:1;padding:18px 16px;display:flex;flex-direction:column;gap:12px;background:var(--bg)}
+.msg{max-width:70%;padding:10px 14px;border-radius:18px;font-size:13px}
+.msg.them{background:var(--surface);border:1px solid var(--line);border-bottom-left-radius:5px}
+.msg.me{align-self:flex-end;background:var(--grad-cta);color:#fff;border-bottom-right-radius:5px}
+.ib-prodref{display:flex;align-items:center;gap:11px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px;align-self:flex-start;max-width:75%}
+.ib-prodref .mini{width:44px;height:44px;border-radius:9px;overflow:hidden;background:var(--soft)}
+.ib-prodref .mini svg{width:100%;height:100%}
+.ib-reply{display:flex;gap:9px;padding:13px 16px;border-top:1px solid var(--line)}
+.ib-reply input{flex:1;height:44px;border:1px solid var(--line);border-radius:22px;padding:0 16px;outline:0}
+.ib-reply input:focus{border-color:var(--brand)}
+.ib-send{width:44px;height:44px;border-radius:50%;background:var(--grad-cta);color:#fff;display:grid;place-items:center}
+
+/* ---------- store dashboard ---------- */
+.dash{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh;background:#f4f6f7}
+.dside{position:sticky;top:0;height:100vh;background:#0c1512;color:#fff;padding:22px 14px;display:flex;flex-direction:column}
+.dside .logo{color:#fff;-webkit-text-fill-color:#fff;background:none;padding:0 8px 22px}
+.d-store{display:flex;align-items:center;gap:11px;padding:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:14px}
+.d-store .ava{width:40px;height:40px;flex:0 0 40px}
+.d-store b{font-size:13px}.d-store small{font-size:10px;opacity:.65;display:block}
+.role{margin-left:auto;font-size:9px;background:rgba(18,184,162,.18);color:#5fe0cf;padding:4px 7px;border-radius:8px;font-weight:800}
+.dside.admin{background:#1a0e12}
+.dside.admin .dnav-item.on{background:#a52a3d}
+.admin-role{margin-left:auto;font-size:9px;background:rgba(224,64,90,.22);color:#ff9aa9;padding:4px 7px;border-radius:8px;font-weight:800}
+.admin-entry{width:100%;margin-top:16px;height:40px;border:1px solid var(--line);border-radius:10px;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;gap:7px;color:#c0364c;background:#fff}
+.admin-entry svg{width:16px;height:16px}
+.alert{border:0;width:100%;text-align:left;cursor:pointer}
+.dnav{margin-top:18px;display:flex;flex-direction:column;gap:3px}
+.dnav-item{display:flex;align-items:center;gap:13px;padding:11px 12px;border-radius:11px;color:#9fb2ad;font-weight:600;font-size:14px}
+.dnav-item:hover{background:rgba(255,255,255,.05);color:#fff}
+.dnav-item.on{background:#12776b;color:#fff}
+.dnav-item .i{width:21px;height:21px}
+.dnav-item .c{margin-left:auto;background:var(--accent);color:#fff;font-size:10px;padding:2px 7px;border-radius:9px;font-weight:800}
+.dnav-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#5c716c;padding:14px 12px 6px}
+.d-switch{margin-top:auto;border:1px solid rgba(255,255,255,.16);border-radius:12px;height:44px;display:flex;align-items:center;justify-content:center;gap:8px;color:#d5e2df;font-weight:800}
+.dmain{min-width:0}
+.dtop{height:70px;padding:0 26px;display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.dtop h2{font-size:17px}.dtop small{color:var(--muted);display:block}
+.dtop .actions{margin-left:auto;display:flex;gap:9px}
+.dcontent{padding:24px 26px 80px;max-width:1400px}
+.dintro{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+.dintro h1{font-size:25px;letter-spacing:-.5px}.dintro p{color:var(--muted);margin-top:3px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
+.kpi-h{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:11px}
+.kpi-ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:rgba(12,155,136,.1);color:var(--brand)}
+.kpi-v{font-size:24px;font-weight:800;margin:11px 0 4px;letter-spacing:-.6px}
+.trend{font-size:10px;font-weight:800;color:var(--success)}.trend.dn{color:var(--warn)}
+.dgrid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(260px,.7fr);gap:14px;margin-top:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px}
+.panel-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
+.panel-h h3{font-size:14px}.panel-h span{font-size:10px;color:var(--muted)}
+.chart{height:190px;display:flex;align-items:flex-end;gap:9px;padding-top:16px}
+.bar{flex:1;background:var(--grad-cta);border-radius:7px 7px 3px 3px;min-width:12px}
+.chart-x{display:flex;justify-content:space-around;color:var(--muted);font-size:9px;margin-top:8px}
+.alerts{display:grid;gap:9px}
+.alert{display:flex;gap:11px;padding:11px;border-radius:12px;background:#f7f9f9}
+.alert .kpi-ic{width:32px;height:32px;flex:0 0 32px}
+.alert b{font-size:11px;display:block}.alert span{font-size:10px;color:var(--muted)}
+.tablewrap{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.ttools{padding:14px;display:flex;gap:9px;align-items:center;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tsearch{min-width:200px;height:38px;border:1px solid var(--line);border-radius:11px;padding:0 12px;outline:0}
+.stab{height:32px;border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:10.5px;font-weight:800;color:#5f6c68}
+.stab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th{text-align:left;padding:11px 15px;font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:#889;background:#f7f9f9}
+td{padding:12px 15px;border-top:1px solid var(--soft);font-size:11.5px}
+.tprod{display:flex;align-items:center;gap:10px}
+.tart{width:42px;height:42px;border-radius:10px;overflow:hidden}.tart svg{width:100%;height:100%}
+.tprod b{font-size:12px;display:block}.tprod small{color:var(--muted)}
+.st{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:8px;font-size:10px;font-weight:800}
+.st.ok{background:#e8f7ef;color:var(--success)}.st.rv{background:#fff4e2;color:var(--warn)}.st.dr{background:#eef0f2;color:#6b7680}.st.rj{background:#fdecef;color:var(--danger)}
+.qty{display:flex;align-items:center;gap:8px}.qty button{width:27px;height:27px;border:1px solid var(--line);border-radius:8px}
+.low{color:var(--warn);font-weight:800}.out{color:var(--danger);font-weight:800}
+.rowmenu{width:30px;height:30px;border-radius:9px;background:var(--soft);font-weight:900}
+/* seller cockpit */
+.today{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:14px;margin-bottom:14px}
+.task-panel{background:linear-gradient(135deg,#10201d,#143b35);color:#fff;border-radius:18px;padding:19px;overflow:hidden;position:relative}
+.task-panel:after{content:"";position:absolute;width:210px;height:210px;border-radius:50%;right:-95px;top:-105px;background:rgba(18,184,162,.15)}
+.task-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;position:relative;z-index:1}
+.task-head h2{font-size:19px}.task-head p{font-size:11px;color:#aac1bc;margin-top:3px}
+.task-count{min-width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:20px;font-weight:900}
+.task-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:15px;position:relative;z-index:1}
+.task{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.07);padding:10px;border-radius:11px;text-align:left;color:#fff}
+.task i{width:8px;height:8px;border-radius:50%;background:#62dfcc;flex:none}.task.warn i{background:#ffba57}.task.danger i{background:#ff6f83}
+.task b{font-size:11px;display:block}.task small{font-size:9.5px;color:#9eb7b1;display:block}
+.quick-panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px}
+.quick-panel h3{font-size:13px;margin-bottom:11px}.quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.quick{min-height:76px;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:left;background:#fbfcfc;transition:.15s}
+.quick:hover{border-color:var(--brand);transform:translateY(-1px)}.quick svg{width:20px;height:20px;color:var(--brand);margin-bottom:7px}.quick b{font-size:10.5px;display:block}.quick span{font-size:9px;color:var(--muted)}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 0 10px}.section-title h2{font-size:16px}.section-title p{font-size:11px;color:var(--muted)}
+.catalog-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:13px}
+.sum-card{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:12px;display:flex;align-items:center;gap:10px}
+.sum-card i{width:9px;height:9px;border-radius:50%;background:var(--brand)}.sum-card.warn i{background:var(--warn)}.sum-card.danger i{background:var(--danger)}.sum-card.muted-dot i{background:#929aa2}
+.sum-card b{font-size:17px;display:block;line-height:1}.sum-card span{font-size:9.5px;color:var(--muted)}
+.bulkbar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#e9f7f4;border-bottom:1px solid #cce9e4;flex-wrap:wrap}
+.bulkbar b{font-size:11px;margin-right:auto;color:#086d61}.bulkbtn{height:31px;padding:0 10px;border-radius:8px;background:#fff;border:1px solid #cce3df;font-size:10px;font-weight:800;display:inline-flex;align-items:center;gap:5px}.bulkbtn svg{width:14px;height:14px}
+.pcheck{width:16px;height:16px;accent-color:var(--brand)}.prod-actions{display:flex;gap:5px}.mini-action{height:30px;padding:0 9px;border:1px solid var(--line);border-radius:8px;font-size:9.5px;font-weight:800;background:#fff}.mini-action.primary{color:var(--brand);border-color:#b8ded8}
+.edit-drawer{position:fixed;inset:0;z-index:120;background:rgba(10,14,15,.42);display:flex;justify-content:flex-end;backdrop-filter:blur(2px)}
+.edit-sheet{width:min(460px,100%);height:100%;background:#fff;padding:22px;overflow-y:auto;overflow-x:hidden;box-shadow:-18px 0 45px rgba(0,0,0,.16)}
+.edit-head{display:flex;align-items:center;gap:12px;padding-bottom:15px;border-bottom:1px solid var(--line);margin-bottom:16px}.edit-head h2{font-size:18px}.edit-head p{font-size:10px;color:var(--muted)}.edit-head button{margin-left:auto;width:36px;height:36px;border-radius:10px;background:var(--soft);display:grid;place-items:center}
+.edit-product{display:flex;align-items:center;gap:12px;padding:11px;background:#f7f9f9;border-radius:13px;margin-bottom:15px}.edit-product .tart{width:54px;height:54px}.edit-foot{position:sticky;bottom:-22px;margin:20px -22px -22px;padding:13px 22px;background:#fff;border-top:1px solid var(--line);display:flex;gap:9px}
+/* campaigns */
+.campaign-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-bottom:15px}.campaign-kpi{border-radius:15px;padding:15px;background:var(--surface);border:1px solid var(--line)}.campaign-kpi b{font-size:22px;display:block}.campaign-kpi span{font-size:10px;color:var(--muted)}
+.campaign-layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px}.campaign-list{display:grid;gap:10px}
+.campaign-card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:15px}.campaign-top{display:flex;align-items:flex-start;gap:11px}.campaign-ic{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#e4f7f3,#fff0eb);color:var(--brand);display:grid;place-items:center;flex:none}.campaign-ic svg{width:21px;height:21px}.campaign-top h3{font-size:13px}.campaign-top p{font-size:10px;color:var(--muted);margin-top:2px}.campaign-status{margin-left:auto}
+.campaign-progress{height:6px;background:var(--soft);border-radius:4px;margin:13px 0 8px;overflow:hidden}.campaign-progress i{display:block;height:100%;background:var(--grad-cta);border-radius:4px}.campaign-metrics{display:flex;gap:18px;font-size:10px;color:var(--muted)}.campaign-metrics b{color:var(--ink)}
+.promo-builder{background:#fff;border:1px solid var(--line);border-radius:16px;padding:17px;height:max-content;position:sticky;top:88px}.promo-builder h3{font-size:14px}.promo-builder>p{font-size:10px;color:var(--muted);margin:3px 0 14px}.promo-types{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:14px}.promo-type{padding:10px;border:1px solid var(--line);border-radius:10px;text-align:left;font-size:10px;font-weight:800}.promo-type.on{border:2px solid var(--brand);color:var(--brand);background:#effaf8}.promo-preview{margin-top:13px;border-radius:13px;padding:13px;background:linear-gradient(135deg,#10201d,#146b60);color:#fff}.promo-preview small{opacity:.7}.promo-preview b{display:block;font-size:18px;margin:4px 0}.promo-preview span{font-size:10px}
+/* create */
+.create{max-width:935px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px}
+.cpanel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px}
+.steps{display:flex;align-items:center;margin-bottom:22px}
+.step{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:800;color:var(--muted)}
+.step-n{width:26px;height:26px;border-radius:9px;background:var(--soft);display:grid;place-items:center}
+.step.on{color:var(--brand)}.step.on .step-n{background:var(--grad-cta);color:#fff}
+.step-l{flex:1;height:1px;background:var(--line);margin:0 8px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:grid;gap:6px}.field.full{grid-column:1/-1}
+.field label{font-size:10px;font-weight:800;color:#586069}
+.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:11px;padding:10px 12px;outline:0;background:var(--surface)}
+.field textarea{min-height:84px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(12,155,136,.08)}
+.upload{min-height:150px;border:1.5px dashed #c4d2ce;border-radius:14px;display:grid;place-items:center;text-align:center;color:var(--muted);background:#fafcfb}
+.upload b{color:var(--brand);display:block;margin-top:6px}
+.cactions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.ctype-sel{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;max-width:975px}
+.ctype{height:40px;padding:0 16px;border:1px solid var(--line);border-radius:12px;font-weight:700;font-size:12.5px;color:#5a6169;background:var(--surface);transition:.15s}
+.ctype.on{background:var(--grad-cta);color:#fff;border-color:transparent}
+.field-hint{font-size:10px;color:var(--muted)}
+.pv-kw{display:flex;flex-wrap:wrap;gap:5px;padding:0 11px 11px}
+.pv-kw span{font-size:10px;background:var(--soft);color:#5a6169;padding:3px 8px;border-radius:7px}
+.preview{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;position:sticky;top:88px;height:max-content}
+.preview h3{font-size:12px;margin-bottom:12px}
+.pv-post{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.pv-media{aspect-ratio:1/1;display:grid;place-items:center;position:relative}.pv-media svg{width:70%;height:70%}
+.empty{padding:56px 20px;text-align:center;background:var(--surface);border:1px dashed #cdd6d3;border-radius:16px}
+.empty-ic{width:58px;height:58px;border-radius:18px;background:rgba(12,155,136,.09);color:var(--brand);display:grid;place-items:center;margin:0 auto 12px}
+.empty h3{font-size:16px}.empty p{color:var(--muted);font-size:12px;margin-top:2px}
+/* ---------- bell / follow ---------- */
+.bell{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;color:var(--ink);background:var(--surface)}
+.bell.on{background:var(--grad-cta);color:#fff;border-color:transparent}
+.bell.on svg{fill:#fff}
+.bell svg{width:18px;height:18px}
+.post-head .bell{margin-left:auto;width:32px;height:32px}
+/* ---------- reels (immersive) ---------- */
+.reelswrap{position:fixed;inset:0;background:#05070a;z-index:60;display:flex;justify-content:center}
+.reels{width:100%;max-width:460px;height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;position:relative}
+.reels::-webkit-scrollbar{display:none}
+.reel{height:100%;scroll-snap-align:start;position:relative;display:grid;place-items:center;overflow:hidden}
+.reel-media{position:absolute;inset:0;display:grid;place-items:center}
+.reel-media svg.art{width:88%;height:78%}
+.reel-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,transparent 22%,transparent 55%,rgba(0,0,0,.72) 100%);pointer-events:none}
+.reel-top{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:12px;padding:16px;z-index:5}
+.reel-top .rt-title{color:#fff;font-weight:800;font-size:16px}
+.reel-close{margin-left:auto;color:#fff;width:38px;height:38px;display:grid;place-items:center;background:rgba(255,255,255,.14);border-radius:12px;backdrop-filter:blur(6px)}
+.reel-badges{position:absolute;top:108px;left:16px;display:flex;gap:6px;z-index:5}
+.reel-cats{position:absolute;top:52px;left:0;right:0;z-index:9;display:flex;gap:7px;overflow-x:auto;padding:8px 14px;scrollbar-width:none}
+.reel-cats::-webkit-scrollbar{display:none}
+.reel-cat{flex:0 0 auto;height:32px;padding:0 14px;border-radius:18px;font-size:12px;font-weight:800;color:#fff;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(6px);white-space:nowrap}
+.reel-cat.on{background:#fff;color:#0b0b0f;border-color:#fff}
+.reel-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#fff;padding:30px}
+.reel-empty .reel-close{position:absolute;top:16px;right:16px}
+.reel-empty svg{width:44px;height:44px;opacity:.7;margin-bottom:10px}
+.reel-empty h3{font-size:16px}.reel-empty p{opacity:.7;font-size:12px;margin-top:4px}
+.reel-tap{position:absolute;top:150px;bottom:300px;width:34%;z-index:5;background:transparent;border:0;cursor:pointer}
+.reel-tap.left{left:0}.reel-tap.right{right:0}
+.reel-rail{position:absolute;right:12px;bottom:130px;display:flex;flex-direction:column;gap:20px;align-items:center;z-index:6}
+.reel-rail button{color:#fff;display:grid;place-items:center;gap:4px;font-size:11px;font-weight:700}
+.reel-rail .rr-ic{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.16);display:grid;place-items:center;backdrop-filter:blur(6px)}
+.reel-rail .rr-ic svg{width:25px;height:25px}
+.reel-rail .liked svg{fill:#ff4d67;stroke:#ff4d67}
+.reel-rail .saved svg{fill:#fff}
+.reel-rail .store-ava-wrap{position:relative}
+.reel-rail .store-ava-wrap .ava{width:48px;height:48px;border:2px solid #fff}
+.reel-rail .mini-bell{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);width:22px;height:22px;border-radius:50%;background:#fff;color:#0b0b0f;display:grid;place-items:center;border:2px solid #05070a}
+.reel-rail .mini-bell.on{background:var(--grad-cta);color:#fff}
+.reel-rail .mini-bell svg{width:12px;height:12px}
+.reel-bottom{position:absolute;left:0;right:64px;bottom:0;padding:16px 16px 26px;z-index:5;color:#fff}
+.reel-store{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.reel-store b{font-size:14px;display:flex;align-items:center;gap:5px}
+.reel-store .store-ava-wrap{position:relative;flex:0 0 auto}
+.reel-store .ava{width:38px;height:38px;flex:0 0 38px;border:2px solid #fff}
+.reel-store .mini-bell{position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);width:20px;height:20px;border-radius:50%;background:#fff;color:#0b0b0f;display:grid;place-items:center;border:2px solid #05070a}
+.reel-store .mini-bell.on{background:var(--grad-cta);color:#fff}
+.reel-store .mini-bell svg{width:11px;height:11px}
+.info-desc{font-size:11.5px;line-height:1.5;opacity:.85;margin-bottom:9px}
+.reel-follow{margin-left:2px;border:1px solid rgba(255,255,255,.6);border-radius:8px;padding:4px 11px;color:#fff;font-weight:800;font-size:11px}
+.reel-follow.on{background:#fff;color:#0b0b0f;border-color:#fff}
+.reel-ttl{font-size:14px;font-weight:600;line-height:1.35}
+.reel-price{font-size:20px;font-weight:800;margin-top:6px}
+.reel-cta{margin-top:12px;height:44px;border-radius:12px;background:var(--grad-cta);color:#fff;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 22px}
+.info-btn{position:absolute;left:16px;top:104px;z-index:6;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.92);color:#0b0b0f;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+.info-btn svg{width:20px;height:20px}
+.info-card{position:absolute;left:16px;right:64px;top:152px;z-index:7;background:rgba(12,14,18,.86);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:15px;color:#fff;opacity:0;transform:translateY(-10px);pointer-events:none;transition:.22s}
+.reel.info-open .info-card{opacity:1;transform:none;pointer-events:auto}
+.reel.info-open .info-btn{background:var(--grad-cta);color:#fff}
+.info-card h4{font-size:13px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.info-card h4 svg{width:15px;height:15px;flex:none}
+.info-row{display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.info-row:last-child{border:0}.info-row span{opacity:.7}
+.reel-hint{position:absolute;bottom:210px;left:50%;transform:translateX(-50%);z-index:5;color:rgba(255,255,255,.72);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:2px;animation:bob 1.8s ease-in-out infinite;pointer-events:none;white-space:nowrap}
+@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-6px)}}
+.reel-nav{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:8}
+.reel-nav button{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;display:grid;place-items:center;backdrop-filter:blur(6px)}
+@media(max-width:820px){.reel-nav{display:none}.reels{max-width:100%}}
+/* info overlay on feed/product image */
+.media-info-btn{position:absolute;left:12px;bottom:12px;z-index:3;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.92);color:#0b0b0f;display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,0,0,.18)}
+.media-info-btn svg{width:18px;height:18px}
+.media-ov{position:absolute;inset:0;background:rgba(10,12,16,.55);backdrop-filter:blur(3px);display:flex;align-items:flex-end;padding:14px;z-index:4;opacity:0;pointer-events:none;transition:.2s}
+.post-media.info-open .media-ov,.detail-media.info-open .media-ov{opacity:1;pointer-events:auto}
+.media-ov-card{background:rgba(12,14,18,.9);color:#fff;border-radius:14px;padding:13px;width:100%}
+.media-ov-card b{font-size:13px}
+.media-ov-card .r{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.media-ov-card .r:last-child{border:0}.media-ov-card .r span{opacity:.7}
+/* ---------- notifications ---------- */
+.notif{display:flex;align-items:center;gap:13px;padding:13px 4px;border-bottom:1px solid var(--soft)}
+.notif .ava{width:46px;height:46px;flex:0 0 46px}
+.notif-thumb{width:46px;height:46px;border-radius:10px;overflow:hidden;flex:0 0 46px}
+.notif-thumb svg{width:100%;height:100%}
+.notif b{font-weight:700}
+.notif p{font-size:13px}.notif .t{font-size:11px;color:var(--muted);margin-top:2px}
+.notif .act-btn{margin-left:auto;height:32px;padding:0 13px;border-radius:9px;background:var(--grad-cta);color:#fff;font-weight:800;font-size:12px}
+.notif.unread{background:linear-gradient(90deg,rgba(12,155,136,.06),transparent)}
+.notif-group{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:16px 4px 6px}
+.ntop-bell{position:relative}
+.ntop-bell .nb-dot{position:absolute;right:-1px;top:-1px;min-width:15px;height:15px;padding:0 3px;border-radius:8px;background:var(--accent);color:#fff;font-size:9px;font-weight:800;display:grid;place-items:center;border:2px solid var(--surface)}
+/* toast */
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,18px);background:#0f1115;color:#fff;padding:12px 17px;border-radius:12px;box-shadow:var(--shadow);z-index:300;opacity:0;pointer-events:none;transition:.22s;font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:8px}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- responsive ---------- */
+@media(max-width:1160px){.feedwrap{grid-template-columns:minmax(0,470px);justify-content:center;gap:0}.rrail{display:none}}
+@media(max-width:1024px){.detail{grid-template-columns:1fr}.detail-media{min-height:420px}.create{grid-template-columns:1fr}.preview{position:static}.inbox{grid-template-columns:300px 1fr}.kpis{grid-template-columns:repeat(2,1fr)}.dgrid,.today,.campaign-layout{grid-template-columns:1fr}.promo-builder{position:static}}
+@media(max-width:820px){
+  .shell,.dash{display:block}
+  .rail,.dside{display:none}
+  .mtop{display:flex;align-items:center;height:56px;padding:0 14px;background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .mtop .logo{padding:0;font-size:24px}
+  .mtop-actions{margin-left:auto;display:flex;gap:16px;align-items:center}
+  .mtop-actions .i{width:24px;height:24px}
+  .mtop-ic{position:relative}
+  .mtop-ic .dot{position:absolute;right:-2px;top:-2px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .mbottom{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--surface);border-top:1px solid var(--line);padding:8px 6px calc(8px + env(safe-area-inset-bottom));justify-content:space-around}
+  .mbottom button{color:var(--ink);display:grid;place-items:center;min-width:48px}
+  .mbottom .i{width:26px;height:26px}
+  .mbottom button.on .i{stroke-width:2.6}
+  .mbottom .ava{width:26px;height:26px;font-size:11px}
+  .mbottom .plus{width:30px;height:30px;border-radius:9px;background:var(--grad-cta);color:#fff;display:grid;place-items:center}
+  .feedwrap,.page,.profile,.inbox{padding-left:0;padding-right:0}
+  .feedwrap{padding:12px 0 84px}
+  .page{padding:16px 14px 84px}
+  .post{border-radius:0;border-left:0;border-right:0;margin-bottom:10px}
+  .post-media{aspect-ratio:auto;height:64vw;max-height:360px}
+  .post-media svg.art,.slide svg.art{width:58%;height:58%}
+  .mb-profile .ava{border:2px solid var(--surface)}
+  .mb-profile.on .ava{box-shadow:0 0 0 2px var(--brand)}
+  .stories{padding:10px 14px 16px}
+  .feed-cats,.cat-row,.sub-bar{padding-left:14px;padding-right:14px}
+  .explore{gap:2px}
+  .profile{padding:0 0 84px}
+  .pf-top{padding:18px 16px 20px;gap:20px;align-items:center}
+  .pf-ava{width:88px;height:88px;flex:0 0 88px}
+  .pf-ava>span{font-size:30px}
+  .pf-name{gap:10px}.pf-name h1{font-size:19px}
+  .pf-btns{width:100%;margin-top:4px}
+  .pf-stats{justify-content:space-around;gap:0;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center;margin:16px 0 0}
+  .pf-stats>div{flex:1}.pf-stats b{display:block}
+  .pf-bio,.pf-highlights{padding-left:16px;padding-right:16px}
+  .pf-tabs{gap:0;justify-content:space-around}
+  .detail{border-radius:0;border-left:0;border-right:0}
+  .detail-back{padding-left:14px}
+  .di-actions{position:sticky;bottom:72px;background:var(--surface);padding:12px 0 0}
+  .inbox{border:0;border-radius:0;display:block;min-height:auto}
+  .ib-list{border-right:0}
+  .ib-thread{display:none}
+  .dmob-top{display:flex}
+  .dcontent{padding:18px 14px 84px}
+  .dtop{padding:0 14px}
+  .dtop .actions .btn-line span{display:none}
+  .kpis{grid-template-columns:repeat(2,1fr);gap:9px}
+  .task-list{grid-template-columns:1fr}.catalog-summary{grid-template-columns:repeat(2,1fr)}.campaign-summary{grid-template-columns:1fr}.campaign-layout{grid-template-columns:1fr}.quick-grid{grid-template-columns:repeat(2,1fr)}
+  .dintro{align-items:flex-start;flex-direction:column}.dintro>div:last-child{width:100%;flex-wrap:wrap}.dintro .btn{flex:1}
+  .ttools{align-items:stretch}.tsearch{width:100%}.bulkbar{position:sticky;top:56px;z-index:12}
+  .campaign-metrics{flex-wrap:wrap;gap:9px 16px}
+  .fgrid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+  .mbottom.dash-mb{display:flex}
+}
+@media(max-width:430px){.explore{grid-template-columns:repeat(3,1fr)}.pf-grid{gap:2px}.di-title{font-size:17px}.di-price{font-size:22px}.kpi-v{font-size:19px}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<div id="toast" class="toast" role="status"></div>
+
+<script>
+const ic={
+ home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/>',
+ search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+ compass:'<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/>',
+ heart:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5a5.5 5.5 0 0 0 1-8.9Z"/>',
+ chat:'<path d="M21 11.5a8.4 8.4 0 0 1-9 8.3 9 9 0 0 1-3.5-.6L3 21l1.8-4.5A8.3 8.3 0 0 1 3.7 8 8.4 8.4 0 0 1 12 3.2 8.4 8.4 0 0 1 21 11.5Z"/>',
+ send:'<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7Z"/>',
+ plus:'<rect x="3" y="3" width="18" height="18" rx="5"/><path d="M12 8v8M8 12h8"/>',
+ plusb:'<path d="M12 5v14M5 12h14"/>',
+ comment:'<path d="M21 11.5a8.4 8.4 0 0 1-9 8.3 9 9 0 0 1-3.5-.6L3 21l1.8-4.5A8.3 8.3 0 0 1 3.7 8 8.4 8.4 0 0 1 12 3.2 8.4 8.4 0 0 1 21 11.5Z"/>',
+ bookmark:'<path d="M6 3h12a1 1 0 0 1 1 1v17l-7-5-7 5V4a1 1 0 0 1 1-1Z"/>',
+ more:'<circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/>',
+ shop:'<path d="M4 9h16l-1.5-5H5.5L4 9Z"/><path d="M5 9v11h14V9M9 20v-6h6v6"/>',
+ grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+ box:'<path d="m21 8-9 5-9-5 9-5 9 5Z"/><path d="m3 8 9 5v9l9-5V8M12 13v9"/>',
+ layers:'<path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/>',
+ chart:'<path d="M3 3v18h18"/><path d="m7 15 4-5 4 3 5-8"/>',
+ pin:'<path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/>',
+ phone:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c1 .3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/>',
+ shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/>',
+ check:'<path d="M20 6 9 17l-5-5"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+ alert:'<path d="M10.3 3.7 2.2 18a2 2 0 0 0 1.8 3h16a2 2 0 0 0 1.8-3L13.7 3.7a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/>',
+ eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',
+ users:'<path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M8.5 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM17 11l2 2 4-4"/>',
+ sliders:'<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>',
+ back:'<path d="m15 18-6-6 6-6"/>',
+ arrow:'<path d="m9 18 6-6-6-6"/>',
+ upload:'<path d="M12 15V4M8 8l4-4 4 4"/><path d="M20 15v5H4v-5"/>',
+ tag:'<path d="M20.6 13.4 12 22l-9-9V4a1 1 0 0 1 1-1h9l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="8" cy="8" r="1.5"/>',
+ gift:'<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v9h14v-9M12 8v13"/><path d="M12 8S9 3 6.5 4.5 8 8 12 8Zm0 0s3-5 5.5-3.5S16 8 12 8Z"/>',
+ star:'<path d="m12 3 2.6 5.6 6 .7-4.5 4 1.3 6-5.4-3.1L6.6 19l1.3-6-4.5-4 6-.7L12 3Z"/>',
+ bell:'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/>',
+ x:'<path d="M18 6 6 18M6 6l12 12"/>',
+ play:'<path d="M7 4v16l13-8L7 4Z"/>',
+ info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+ swipe:'<path d="M12 20V6"/><path d="m6 12 6-6 6 6"/>',
+ save:'<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/>'
+};
+const I=(n,cls='i')=>`<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${ic[n]||ic.box}</svg>`;
+function art(kind,color,bg){
+ const g={
+  phone:`<rect x="42" y="14" width="56" height="112" rx="13" fill="${color}"/><rect x="47" y="21" width="46" height="94" rx="9" fill="#e2f6f2"/><circle cx="70" cy="120" r="2.4" fill="#9fc0bb"/><circle cx="54" cy="31" r="5" fill="#1e2a2f"/><circle cx="54" cy="31" r="2" fill="#63c6b8"/><path d="M55 50c20-16 32 5 38 26-17 1-33-6-38-26Z" fill="#3fa093" opacity=".85"/>`,
+  buds:`<path d="M50 40c-12 0-19 9-19 20s6 19 15 19c9 0 15-6 15-15V51c0-7-4-11-11-11Z" fill="${color}"/><rect x="51" y="70" width="9" height="40" rx="4" fill="${color}"/><path d="M90 40c12 0 19 9 19 20s-6 19-15 19c-9 0-15-6-15-15V51c0-7 4-11 11-11Z" fill="${color}"/><rect x="80" y="70" width="9" height="40" rx="4" fill="${color}"/>`,
+  coffee:`<rect x="38" y="24" width="64" height="86" rx="11" fill="${color}"/><rect x="46" y="32" width="48" height="26" rx="6" fill="#241f1c"/><circle cx="56" cy="45" r="3.2" fill="#e7bc72"/><rect x="62" y="66" width="32" height="9" rx="4" fill="#332b26"/><path d="M65 74v18M84 74v18" stroke="#332b26" stroke-width="4"/><path d="M54 92h40v11H54z" fill="#cdb2a0"/>`,
+  drill:`<path d="M30 42h66a11 11 0 0 1 11 11v17H62l-10-10H30V42Z" fill="${color}"/><path d="M64 68h28l-9 42H60l-6-36 10-6Z" fill="#2b3535"/><rect x="82" y="102" width="21" height="13" rx="3" fill="${color}"/><path d="M107 51h20v9h-20" fill="#5f6b69"/>`,
+  shoe:`<path d="M22 84c19 1 34-9 40-38 11 16 20 22 40 27 9 2 16 8 15 17-1 9-11 12-27 12H30c-14 0-20-7-8-18Z" fill="${color}"/><path d="M34 85h74M64 61l16 9M58 70l16 8" stroke="#fff" stroke-width="4" opacity=".82"/>`,
+  chair:`<path d="M42 60c0-19 10-31 26-31s26 12 26 31v30H42V60Z" fill="${color}"/><rect x="31" y="67" width="74" height="34" rx="13" fill="${color}"/><path d="M44 101l-7 20M92 101l7 20" stroke="#77563b" stroke-width="6"/>`,
+  bag:`<path d="M44 46c0-12 6-20 24-20s24 8 24 20" fill="none" stroke="${color}" stroke-width="8"/><path d="M34 44h68l6 66H28l6-66Z" fill="${color}"/><circle cx="52" cy="60" r="3.5" fill="#fff" opacity=".8"/><circle cx="84" cy="60" r="3.5" fill="#fff" opacity=".8"/>`,
+  watch:`<rect x="52" y="12" width="32" height="22" rx="6" fill="${color}"/><rect x="52" y="102" width="32" height="22" rx="6" fill="${color}"/><rect x="40" y="34" width="56" height="68" rx="16" fill="${color}"/><rect x="49" y="43" width="38" height="50" rx="10" fill="#dff4f0"/><path d="M68 55v13l9 5" stroke="#3fa093" stroke-width="4" fill="none"/>`,
+  house:`<path d="M68 26 26 60v50h84V60L68 26Z" fill="${color}"/><path d="M20 62 68 24l48 38" fill="none" stroke="#2b3535" stroke-width="6" stroke-linecap="round"/><rect x="58" y="80" width="20" height="30" rx="2" fill="#e2f6f2"/><rect x="38" y="70" width="15" height="14" rx="2" fill="#e2f6f2"/><rect x="83" y="70" width="15" height="14" rx="2" fill="#e2f6f2"/>`,
+  wrench:`<path d="M94 28a17 17 0 0 0-21 21L37 85a10 10 0 1 0 14 14l36-36a17 17 0 0 0 21-21l-13 13-11-2-2-11 12-14Z" fill="${color}"/>`,
+  pill:`<rect x="48" y="20" width="40" height="14" rx="3" fill="#2b3535"/><rect x="44" y="34" width="48" height="80" rx="11" fill="${color}"/><rect x="63" y="52" width="10" height="30" rx="3" fill="#fff"/><rect x="53" y="62" width="30" height="10" rx="3" fill="#fff"/>`,
+  honey:`<path d="M46 42h44v9l-6 6v47a10 10 0 0 1-10 10H62a10 10 0 0 1-10-10V57l-6-6v-9Z" fill="${color}"/><rect x="42" y="30" width="52" height="13" rx="3" fill="#e7bc72"/><path d="M60 76c0 6 16 6 16 0s-16-7-16 0Z" fill="#fff" opacity=".55"/>`,
+  car:`<path d="M26 80l8-25a11 11 0 0 1 10-8h44a11 11 0 0 1 10 8l8 25v20a4 4 0 0 1-4 4h-8a4 4 0 0 1-4-4v-3H42v3a4 4 0 0 1-4 4h-8a4 4 0 0 1-4-4V80Z" fill="${color}"/><path d="M42 55h52l6 21H36l6-21Z" fill="#dff0ee" opacity=".9"/><circle cx="46" cy="92" r="6" fill="#1c2831"/><circle cx="90" cy="92" r="6" fill="#1c2831"/>`,
+  all:`<rect x="26" y="26" width="37" height="37" rx="9" fill="#0c9b88"/><rect x="73" y="26" width="37" height="37" rx="9" fill="#f5633c"/><rect x="26" y="73" width="37" height="37" rx="9" fill="#3f74d6"/><rect x="73" y="73" width="37" height="37" rx="9" fill="#d09220"/>`,
+  tshirt:`<path d="M50 24 34 34l-12 16 14 10 6-6v46h52V54l6 6 14-10-12-16-16-10c-4 6-32 6-36 0Z" fill="${color}"/>`,
+  food:`<circle cx="68" cy="70" r="40" fill="${color}"/><path d="M40 66h56a28 28 0 0 1-56 0Z" fill="#fff" opacity=".85"/><rect x="64" y="20" width="8" height="26" rx="4" fill="#8a5a2b"/>`,
+  torch:`<rect x="50" y="58" width="36" height="62" rx="7" fill="${color}"/><path d="M50 58 42 34h52l-8 24Z" fill="${color}"/><rect x="48" y="30" width="40" height="9" rx="4" fill="#f4d06a"/><rect x="60" y="66" width="16" height="7" rx="3" fill="#dfe8e6"/><path d="M68 6v12M50 12l6 9M86 12l-6 9" stroke="#f4d06a" stroke-width="5" stroke-linecap="round"/>`
+ };
+ return `<svg class="art" viewBox="0 0 136 136" preserveAspectRatio="xMidYMid meet" style="background:${bg||'#eef3f2'}">${g[kind]||g.phone}</svg>`;
+}
+
+const stores={
+ texnomart:{name:'texnomart',title:'TexnoMart',cat:'Elektronika · Chilonzor',color:'#0c9b88',bio:'Rasmiy elektronika va maishiy texnika. 12 oy kafolat.',products:124,followers:'8 940',rating:'4.9',verified:true},
+ audiohouse:{name:'audiohouse',title:'Audio House',cat:'Audio texnika · Yunusobod',color:'#7159b8',bio:'Original quloqchin, kolonka va aksessuarlar.',products:86,followers:'3 210',rating:'4.8',verified:true},
+ makonmebel:{name:'makonmebel',title:'Makon Mebel',cat:'Mebel · Yakkasaroy',color:'#c56a3a',bio:'Zamonaviy uy va ofis mebellari. O‘lchov bo‘yicha.',products:210,followers:'5 670',rating:'4.7',verified:true},
+ ustamarket:{name:'ustamarket',title:'Usta Market',cat:'Qurilish · Olmazor',color:'#2f8fb0',bio:'Qurilish mollari va asbob-uskunalar.',products:438,followers:'2 480',rating:'4.6',verified:true},
+ uymakon:{name:'uymakon',title:'Uy Makon',cat:'Ko‘chmas mulk · Yunusobod',color:'#3f74d6',bio:'Kvartira, uy va tijorat ob‘ektlari. Rasmiy shartnoma bilan.',products:64,followers:'4 120',rating:'4.7',verified:true},
+ dorimed:{name:'dorimed',title:'DoriMed Apteka',cat:'Apteka · Chilonzor',color:'#1f9d57',bio:'Dori-darmon, vitamin va tibbiy mollar. Litsenziyalangan apteka.',products:540,followers:'9 300',rating:'4.9',verified:true}
+};
+const products=[
+ {id:1,title:'Samsung Galaxy A54 256GB',price:'3 200 000',store:'texnomart',type:'store',cond:'Yangi',stock:'24 dona',area:'Chilonzor',kind:'phone',color:'#26384a',bg:'#e7f1f2',likes:342,time:'2 soat oldin'},
+ {id:2,title:'ProSound X2 simsiz quloqchin',price:'485 000',store:'audiohouse',type:'store',cond:'Yangi',stock:'8 dona',area:'Yunusobod',kind:'buds',color:'#6f58a4',bg:'#efeafa',likes:180,time:'5 soat oldin'},
+ {id:3,title:'Skandinaviya uslubidagi kreslo',price:'1 280 000',store:'makonmebel',type:'store',cond:'Yangi',stock:'3 dona',area:'Yakkasaroy',kind:'chair',color:'#5a7550',bg:'#eaf1e7',likes:512,time:'8 soat oldin'},
+ {id:4,title:'Akkumulyatorli drel 21V',price:'720 000',store:'ustamarket',type:'store',cond:'Yangi',stock:'12 dona',area:'Olmazor',kind:'drill',color:'#d09220',bg:'#fff3d9',likes:96,time:'kecha'},
+ {id:5,title:'Nike Air kundalik krossovka',price:'650 000',store:null,seller:'bekzod_k',type:'personal',cond:'Ishlatilgan',stock:'1 dona',area:'Sergeli',kind:'shoe',color:'#52627e',bg:'#eef1f7',likes:64,time:'kecha'},
+ {id:6,title:'Barista Mini qahva mashinasi',price:'1 850 000',store:'texnomart',type:'store',cond:'Yangi',stock:'5 dona',area:'Chilonzor',kind:'coffee',color:'#81533e',bg:'#f7efe8',likes:238,time:'2 kun oldin'},
+ {id:7,title:'Galaxy Watch 6 aqlli soat',price:'1 900 000',store:'texnomart',type:'store',cond:'Yangi',stock:'9 dona',area:'Chilonzor',kind:'watch',color:'#2b6f66',bg:'#e5f3f0',likes:410,time:'2 kun oldin'},
+ {id:8,title:'Charm ayollar sumkasi',price:'380 000',store:null,seller:'malika_s',type:'personal',cond:'Yangi',stock:'1 dona',area:'Mirobod',kind:'bag',color:'#b0506a',bg:'#fbeaf0',likes:151,time:'3 kun oldin'},
+ {id:9,title:'Home kolonka BassGo 40W',price:'540 000',store:'audiohouse',type:'store',cond:'Yangi',stock:'15 dona',area:'Yunusobod',kind:'buds',color:'#455b9c',bg:'#eaeef9',likes:88,time:'3 kun oldin'},
+ {id:10,title:'2 xonali kvartira, 62 m²',price:'480 000 000',store:'uymakon',type:'store',cond:'Sotuvda',stock:'1 obyekt',area:'Yunusobod',kind:'house',color:'#3f74d6',bg:'#e8eefb',likes:132,time:'bugun'},
+ {id:11,title:'Santexnika ustasi xizmati',price:'Kelishiladi',store:null,seller:'usta_akmal',type:'personal',cond:'Xizmat',stock:'Buyurtma qabul qilinadi',area:'Toshkent',kind:'wrench',color:'#2f8fb0',bg:'#e4f0f4',likes:57,time:'2 soat oldin'},
+ {id:12,title:'Vitamin C 1000mg, 30 tabletka',price:'45 000',store:'dorimed',type:'store',cond:'Yangi',stock:'120 dona',area:'Chilonzor',kind:'pill',color:'#1f9d57',bg:'#e6f6ec',likes:88,time:'kecha'},
+ {id:13,title:'Tabiiy tog‘ asali, 1 kg',price:'95 000',store:null,seller:'asal_uz',type:'personal',cond:'Yangi',stock:'8 dona',area:'Parkent',kind:'honey',color:'#d09220',bg:'#fff3d9',likes:143,time:'kecha'},
+ {id:14,title:'Ijaraga 1 xonali kvartira',price:'4 500 000',store:'uymakon',type:'store',cond:'Ijara',stock:'1 obyekt',area:'Chilonzor',kind:'house',color:'#5b7fd6',bg:'#eaf0fc',likes:76,time:'bugun'},
+ {id:15,title:'Akkumulyatorli LED fonar',price:'120 000',store:'ustamarket',type:'store',cond:'Yangi',stock:'30 dona',area:'Olmazor',kind:'torch',color:'#3a4655',bg:'#eef1f5',likes:41,time:'kecha'}
+];
+const groups={1:'Elektronika',2:'Elektronika',3:'Uy-ro‘zg‘or',4:'Qurilish',5:'Kiyim',6:'Uy-ro‘zg‘or',7:'Elektronika',8:'Kiyim',9:'Elektronika',10:'Ko‘chmas mulk',11:'Xizmatlar',12:'Apteka',13:'Oziq-ovqat',14:'Ko‘chmas mulk',15:'Qurilish'};
+const kw={1:'telefon samsung android smartfon galaxy',2:'quloqchin naushnik simsiz bluetooth audio',3:'kreslo stul mebel divan',4:'drel asbob shurupavert qurilish',5:'krossovka poyabzal nike sport oyoq kiyim',6:'qahva kofe mashina barista',7:'soat aqlli smart watch galaxy',8:'sumka teri ayollar aksessuar',9:'kolonka audio dinamik bluetooth',10:'kvartira uy ko‘chmas mulk yunusobod 2 xona sotuv',11:'usta santexnik truba kran ta‘mir xizmat',12:'dori vitamin apteka immunitet tabletka',13:'asal tabiiy tog‘ parkent oziq ovqat',14:'ijaraga ijara kvartira uy arenda 1 xona chilonzor',15:'fonar fonarik chiroq led fonus qurilish'};
+const priceText=v=>/\d/.test(v||'')?v+' so‘m':(v||'Kelishiladi');
+let cats=[['Barchasi','grid'],['Elektronika','phone'],['Ko‘chmas mulk','pin'],['Xizmatlar','sliders'],['Apteka','shield'],['Oziq-ovqat','shop'],['Kiyim','tag'],['Uy-ro‘zg‘or','box'],['Qurilish','layers']];
+const catArt={'Barchasi':{kind:'all',color:'#0c9b88',bg:'#eef2f1'},'Elektronika':{kind:'phone',color:'#26384a',bg:'#e7f1f2'},'Ko‘chmas mulk':{kind:'house',color:'#3f74d6',bg:'#e8eefb'},'Xizmatlar':{kind:'wrench',color:'#2f8fb0',bg:'#e4f0f4'},'Apteka':{kind:'pill',color:'#1f9d57',bg:'#e6f6ec'},'Oziq-ovqat':{kind:'food',color:'#e0a53c',bg:'#fff3d9'},'Kiyim':{kind:'tshirt',color:'#b0506a',bg:'#fbeaf0'},'Uy-ro‘zg‘or':{kind:'chair',color:'#5a7550',bg:'#eaf1e7'},'Qurilish':{kind:'drill',color:'#d09220',bg:'#fff3d9'}};
+function catCard(c){const a=catArt[c]||{kind:'all',bg:'#eef2f1'};const on=S.cat===c;return `<button class="cat-card ${on?'on':''}" data-cat="${c}"><span class="cat-img" style="background:${a.bg}">${art(a.kind,a.color,a.bg)}</span><small>${c}</small></button>`}
+let subMap={'Ko‘chmas mulk':['Sotuv','Ijara'],'Elektronika':['Telefonlar','Audio','Soatlar'],'Kiyim':['Poyabzal','Sumka'],'Uy-ro‘zg‘or':['Mebel','Oshxona']};
+function subOptions(cat){return subMap[cat]||[]}
+function subOf(p){const g=groups[p.id];if(g==='Ko‘chmas mulk')return p.cond==='Ijara'?'Ijara':'Sotuv';if(g==='Elektronika')return {phone:'Telefonlar',buds:'Audio',watch:'Soatlar'}[p.kind]||'';if(g==='Kiyim')return {shoe:'Poyabzal',bag:'Sumka'}[p.kind]||'';if(g==='Uy-ro‘zg‘or')return {coffee:'Oshxona',chair:'Mebel'}[p.kind]||'';return ''}
+function subBar(){const opts=subOptions(S.cat);if(!opts.length)return '';return `<div class="chips sub-bar">${['Hammasi',...opts].map(o=>`<button class="pill sub-pill ${(S.sub||'Hammasi')===o?'on':''}" data-sub="${o==='Hammasi'?'':o}">${o}</button>`).join('')}</div>`}
+const pById=id=>products.find(p=>p.id===id);
+const sOf=p=>p.store?stores[p.store]:{title:p.seller,color:'#7a8690',cat:p.area,verified:false,followers:'—',products:'—',rating:'—'};
+function avatar(s,cls='ava'){const st=typeof s==='string'?(stores[s]||{title:s,color:'#7a8690'}):s;return `<span class="${cls}" style="background:${st.color}">${st.title[0].toUpperCase()}</span>`}
+function ringAva(s,cls='ava ring'){const st=typeof s==='string'?(stores[s]||{title:s,color:'#7a8690'}):s;return `<span class="${cls}"><span style="background:${st.color}">${st.title[0].toUpperCase()}</span></span>`}
+function vmark(on){return on?`<span class="verified">${I('shield','')}</span>`:''}
+let S={screen:'feed',mode:'buyer',liked:new Set([3]),saved:new Set([7]),following:new Set(['texnomart']),subscribed:new Set(['texnomart']),q:'',storeView:'texnomart',variant:'256 GB',pstatus:'all',lead:'Aziz K.',ctitle:'Samsung Galaxy A54 256GB',cprice:'3 200 000',reelStart:0,prevScreen:'feed',pfTab:'products',cat:'Barchasi',sub:'',reelCat:'Barchasi',catEdit:null,ctype:'product',cdeal:'Sotuv',ccond:'Yangi',csvc:'Kelishiladi',ckeywords:'telefon, samsung, android, smartfon',selectedProducts:new Set([1,7]),editingProduct:null,promoTab:'active',promoType:'Chegirma'};
+let notifs=[
+ {store:'texnomart',pid:7,text:'yangi mahsulot joyladi: Galaxy Watch 6',time:'2 soat oldin',unread:true,type:'post'},
+ {store:'audiohouse',pid:2,text:'yangi mahsulot joyladi: ProSound X2',time:'5 soat oldin',unread:true,type:'post'},
+ {store:'makonmebel',pid:3,text:'narxni yangiladi: Skandinav kreslo',time:'kecha',unread:false,type:'price'}
+];
+const specs={1:[['SKU','SM-A54-256-GR'],['Kafolat','12 oy'],['Ekran','6.4” AMOLED'],['Xotira','256 GB'],['Holati','Yangi']],2:[['SKU','PS-X2-BLK'],['Ulanish','Bluetooth 5.3'],['Ishlash','28 soat'],['Holati','Yangi']],3:[['SKU','SC-CHAIR-01'],['Material','Yong‘oq + mato'],['Kafolat','24 oy'],['Holati','Yangi']],4:[['SKU','DR-21V'],['Quvvat','21V'],['Kafolat','6 oy'],['Holati','Yangi']],5:[['Holati','Ishlatilgan'],['O‘lcham','42'],['Egasi','Shaxsiy sotuvchi']],6:[['SKU','BR-MINI-01'],['Bosim','15 bar'],['Kafolat','12 oy'],['Holati','Yangi']],7:[['SKU','GW6-44'],['Ekran','1.5” AMOLED'],['Kafolat','12 oy'],['Holati','Yangi']],8:[['Holati','Yangi'],['Material','Tabiiy teri'],['Egasi','Shaxsiy sotuvchi']],9:[['SKU','BG-40W'],['Quvvat','40W'],['Kafolat','12 oy'],['Holati','Yangi']],10:[['Xonalar','2'],['Maydon','62 m²'],['Qavat','4/9'],['Holati','Ta‘mirli'],['Turi','Sotuv']],11:[['Xizmat turi','Santexnika'],['Tajriba','8 yil'],['Hudud','Toshkent bo‘ylab'],['To‘lov','Ish hajmiga qarab']],12:[['Ishlab chiqaruvchi','PharmaUZ'],['Dozasi','1000 mg'],['Miqdori','30 tabletka'],['Retsept','Talab etilmaydi']],13:[['Tur','Tog‘ asali'],['Og‘irligi','1 kg'],['Yig‘ilgan','2026'],['Qadoq','Shisha idish']],14:[['Xonalar','1'],['Maydon','38 m²'],['Qavat','6/9'],['Turi','Ijara'],['To‘lov','oyiga']],15:[['Quvvat','LED 10W'],['Batareya','akkumulyatorli'],['Ishlash','8 soat'],['Holati','Yangi']]};
+function specRows(id){return (specs[id]||specs[1]).map(([k,v])=>`<div class="info-row"><span>${k}</span><b>${v}</b></div>`).join('')}
+const descs={
+ 1:'Rasmiy Samsung Galaxy A54 256GB, grafit rang. Barcha aksessuarlari va 12 oy rasmiy kafolat bilan. Do‘kondan olib ketish yoki yetkazib berish mavjud.',
+ 2:'ProSound X2 simsiz quloqchin. Bluetooth 5.3, 28 soatgacha ishlash, faol shovqin bostirish. Original, muhrlangan qutida.',
+ 3:'Skandinaviya uslubidagi yong‘och ramkali kreslo, yumshoq mato qoplamali. Uy yoki ofis uchun qulay. O‘lchov bo‘yicha buyurtma qabul qilamiz.',
+ 4:'Akkumulyatorli drel 21V. Ikkita batareya, tez zaryadlagich va keys bilan. 6 oy kafolat.',
+ 5:'Nike Air krossovka, 42-o‘lcham. Ozgina ishlatilgan, holati a’lo darajada. Original qutisi bilan.',
+ 6:'Barista Mini 15 bar qahva mashinasi. Uy sharoitida professional espresso. 12 oy kafolat.',
+ 7:'Galaxy Watch 6, 44mm, AMOLED ekran. Sog‘liq va fitnes funksiyalari, GPS. 12 oy kafolat.',
+ 8:'Tabiiy teridan tikilgan ayollar sumkasi, yangi. Bitta dona, shaxsiy sotuvchidan.',
+ 9:'BassGo 40W simsiz kolonka, kuchli bass va 10 soat ishlash. 12 oy kafolat, original.',
+ 10:'Yunusobodda 2 xonali kvartira, 62 m², 4/9 qavat. Ta‘mirli, mebel bilan. Rasmiy shartnoma orqali sotiladi.',
+ 11:'Malakali santexnika ustasi. Truba, kran, smesitel o‘rnatish va ta‘mirlash. 8 yil tajriba, Toshkent bo‘ylab chaqiruv.',
+ 12:'Vitamin C 1000mg, 30 tabletka. Immunitetni qo‘llab-quvvatlash uchun. Litsenziyalangan aptekadan, retseptsiz.',
+ 13:'Parkent tog‘laridan tabiiy asal, 1 kg shisha idishda. 2026 yil hosili, qo‘shimchasiz.',
+ 14:'Chilonzorda 1 xonali kvartira ijaraga, 38 m², 6/9 qavat. Mebel va texnika bilan. Oylik to‘lov, uzoq muddatga.',
+ 15:'Akkumulyatorli LED fonar (fonarik), 10W. To‘liq zaryadda 8 soat ishlaydi. Qurilish va uy uchun qulay.'
+};
+const descOf=id=>descs[id]||descs[1];
+const reviews={
+ texnomart:[
+  {name:'Aziz K.',rating:5,text:'Telefon original, kafolat hujjatlari bilan keldi. Tavsiya qilaman.',time:'3 kun oldin'},
+  {name:'Dilnoza R.',rating:5,text:'Juda tez javob berishdi, do‘kondan olib ketdim. Zo‘r xizmat.',time:'1 hafta oldin'},
+  {name:'Sardor M.',rating:4,text:'Mahsulot yaxshi, narxi ham mos. Yetkazishni biroz kutdim.',time:'2 hafta oldin'}
+ ],
+ audiohouse:[
+  {name:'Kamola',rating:5,text:'Quloqchin ovozi zo‘r, original ekan. Rahmat!',time:'5 kun oldin'},
+  {name:'Bekzod',rating:4,text:'Yaxshi mahsulot, qadoqlash ham ozoda edi.',time:'10 kun oldin'}
+ ],
+ makonmebel:[
+  {name:'Nodira',rating:5,text:'Kreslo aynan rasmdagidek keldi. Sifatli material.',time:'1 hafta oldin'}
+ ],
+ ustamarket:[
+  {name:'Jasur',rating:4,text:'Asbob ishonchli, do‘kon xizmati yaxshi.',time:'4 kun oldin'}
+ ],
+ uymakon:[
+  {name:'Shahnoza',rating:5,text:'Kvartirani ko‘rsatishdi, hujjatlar toza. Rasmiy shartnoma qilishdi.',time:'6 kun oldin'}
+ ],
+ dorimed:[
+  {name:'Umid',rating:5,text:'Dori bor edi, tez topib berishdi. Narx hamyonbop.',time:'2 kun oldin'},
+  {name:'Laylo',rating:5,text:'Litsenziyali apteka, ishonchli. Maslahat ham berishdi.',time:'1 hafta oldin'}
+ ]
+};
+function stars(n){let o='';for(let i=1;i<=5;i++)o+=`<svg class="${i<=n?'':'off'}" viewBox="0 0 24 24" aria-hidden="true">${ic.star}</svg>`;return `<span class="rev-stars">${o}</span>`}
+function revItem(r){return `<div class="rev"><span class="ava" style="background:#e2eeec;color:var(--brand)">${r.name[0]}</span><div style="flex:1"><div class="rev-h"><b>${r.name}</b>${stars(r.rating)}</div><p>${r.text}</p><div class="t">${r.time}</div></div></div>`}
+function carousel(p){const bgs=[`radial-gradient(120% 90% at 30% 20%,#fff,${p.bg})`,p.bg,`radial-gradient(120% 90% at 72% 85%,${p.bg},#d9e2e0)`];return `<div class="slides" data-carousel>${bgs.map((bg,i)=>`<div class="slide ${i===0?'on':''}" style="background:${bg}">${art(p.kind,p.color,'transparent')}</div>`).join('')}</div><div class="dots slide-dots">${bgs.map((_,i)=>`<i class="${i===0?'on':''}"></i>`).join('')}</div>`}
+function reviewsBlock(s){const list=reviews[s.name]||[];return `<div class="rating-sum"><span class="big">${s.rating}</span><div>${stars(Math.round(+s.rating))}<div class="muted" style="font-size:12px">${list.length} ta sharh · ${s.followers} obunachi</div></div><button class="pf-btn follow" style="margin-left:auto;height:36px" data-toast="Baho qoldirish oynasi ochildi">${I('star','i')} Baho berish</button></div><div class="reviews">${list.length?list.map(revItem).join(''):'<p class="muted" style="padding:10px 0">Hozircha sharh yo‘q.</p>'}</div>`}
+
+function post(p){const s=sOf(p);const liked=S.liked.has(p.id),saved=S.saved.has(p.id);const sub=p.store&&S.subscribed.has(p.store);
+ return `<article class="post"><div class="post-head">${ringAva(p.store||s)}<div><b data-store="${p.store||''}">${s.title} ${vmark(s.verified)}</b><div class="sub">${p.area}</div></div>${p.store?`<button class="bell ${sub?'on':''}" data-bell="${p.store}" title="Bildirishnoma" aria-label="Obuna">${I('bell')}</button>`:'<span style="margin-left:auto"></span>'}<button class="more" data-toast="Ulashish · Shikoyat · Havola">${I('more')}</button></div>
+ <div class="post-media" data-open="${p.id}" style="background:${p.bg}">${carousel(p)}<div class="badges"><span class="badge ${p.type}">${p.type==='store'?'Do‘kon':'Shaxsiy'}</span><span class="badge ${p.cond==='Yangi'?'success':'used'}">${p.cond}</span></div><span class="media-price">${p.price} so‘m</span><button class="media-info-btn" data-info title="Ma‘lumot">${I('info')}</button><div class="media-ov" data-info-close><div class="media-ov-card"><b>${p.title}</b><p class="ov-desc">${descOf(p.id)}</p>${(specs[p.id]||[]).slice(0,4).map(([k,v])=>`<div class="r"><span>${k}</span><b>${v}</b></div>`).join('')}<div class="r"><span>Mavjud</span><b>${p.stock}</b></div></div></div></div>
+ <div class="post-actions"><button class="act ${liked?'liked':''}" data-like="${p.id}">${I('heart')}</button><button class="act" data-toast="Do‘konga havola nusxalandi">${I('send')}</button><button class="act ${saved?'saved':''}" data-save="${p.id}">${I('bookmark')}</button><button class="contact-mini" data-toast="${s.title} bilan suhbat ochildi">${I('chat','i')} Bog‘lanish</button></div>
+ <div class="post-likes">${(p.likes+(liked&&!(''+p.id in {})?1:0)).toLocaleString('ru-RU')} kishi yoqtirdi</div>
+ <div class="post-cap"><b>${s.title}</b> <span class="ttl">${p.title}</span></div>
+ <div class="post-meta muted" style="font-size:12px">${I('shield','')&&''}Mavjud: ${p.stock} · ${p.area}</div>
+ <div class="post-time">${p.time}</div></article>`}
+function story(s,seen){const st=stores[s];return `<button class="story" data-store="${s}"><span class="story-ring ${seen?'seen':''}"><span class="story-inner" style="background:${st.color}">${st.title[0]}</span></span><small>${st.title.split(' ')[0].toLowerCase()}</small></button>`}
+function tile(p,flat){return `<button class="tile ${!flat&&p.id%4===0?'tall':''}" data-open="${p.id}" style="background:${p.bg}">${art(p.kind,p.color,p.bg)}<span class="tprice">${p.price} so‘m</span><span class="tbadge">${I(p.type==='store'?'shop':'tag','')}</span></button>`}
+function buyerRail(active){const un=notifs.filter(n=>n.unread).length;const items=[['feed','home','Bosh sahifa'],['explore','compass','Explore'],['reels','play','Tomosha'],['notifs','bell','Bildirishnomalar'],['create','plusb','Joylash'],['inbox','chat','Xabarlar'],['saved','bookmark','Saqlangan']];
+ return `<aside class="rail"><div class="logo">RASTA</div>${items.map(([s,i,l])=>`<button class="rail-item ${active===s?'on':''}" data-go="${s}">${I(i)}${l}${s==='inbox'?'<span class="rail-badge">2</span>':s==='notifs'&&un?`<span class="rail-badge">${un}</span>`:''}</button>`).join('')}<button class="rail-item ${active==='profile'?'on':''}" data-go="profile"><span class="rail-ava">AK</span>Profil</button><div class="rail-spacer"></div><div class="rail-cta"><b>Do‘kon kabinetiga o‘ting</b><span>Mahsulot, qoldiq va murojaatlarni boshqaring</span><button data-mode="store">Kabinet ${'&rarr;'}</button></div></aside>`}
+function mtop(){const un=notifs.filter(n=>n.unread).length;return `<div class="mtop"><div class="logo">RASTA</div><div class="mtop-actions"><button class="mtop-ic ntop-bell" data-go="notifs" aria-label="Bildirishnomalar">${I('bell')}${un?`<span class="nb-dot">${un}</span>`:''}</button><button class="mtop-ic" data-go="inbox" aria-label="Xabarlar">${I('chat')}<span class="dot"></span></button><button class="mtop-ic" data-mode="admin" aria-label="Super admin" title="Super admin (demo)">${I('shield')}</button></div></div>`}
+function mbottom(active){const items=[['feed','home'],['explore','compass'],['reels','play'],['saved','bookmark']];return `<nav class="mbottom">${items.map(([s,i])=>`<button class="${active===s?'on':''}" data-go="${s}">${I(i)}</button>`).join('')}<button class="mb-profile ${active==='profile'?'on':''}" data-go="profile"><span class="ava" style="background:var(--grad-cta)">AK</span></button></nav>`}
+function rrail(){const sug=['audiohouse','makonmebel','ustamarket'];return `<aside class="rrail"><div class="me"><span class="ava" style="background:var(--grad-cta)">AK</span><div><b>akmal_k</b><span>Akmal Karimov</span></div><button class="sugg" style="margin-left:auto;padding:0;color:var(--brand);font-weight:800;font-size:12px" data-mode="store">Kabinet</button></div><div class="rr-head"><b>Siz uchun do‘konlar</b><button data-go="explore">Barchasi</button></div>${sug.map(s=>{const st=stores[s];const f=S.following.has(s);return `<div class="sugg" data-store="${s}">${avatar(s)}<div><b>${st.title} ${vmark(st.verified)}</b><span>${st.cat}</span></div><button class="follow" data-follow="${s}">${f?'Kuzatilyapti':'Kuzatish'}</button></div>`}).join('')}<button class="admin-entry" data-mode="admin">${I('shield','i')} Super admin panel (demo)</button><div class="rr-foot">RASTA · Katalog-marketplace<br>Ilova ichida to‘lov yo‘q · aloqa orqali<br>© 2026 RASTA</div></aside>`}
+function buyerShell(content,active,single){return `<div class="shell">${buyerRail(active)}<div class="main">${mtop()}<div class="feedwrap ${single?'single':''}"><div class="feedcol">${content}</div>${single?'':rrail()}</div>${mbottom(active)}</div></div>`}
+function pageShell(content,active){return `<div class="shell">${buyerRail(active)}<div class="main">${mtop()}<div class="page">${content}</div>${mbottom(active)}</div></div>`}
+function feed(){const list=products.filter(p=>(S.cat==='Barchasi'||groups[p.id]===S.cat)&&(!S.sub||subOf(p)===S.sub));
+ const catsBar=`<div class="cat-row">${cats.map(([c])=>catCard(c)).join('')}</div>${subBar()}`;
+ const posts=list.length?list.map(post).join(''):`<div class="empty" style="margin:14px"><span class="empty-ic">${I('search')}</span><h3>«${S.cat}» bo‘yicha e‘lon yo‘q</h3><p>Boshqa kategoriyani tanlang yoki «Barchasi» ni bosing.</p></div>`;
+ return buyerShell(`${catsBar}${posts}`,'feed')}
+
+function explore(){const q=S.q.toLowerCase();let list=products.filter(p=>(S.cat==='Barchasi'||groups[p.id]===S.cat)&&(!S.sub||subOf(p)===S.sub)&&(p.title.toLowerCase().includes(q)||sOf(p).title.toLowerCase().includes(q)||(kw[p.id]||'').includes(q)||groups[p.id].toLowerCase().includes(q)));
+ return pageShell(`<div class="searchbar">${I('search')}<input id="exSearch" value="${S.q}" placeholder="Mahsulot, do‘kon, xizmat yoki kategoriya"></div><div class="chips cat-chips">${cats.map(([c,ci])=>`<button class="pill ${S.cat===c?'on':''}" data-cat="${c}">${I(ci)} ${c}</button>`).join('')}</div>${subBar()}<div class="chips">${['Barchasi','Do‘kon e‘loni','Shaxsiy e‘lon','Yangi','Ishlatilgan'].map((c,i)=>`<button class="pill ${i===0?'on':''}" data-pill>${c}</button>`).join('')}</div>${list.length?`<div class="explore">${list.map(tile).join('')}</div>`:`<div class="empty"><span class="empty-ic">${I('search')}</span><h3>Natija topilmadi</h3><p>«${S.cat}» bo‘yicha boshqa nom yoki kategoriyani sinab ko‘ring.</p></div>`}`,'explore')}
+function product(){const p=pById(1),s=sOf(p),saved=S.saved.has(p.id),liked=S.liked.has(p.id);
+ const rel=products.filter(x=>x.id!==p.id&&groups[x.id]===groups[p.id]).concat(products.filter(x=>x.id!==p.id&&groups[x.id]!==groups[p.id])).slice(0,6);
+ const moreStore=products.filter(x=>x.id!==p.id&&x.store===p.store).slice(0,3);
+ const relatedHTML=`<div class="rel-sec"><div class="rel-head">${I('compass','')} O‘xshash mahsulotlar</div><div class="explore rel-grid">${rel.map(p=>tile(p,true)).join('')}</div></div>${moreStore.length?`<div class="rel-sec"><div class="rel-head">${I('shop','')} ${s.title} do‘konidan yana</div><div class="explore rel-grid">${moreStore.map(p=>tile(p,true)).join('')}</div></div>`:''}`;
+ return buyerShell(`<button class="detail-back" data-go="explore">${I('back')} Orqaga</button><div class="detail"><div class="detail-media post-media" style="background:${p.bg}">${carousel(p)}<div class="badges"><span class="badge store">Do‘kon</span><span class="badge success">Yangi</span></div><button class="media-info-btn" data-info title="Ma‘lumot">${I('info')}</button><div class="media-ov" data-info-close><div class="media-ov-card"><b>${p.title}</b>${specRows(p.id).replace(/info-row/g,'r')}<div class="r"><span>Mavjud</span><b>${p.stock}</b></div></div></div></div><div class="detail-info"><div class="di-head">${ringAva(p.store)}<div><b data-store="${p.store}">${s.title} ${vmark(s.verified)}</b><span>${p.area} · odatda 5 daq javob</span></div><button class="more" data-toast="Ulashish · Shikoyat">${I('more')}</button></div><div class="di-body"><div class="di-title">${p.title}</div><div class="di-price">${p.price} so‘m</div><div class="di-avail"><i class="dot"></i> Omborda mavjud · ${p.stock}</div><div class="di-label">Sotuvchi tavsifi</div><p class="di-desc">${descOf(p.id)}</p><div class="di-label">Xotira</div><div class="variants">${['128 GB','256 GB','512 GB'].map(v=>`<button class="variant ${S.variant===v?'on':''}" data-variant="${v}">${v}</button>`).join('')}</div><div class="di-label">Rang</div><div class="variants"><button class="variant on">Grafit</button><button class="variant">Oq</button><button class="variant">Laym</button></div><div class="di-label">Xususiyatlar</div><div class="attrs"><div class="attr"><span>SKU</span><b>SM-A54-256-GR</b></div><div class="attr"><span>Kafolat</span><b>12 oy</b></div><div class="attr"><span>Ekran</span><b>6.4” AMOLED</b></div><div class="attr"><span>Xotira</span><b>${S.variant}</b></div><div class="attr"><span>Holati</span><b>Yangi</b></div></div><div class="di-label">Sotuvchi baholari</div>${reviewsBlock(s)}<div class="di-note">${I('shield','')}<span>Pul o‘tkazishdan oldin sotuvchi va mahsulotni tekshiring. RASTA to‘lovni kafolatlamaydi.</span></div></div><div class="di-actions"><button class="btn btn-line" data-like="${p.id}">${I('heart')} ${liked?'Yoqdi':'Yoqtirish'}</button><button class="btn btn-line" data-save="${p.id}">${I('bookmark')}</button><button class="btn btn-grad" data-toast="Chat ochildi">${I('chat','i')} Bog‘lanish</button></div></div></div>${relatedHTML}`,'explore',true)}
+function profile(){const s=stores[S.storeView];const list=products.filter(p=>p.store===S.storeView);const f=S.following.has(S.storeView);
+ return buyerShell(`<div class="profile"><div class="pf-top"><div class="pf-ava"><span style="background:${s.color}">${s.title[0]}</span></div><div class="pf-meta"><div class="pf-name"><h1>${s.name} ${vmark(s.verified)}</h1><div class="pf-btns"><button class="pf-btn ${f?'line':'follow'}" data-follow="${S.storeView}">${f?'Kuzatilyapti':'Obuna bo‘lish'}</button><button class="pf-btn line" data-toast="${s.title} bilan suhbat">Xabar</button><button class="bell ${S.subscribed.has(S.storeView)?'on':''}" data-bell="${S.storeView}" title="Yangi mahsulot bildirishnomasi" aria-label="Bildirishnoma">${I('bell')}</button></div></div><div class="pf-stats"><div><b>${s.products}</b> <span>mahsulot</span></div><div><b>${s.followers}</b> <span>obunachi</span></div><div><b>${s.rating}</b> <span>${I('star','')&&'reyting'}</span></div></div><div class="pf-bio"><b>${s.title}</b><p>${s.bio}</p><div class="loc">${I('pin','')} ${s.cat} · Bugun 09:00–21:00</div></div></div></div><div class="pf-highlights">${['Yangi','Aksiya','Telefonlar','Audio','Sharhlar'].map(h=>`<div class="hl"><div class="hl-c">${I('box','')}</div><small>${h}</small></div>`).join('')}</div><div class="pf-tabs"><button class="pf-tab ${S.pfTab!=='reviews'?'on':''}" data-pftab="products">${I('grid','')} Mahsulotlar</button><button class="pf-tab ${S.pfTab==='reviews'?'on':''}" data-pftab="reviews">${I('star','')} Sharhlar</button></div>${S.pfTab==='reviews'?`<div class="pf-reviews">${reviewsBlock(s)}</div>`:`<div class="pf-grid">${list.concat(products.filter(p=>p.store&&p.store!==S.storeView)).slice(0,9).map(tile).join('')}</div>`}</div>`,'profile',true)}
+function saved(){const list=products.filter(p=>S.saved.has(p.id));return pageShell(`<div class="page-head"><div><h1>Saqlangan</h1><p>Keyinroq ko‘rish uchun ajratganlaringiz</p></div></div>${list.length?`<div class="explore">${list.map(tile).join('')}</div>`:`<div class="empty"><span class="empty-ic">${I('bookmark')}</span><h3>Hozircha bo‘sh</h3><p>Post yoki mahsulotdagi belgini bosing.</p></div>`}`,'saved')}
+function inbox(){const chats=[['texnomart','Samsung A54 mavjudmi?','10:24'],['audiohouse','Kolonka kafolati bormi?','09:10'],['makonmebel','Kreslo rangi tanlanadimi?','kecha']];
+ return `<div class="shell">${buyerRail('inbox')}<div class="main">${mtop()}<div class="inbox"><div class="ib-list"><div class="ib-head">${I('chat')} Xabarlar</div>${chats.map((c,i)=>{const s=stores[c[0]];return `<div class="ib-item ${i===0?'on':''}" data-lead="${c[0]}">${avatar(c[0])}<div><b>${s.title} ${vmark(s.verified)}</b><p>${c[1]}</p></div><span class="t">${c[2]}</span></div>`}).join('')}</div><div class="ib-thread"><div class="ib-tophead">${ringAva('texnomart')}<div><b>TexnoMart ${vmark(true)}</b><div class="muted" style="font-size:11px">odatda 5 daqiqada javob beradi</div></div></div><div class="ib-msgs"><div class="ib-prodref"><div class="mini">${art('phone','#26384a','#e7f1f2')}</div><div><b style="font-size:12px">Samsung Galaxy A54</b><div class="muted" style="font-size:11px">3 200 000 so‘m</div></div></div><div class="msg them">Assalomu alaykum! Samsung A54 256GB grafit rang bormi?</div><div class="msg me">Ha, mavjud. Do‘konimiz 21:00 gacha ochiq.</div><div class="msg them">Narxi oxirgimi?</div></div><div class="ib-reply"><input placeholder="Xabar yozing..."><button class="ib-send" data-toast="Xabar yuborildi">${I('send','i')}</button></div></div></div>${mbottom('inbox')}</div></div>`}
+
+function dside(active){const items=[['dashboard','grid','Bugungi holat'],['manage','box','E‘lonlar'],['inventory','layers','Qoldiq / SKU'],['promotions','gift','Aksiyalar'],['leads','chat','Murojaatlar']];
+ return `<aside class="dside"><div class="logo">RASTA</div><div class="d-store">${avatar('texnomart')}<div><b>TexnoMart</b><small>Tasdiqlangan do‘kon</small></div><span class="role">OWNER</span></div><nav class="dnav"><div class="dnav-label">Boshqaruv</div>${items.map(([s,i,l])=>`<button class="dnav-item ${active===s?'on':''}" data-go="${s}">${I(i)}${l}${s==='leads'?'<span class="c">5</span>':s==='promotions'?'<span class="c" style="background:#8a5bd1">2</span>':''}</button>`).join('')}<div class="dnav-label">Jamoa va do‘kon</div><button class="dnav-item" data-toast="Xodimlar va ruxsatlar oynasi">${I('users')}Xodimlar</button><button class="dnav-item" data-toast="Do‘kon sozlamalari">${I('sliders')}Sozlamalar</button></nav><button class="d-switch" data-mode="buyer">${I('eye','i')} Xaridor ko‘rinishi</button></aside>`}
+function dmbottom(active){const items=[['dashboard','grid'],['manage','box'],['create','plus'],['promotions','gift'],['leads','chat']];return `<nav class="mbottom dash-mb">${items.map(([s,i])=>`<button class="${active===s?'on':''}" data-go="${s}">${I(i)}</button>`).join('')}</nav>`}
+function dtop(title){return `<div class="mtop"><div class="logo">RASTA</div><div class="mtop-actions"><button class="mtop-ic" data-mode="buyer">${I('eye')}</button></div></div><header class="dtop"><div><h2>${title}</h2><small>TexnoMart · Owner</small></div><div class="actions"><button class="btn btn-line" style="height:40px;flex:none;padding:0 14px" data-mode="buyer">${I('eye','i')} <span>Do‘konni ko‘rish</span></button><button class="btn btn-grad" style="height:40px;flex:none;padding:0 16px" data-go="create">${I('plusb','i')} E‘lon qo‘shish</button></div></header>`}
+function dashShell(content,active,title){return `<div class="dash">${dside(active)}<div class="dmain">${dtop(title)}<div class="dcontent">${content}</div>${dmbottom(active)}</div></div>`}
+function ptable(list,actions){const skus=['SM-A54-256','PS-X2-BLK','SC-CHAIR-01','DR-21V','—','BR-MINI-01','GW6-44','—','BG-40W'];const sts=[['ok','Faol'],['rv','Tekshiruvda'],['dr','Qoralama'],['ok','Faol'],['ok','Faol']];const views=[980,640,322,210,150];
+ return `<div style="overflow:auto"><table><thead><tr>${actions?'<th><input class="pcheck" type="checkbox" data-select-all aria-label="Barchasini tanlash"></th>':''}<th>E‘lon</th><th>Status</th><th>Narx</th><th>Qoldiq</th><th>Natija</th>${actions?'<th>Amallar</th>':''}</tr></thead><tbody>${list.map((p,i)=>`<tr>${actions?`<td><input class="pcheck" type="checkbox" data-pselect="${p.id}" ${S.selectedProducts.has(p.id)?'checked':''} aria-label="${p.title} ni tanlash"></td>`:''}<td><div class="tprod"><div class="tart" style="background:${p.bg}">${art(p.kind,p.color,p.bg)}</div><div><b>${p.title}</b><small>SKU: ${skus[p.id-1]||'—'} · ${groups[p.id]||'Mahsulot'}</small></div></div></td><td><span class="st ${(sts[i]||sts[0])[0]}">${(sts[i]||sts[0])[1]}</span></td><td><b>${p.price}</b></td><td class="${parseInt(p.stock)<6?'low':''}">${p.stock}</td><td><b>${views[i]||120}</b><small class="muted" style="display:block">${[18,9,6,4,3][i]||2} murojaat</small></td>${actions?`<td><div class="prod-actions"><button class="mini-action primary" data-edit-product="${p.id}">Tahrirlash</button><button class="mini-action" data-duplicate="${p.id}">Nusxa</button><button class="rowmenu" data-toast="Pauza · Ko‘tarish · O‘chirish">•••</button></div></td>`:''}</tr>`).join('')}</tbody></table></div>`}
+function dashboard(){return dashShell(`<div class="dintro"><div><h1>Xayrli kun, Akmal</h1><p>Avval muhim vazifalarni bajaring, keyin natijalarni kuzating.</p></div><div style="display:flex;gap:9px;flex:none"><button class="btn btn-line" style="flex:none;height:44px;padding:0 16px" data-go="promotions">${I('gift','i')} Aksiya yaratish</button><button class="btn btn-grad" style="flex:none;height:44px;padding:0 18px" data-go="create">${I('plusb','i')} E‘lon qo‘shish</button></div></div>
+ <div class="today"><section class="task-panel"><div class="task-head"><div><h2>Bugungi vazifalar</h2><p>Do‘kon ishlashi uchun e‘tibor talab qiladigan holatlar</p></div><span class="task-count">8</span></div><div class="task-list"><button class="task danger" data-go="leads"><i></i><span><b>5 ta murojaat javob kutmoqda</b><small>Eng eskisi 24 daqiqa</small></span></button><button class="task warn" data-go="inventory"><i></i><span><b>2 mahsulot tugagan</b><small>Vitrinada avtomatik yashirilgan</small></span></button><button class="task" data-go="manage"><i></i><span><b>1 e‘lon rad etilgan</b><small>Sababini ko‘rib tuzating</small></span></button><button class="task warn" data-go="promotions"><i></i><span><b>Aksiya 2 kunda tugaydi</b><small>Davom ettirish yoki yakunlash</small></span></button></div></section>
+ <aside class="quick-panel"><h3>Tezkor amallar</h3><div class="quick-grid"><button class="quick" data-go="create">${I('plusb')}<b>E‘lon qo‘shish</b><span>Mahsulot, uy, avto, xizmat</span></button><button class="quick" data-go="inventory">${I('layers')}<b>Qoldiq</b><span>Tez yangilash</span></button><button class="quick" data-go="promotions">${I('gift')}<b>Aksiya</b><span>Chegirma yoki ko‘tarish</span></button><button class="quick" data-go="leads">${I('chat')}<b>Murojaatlar</b><span>5 ta yangi</span></button></div></aside></div>
+ <div class="section-title"><div><h2>Bugungi natijalar</h2><p>Kecha bilan solishtirilgan</p></div><button class="stab" data-toast="Batafsil statistika ochildi">Batafsil</button></div><div class="kpis">${[['eye','Ko‘rishlar','12 480','+12%'],['chat','Murojaatlar','342','+8%'],['bookmark','Saqlashlar','1 280','+20%'],['clock','Javob vaqti','6 daq','maqsad: 10 daq']].map(([i,l,v,t],x)=>`<div class="kpi"><div class="kpi-h"><span>${l}</span><span class="kpi-ic">${I(i,'i')}</span></div><div class="kpi-v">${v}</div><div class="trend ${x===3?'dn':''}">${t}</div></div>`).join('')}</div><div class="dgrid"><section class="panel"><div class="panel-h"><h3>Ko‘rish va murojaatlar</h3><span>So‘nggi 7 kun</span></div><div class="chart">${[38,58,47,72,63,92,81].map(h=>`<i class="bar" style="height:${h}%"></i>`).join('')}</div><div class="chart-x">${['Du','Se','Ch','Pa','Ju','Sh','Ya'].map(d=>`<span>${d}</span>`).join('')}</div></section><aside class="panel"><div class="panel-h"><h3>E‘lon sifati</h3><span>86 / 100</span></div><div class="alerts"><div class="alert"><span class="kpi-ic">${I('check','i')}</span><div><b>112 e‘lon to‘liq</b><span>Rasm va tavsif yetarli</span></div></div><div class="alert"><span class="kpi-ic" style="background:#fff3dc;color:var(--warn)">${I('alert','i')}</span><div><b>7 e‘londa tavsif qisqa</b><span>Topilishni yaxshilash mumkin</span></div></div><div class="alert"><span class="kpi-ic" style="background:#eaf1fd;color:var(--info)">${I('tag','i')}</span><div><b>5 e‘londa kalit so‘z yo‘q</b><span>Qidiruvdan kam topiladi</span></div></div></div></aside></div>`,'dashboard','Bugungi holat')}
+function editDrawer(){if(!S.editingProduct)return'';const p=pById(S.editingProduct)||pById(1);return `<div class="edit-drawer"><aside class="edit-sheet"><div class="edit-head"><div><h2>Tezkor tahrirlash</h2><p>Asosiy ma‘lumotlarni shu yerdan yangilang</p></div><button data-close-edit>${I('x','i')}</button></div><div class="edit-product"><div class="tart" style="background:${p.bg}">${art(p.kind,p.color,p.bg)}</div><div><b>${p.title}</b><div class="muted" style="font-size:10px">Faol · oxirgi yangilanish 2 soat oldin</div></div></div><div class="fgrid"><div class="field full"><label>E‘LON NOMI</label><input value="${p.title}"></div><div class="field"><label>NARX (so‘m)</label><input value="${p.price}"></div><div class="field"><label>QOLDIQ</label><input value="${parseInt(p.stock)||0}"></div><div class="field full"><label>HOLATI</label><div class="variants"><button class="variant on">Faol</button><button class="variant">Pauzada</button></div></div><div class="field full"><label>QISQA TAVSIF</label><textarea>${descOf(p.id)}</textarea></div><div class="field full"><label>KALIT SO‘ZLAR</label><input value="${kw[p.id]||''}"></div></div><div class="di-note">${I('info','')}<span>Narx va asosiy tavsif o‘zgarsa, e‘lon qisqa qayta tekshiruvdan o‘tishi mumkin.</span></div><div class="edit-foot"><button class="btn btn-line" data-close-edit>Bekor qilish</button><button class="btn btn-grad" data-save-edit>Saqlash</button></div></aside></div>`}
+function manage(){const list=products.filter(p=>p.store==='texnomart').concat(products.filter(p=>p.store&&p.store!=='texnomart')).slice(0,5);const n=S.selectedProducts.size;return dashShell(`<div class="dintro"><div><h1>E‘lonlar</h1><p>Joylashtirish, tahrirlash, moderatsiya va mavjudlik bitta joyda</p></div><div style="display:flex;gap:9px"><button class="btn btn-line" style="flex:none;height:44px;padding:0 15px" data-toast="CSV / Excel import oynasi">${I('upload','i')} Import</button><button class="btn btn-grad" style="flex:none;height:44px;padding:0 18px" data-go="create">${I('plusb','i')} Yangi e‘lon</button></div></div><div class="catalog-summary"><div class="sum-card"><i></i><div><b>118</b><span>Faol</span></div></div><div class="sum-card warn"><i></i><div><b>3</b><span>Tekshiruvda</span></div></div><div class="sum-card muted-dot"><i></i><div><b>2</b><span>Qoralama</span></div></div><div class="sum-card danger"><i></i><div><b>1</b><span>Tuzatish kerak</span></div></div></div><div class="tablewrap"><div class="ttools"><input class="tsearch" placeholder="Nomi, SKU yoki kategoriya bo‘yicha qidiring">${[['all','Hammasi 124'],['active','Faol 118'],['review','Tekshiruvda 3'],['draft','Qoralama 2'],['rejected','Rad etilgan 1']].map(([s,l])=>`<button class="stab ${S.pstatus===s?'on':''}" data-status="${s}">${l}</button>`).join('')}</div>${n?`<div class="bulkbar"><b>${n} ta e‘lon tanlandi</b><button class="bulkbtn" data-bulk="price">${I('tag','')} Narx</button><button class="bulkbtn" data-bulk="promo">${I('gift','')} Aksiyaga</button><button class="bulkbtn" data-bulk="pause">${I('clock','')} Pauza</button><button class="bulkbtn" data-bulk="stock">${I('layers','')} Qoldiq</button><button class="bulkbtn" data-clear-selection>${I('x','')} Bekor</button></div>`:''}${ptable(list,true)}</div>${editDrawer()}`,'manage','E‘lonlar')}
+function promotions(){const campaigns=[{name:'Yozgi texnika aksiyasi',type:'15% chegirma',dates:'20–30 iyul',status:'Faol',cls:'ok',progress:68,views:'8 420',leads:'214',saved:'380'},{name:'Galaxy Watch — yangi narx',type:'Narx pasayishi',dates:'26 iyuldan',status:'Rejalangan',cls:'rv',progress:12,views:'—',leads:'—',saved:'—'},{name:'Hafta taklifi',type:'Feed’da ko‘tarish',dates:'10–17 iyul',status:'Yakunlangan',cls:'dr',progress:100,views:'12 100',leads:'302',saved:'620'}];return dashShell(`<div class="dintro"><div><h1>Aksiyalar</h1><p>Chegirma, mahsulotni ko‘tarish va obunachilarga xabar berishni boshqaring</p></div><button class="btn btn-grad" style="flex:none;height:44px;padding:0 18px" data-focus-promo>${I('gift','i')} Yangi aksiya</button></div><div class="campaign-summary"><div class="campaign-kpi"><b>2</b><span>Faol va rejalangan</span></div><div class="campaign-kpi"><b>516</b><span>Aksiyadan murojaat</span></div><div class="campaign-kpi"><b>+34%</b><span>Ko‘rishlar o‘sishi</span></div></div><div class="campaign-layout"><section><div class="ttools" style="border:1px solid var(--line);border-radius:13px;margin-bottom:10px;background:#fff">${[['active','Faol'],['scheduled','Rejalangan'],['finished','Tugagan']].map(([v,l])=>`<button class="stab ${S.promoTab===v?'on':''}" data-promo-tab="${v}">${l}</button>`).join('')}</div><div class="campaign-list">${campaigns.map((c,i)=>`<article class="campaign-card"><div class="campaign-top"><span class="campaign-ic">${I(i===1?'tag':'gift','i')}</span><div><h3>${c.name}</h3><p>${c.type} · ${c.dates}</p></div><span class="st ${c.cls} campaign-status">${c.status}</span></div><div class="campaign-progress"><i style="width:${c.progress}%"></i></div><div class="campaign-metrics"><span>Ko‘rish: <b>${c.views}</b></span><span>Murojaat: <b>${c.leads}</b></span><span>Saqlash: <b>${c.saved}</b></span><button style="margin-left:auto;color:var(--brand);font-weight:800" data-toast="Aksiya tafsilotlari ochildi">Boshqarish</button></div></article>`).join('')}</div></section><aside class="promo-builder" id="promoBuilder"><h3>Tez aksiya yaratish</h3><p>3 qadam: tur → e‘lonlar → muddat</p><div class="field"><label>AKSIYA TURI</label><div class="promo-types">${['Chegirma','Narx pasayishi','Feed’da ko‘tarish','Obunachiga xabar'].map(v=>`<button class="promo-type ${S.promoType===v?'on':''}" data-promo-type="${v}">${v}</button>`).join('')}</div></div><div class="field"><label>E‘LONLAR</label><select><option>3 ta mahsulot tanlandi</option><option>Barcha faol mahsulotlar</option></select></div><div class="fgrid" style="margin-top:11px"><div class="field"><label>CHEGIRMA</label><select><option>15%</option><option>10%</option><option>20%</option></select></div><div class="field"><label>MUDDAT</label><select><option>7 kun</option><option>3 kun</option><option>14 kun</option></select></div></div><div class="promo-preview"><small>Xaridor ko‘rinishi</small><b>−15% · Yozgi aksiya</b><span>Eski narx ustidan chiziladi, yangi narx va muddat ko‘rsatiladi.</span></div><button class="btn btn-grad" style="width:100%;margin-top:12px" data-launch-promo>${I('gift','i')} Preview va boshlash</button></aside></div>`,'promotions','Aksiyalar')}
+function inventory(){const rows=[['Samsung A54','SM-A54-256-GR','256 GB · Grafit',24],['Samsung A54','SM-A54-128-WH','128 GB · Oq',3],['ProSound X2','PS-X2-BLK','Qora',8],['Barista Mini','BR-MINI-01','Standart',0]];
+ return dashShell(`<div class="dintro"><div><h1>Qoldiq / SKU</h1><p>Variantlar kesimida mavjudlik</p></div><button class="btn btn-line" style="flex:none;height:44px;padding:0 16px" data-toast="Qoldiq harakatlari tarixi">${I('clock','i')} Tarix</button></div><div class="kpis" style="margin-bottom:14px">${[['layers','Jami SKU','184','124 mahsulot'],['alert','Kam qoldiq','6','tekshiring'],['box','Tugagan','2','yashirilgan'],['save','Bugun o‘zgargan','18','auditda']].map(([i,l,v,t],x)=>`<div class="kpi"><div class="kpi-h"><span>${l}</span><span class="kpi-ic" ${x===1?'style="background:#fff3dc;color:var(--warn)"':x===2?'style="background:#fdecef;color:var(--danger)"':''}>${I(i,'i')}</span></div><div class="kpi-v">${v}</div><div class="trend ${x?'dn':''}">${t}</div></div>`).join('')}</div><div class="tablewrap"><div class="ttools"><input class="tsearch" placeholder="SKU qidiring"><button class="btn btn-line" style="flex:none;height:38px;padding:0 14px" data-toast="CSV import (P1)">${I('upload','i')} Import</button></div><table><thead><tr><th>Mahsulot</th><th>SKU</th><th>Variant</th><th>Qoldiq</th><th>Holat</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td><div class="qty"><button data-qty="-1" data-row="${i}">−</button><b id="q${i}">${r[3]}</b><button data-qty="1" data-row="${i}">+</button></div></td><td><span class="st ${r[3]===0?'rj':r[3]<5?'rv':'ok'}">${r[3]===0?'Tugagan':r[3]<5?'Kam':'Mavjud'}</span></td></tr>`).join('')}</tbody></table></div>`,'inventory','Qoldiq / SKU')}
+function leads(){const ppl=[['Aziz K.','Samsung A54 256GB','Grafit bormi? Narxi oxirgimi?','10:24'],['Dilnoza R.','ProSound X2','Yetkazib berasizmi?','09:18'],['Javohir','Galaxy Watch 6','Kafolati bormi?','kecha'],['Malika S.','Barista Mini','Oq rangi bormi?','kecha']];
+ return dashShell(`<div class="dintro"><div><h1>Murojaatlar</h1><p>Bu buyurtma emas — xaridor chat va aloqa so‘rovlari</p></div><div class="chips" style="flex:none"><button class="pill on">Yangi 5</button><button class="pill">Ochildi 12</button><button class="pill">Javob berildi 41</button></div></div><div class="inbox" style="min-height:520px"><div class="ib-list">${ppl.map((p,i)=>`<div class="ib-item ${S.lead===p[0]?'on':''}" data-lead="${p[0]}"><span class="ava" style="background:#e2eeec;color:var(--brand)">${p[0][0]}</span><div><b>${p[0]}</b><p>${p[1]}</p><p style="color:#59616a">${p[2]}</p></div><span class="t">${p[3]}</span></div>`).join('')}</div><div class="ib-thread"><div class="ib-tophead"><span class="ava" style="background:#e2eeec;color:var(--brand)">${S.lead[0]}</span><div><b>${S.lead}</b><div class="muted" style="font-size:11px">Yangi murojaat · Samsung A54 256GB</div></div><span class="st ok" style="margin-left:auto">Yangi</span></div><div class="ib-msgs"><div class="ib-prodref"><div class="mini">${art('phone','#26384a','#e7f1f2')}</div><div><b style="font-size:12px">Samsung Galaxy A54</b><div class="muted" style="font-size:11px">SKU: SM-A54-256-GR · 24 dona</div></div></div><div class="msg them">Assalomu alaykum! Grafit rang bormi? Narxi oxirgimi?</div></div><div class="ib-reply"><input placeholder="Javob yozing..."><button class="ib-send" data-toast="Javob yuborildi · holat yangilandi">${I('send','i')}</button></div></div></div>`,'leads','Murojaatlar')}
+function create(){
+ const t=S.ctype;
+ const pv={product:{kind:'phone',color:'#26384a',bg:'#e7f1f2',b1:'Do‘kon',b1c:'store',b2:S.ccond,b2c:S.ccond==='Yangi'?'success':'used'},
+  property:{kind:'house',color:'#3f74d6',bg:'#e8eefb',b1:'Ko‘chmas mulk',b1c:'store',b2:S.cdeal,b2c:'used'},
+  car:{kind:'car',color:'#3a4a63',bg:'#eaeef5',b1:'Avto',b1c:'store',b2:S.ccond,b2c:S.ccond==='Yangi'?'success':'used'},
+  service:{kind:'wrench',color:'#2f8fb0',bg:'#e4f0f4',b1:'Xizmat',b1c:'store',b2:S.csvc,b2c:'used'}}[t];
+ const titleLabel={product:'MAHSULOT NOMI *',property:'E‘LON SARLAVHASI *',car:'AVTO (marka + model) *',service:'XIZMAT NOMI *'}[t];
+ const step2={product:'Variant',property:'Tafsilot',car:'Tafsilot',service:'Tafsilot'}[t];
+ const typeSel=`<div class="ctype-sel">${[['product','Mahsulot'],['property','Ko‘chmas mulk'],['car','Avtomobil'],['service','Xizmat']].map(([v,l])=>`<button class="ctype ${t===v?'on':''}" data-ctype="${v}">${l}</button>`).join('')}</div>`;
+ const kwChips=S.ckeywords.split(',').map(x=>x.trim()).filter(Boolean).slice(0,6).map(x=>`<span>#${x}</span>`).join('');
+ const kwField=`<div class="field full"><label>KALIT SO‘ZLAR (qidiruv uchun)</label><input id="cKw" value="${S.ckeywords}" placeholder="masalan: telefon, samsung, android"><span class="field-hint">Vergul bilan ajrating — mijoz shu so‘zlar bo‘yicha ham topadi.</span></div>`;
+ const imgField=`<div class="field full"><label>RASMLAR * (bir nechta — avtomatik slayd bo‘ladi)</label><div class="upload">${I('upload')}<b>Rasm yuklash uchun bosing</b><span>PNG, JPG yoki WebP · 10 MB gacha</span></div></div>`;
+ const condBtns=`<div class="variants">${['Yangi','Ishlatilgan'].map(v=>`<button class="variant ${S.ccond===v?'on':''}" data-cset="ccond" data-val="${v}">${v}</button>`).join('')}</div>`;
+ let fields='';
+ if(t==='product'){fields=`<div class="field full"><label>${titleLabel}</label><input id="cTitle" value="${S.ctitle}"></div><div class="field"><label>KATEGORIYA *</label><select><option>Elektronika → Telefonlar</option><option>Maishiy texnika</option><option>Kiyim-kechak</option><option>Oziq-ovqat</option></select></div><div class="field"><label>HOLATI *</label>${condBtns}</div><div class="field"><label>NARX (so‘m) *</label><input id="cPrice" value="${S.cprice}"></div><div class="field"><label>BREND</label><input value="Samsung"></div>`}
+ else if(t==='property'){fields=`<div class="field full"><label>${titleLabel}</label><input id="cTitle" value="${S.ctitle}"></div><div class="field full"><label>BITIM TURI *</label><div class="variants">${['Sotuv','Ijara'].map(v=>`<button class="variant ${S.cdeal===v?'on':''}" data-cset="cdeal" data-val="${v}">${v}</button>`).join('')}</div></div><div class="field"><label>XONALAR *</label><select><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5+</option></select></div><div class="field"><label>MAYDON (m²) *</label><input value="62"></div><div class="field"><label>QAVAT</label><input value="4/9"></div><div class="field"><label>NARX (so‘m) *</label><input id="cPrice" value="${S.cprice}"></div><div class="field full"><label>MANZIL / HUDUD *</label><input value="Yunusobod, Toshkent"></div>`}
+ else if(t==='car'){fields=`<div class="field full"><label>${titleLabel}</label><input id="cTitle" value="${S.ctitle}"></div><div class="field"><label>YIL *</label><input value="2021"></div><div class="field"><label>PROBEG (km)</label><input value="45 000"></div><div class="field"><label>YOQILG‘I</label><select><option>Benzin</option><option>Gaz + Benzin</option><option>Elektr</option><option>Gibrid</option></select></div><div class="field"><label>HOLATI *</label>${condBtns}</div><div class="field"><label>NARX (so‘m) *</label><input id="cPrice" value="${S.cprice}"></div>`}
+ else {fields=`<div class="field full"><label>${titleLabel}</label><input id="cTitle" value="${S.ctitle}"></div><div class="field"><label>XIZMAT TURI *</label><select><option>Santexnika</option><option>Elektrik</option><option>Konditsioner</option><option>Tozalash</option><option>Ko‘chirish (gruzchik)</option><option>Repetitor</option></select></div><div class="field"><label>NARX TURI *</label><div class="variants">${['Kelishiladi','Soatbay','Ish hajmiga'].map(v=>`<button class="variant ${S.csvc===v?'on':''}" data-cset="csvc" data-val="${v}">${v}</button>`).join('')}</div></div><div class="field"><label>NARX (so‘m)</label><input id="cPrice" value="${S.cprice}"></div><div class="field"><label>TAJRIBA (yil)</label><input value="8"></div><div class="field full"><label>XIZMAT HUDUDI *</label><input value="Toshkent bo‘ylab"></div>`}
+ const descDefault={product:'Yangi Samsung Galaxy A54. Rasmiy 12 oy kafolat, barcha aksessuarlari bilan.',property:'Yunusobodda 2 xonali kvartira, 62 m², 4/9 qavat. Ta‘mirli, mebel bilan.',car:'Chevrolet Malibu 2, 2021. Bir egadan, avariyasiz, to‘liq ta‘minot.',service:'Konditsioner o‘rnatish va ta‘mirlash. 8 yil tajriba, kafolat bilan.'}[t];
+ fields+=`<div class="field full"><label>TAVSIF *</label><textarea>${descDefault}</textarea></div>${kwField}${imgField}`;
+ const head = t==='product'
+  ? `${ringAva('texnomart')}<div><b style="font-size:12px">TexnoMart ${vmark(true)}</b><div class="sub">Chilonzor</div></div>`
+  : `${ringAva({title:'akmal_k',color:'#0c9b88'})}<div><b style="font-size:12px">akmal_k</b><div class="sub">Shaxsiy e‘lon</div></div>`;
+ return dashShell(`<div class="dintro"><div><h1>Yangi e‘lon</h1><p>Turini tanlang — forma o‘zi moslashadi</p></div></div>${typeSel}<div class="create"><section class="cpanel"><div class="steps"><div class="step on"><span class="step-n">1</span>Asosiy</div><i class="step-l"></i><div class="step"><span class="step-n">2</span>${step2}</div><i class="step-l"></i><div class="step"><span class="step-n">3</span>Media</div><i class="step-l"></i><div class="step"><span class="step-n">4</span>Preview</div></div><div class="fgrid">${fields}</div><div class="cactions"><button class="btn btn-line" style="flex:none;padding:0 16px" data-toast="Qoralama saqlandi">${I('save','i')} Qoralama</button><button class="btn btn-grad" style="flex:none;padding:0 18px" data-toast="Keyingi bosqichga o‘tildi">Davom etish ${I('arrow','i')}</button></div></section><aside class="preview"><h3>Feed’da qanday ko‘rinadi</h3><div class="pv-post"><div class="post-head" style="padding:9px 11px">${head}</div><div class="pv-media" style="background:${pv.bg}">${art(pv.kind,pv.color,pv.bg)}<div class="badges"><span class="badge ${pv.b1c}">${pv.b1}</span><span class="badge ${pv.b2c}">${pv.b2}</span></div><span class="media-price" id="pvPrice">${priceText(S.cprice)}</span></div><div class="post-cap" style="padding:9px 11px"><b>${t==='product'?'TexnoMart':'akmal_k'}</b> <span id="pvTitle">${S.ctitle}</span></div><div class="pv-kw" id="pvKw">${kwChips}</div></div><div class="di-note" style="margin-top:14px">${I('clock','')}<span>Yuborilgach e‘lon <b>Tekshiruvda</b> holatiga o‘tadi. Tasdiqlanmaguncha public ko‘rinmaydi.</span></div></aside></div>`,'manage','Yangi e‘lon')}
+
+/* ===== SUPER ADMIN (platforma boshqaruvi) ===== */
+function adminSide(active){const items=[['adminDash','grid','Umumiy holat',''],['adminMod','shield','Moderatsiya','7'],['adminStores','shop','Do‘konlar',''],['adminUsers','users','Foydalanuvchilar',''],['adminReports','alert','Shikoyatlar','3'],['adminCats','layers','Kategoriyalar',''],['adminAds','gift','Reklama','3']];
+ return `<aside class="dside admin"><div class="logo">RASTA</div><div class="d-store"><span class="ava" style="background:#e0405a">S</span><div><b>Super Admin</b><small>Platforma nazorati</small></div><span class="role admin-role">SUPER</span></div><nav class="dnav"><div class="dnav-label">Nazorat</div>${items.map(([s,i,l,c])=>`<button class="dnav-item ${active===s?'on':''}" data-go="${s}">${I(i)}${l}${c?`<span class="c">${c}</span>`:''}</button>`).join('')}<div class="dnav-label">Tizim</div><button class="dnav-item ${active==='adminSettings'?'on':''}" data-go="adminSettings">${I('sliders')}Sozlamalar</button><button class="dnav-item ${active==='adminStaff'?'on':''}" data-go="adminStaff">${I('users')}Xodimlar</button><button class="dnav-item ${active==='adminAudit'?'on':''}" data-go="adminAudit">${I('clock')}Audit log</button></nav><button class="d-switch" data-mode="buyer">${I('eye','i')} Ilovaga qaytish</button></aside>`}
+function adminMb(active){const items=[['adminDash','grid'],['adminMod','shield'],['adminStores','shop'],['adminReports','alert'],['adminUsers','users']];return `<nav class="mbottom dash-mb">${items.map(([s,i])=>`<button class="${active===s?'on':''}" data-go="${s}">${I(i)}</button>`).join('')}</nav>`}
+function adminTop(title){return `<div class="mtop"><div class="logo">RASTA</div><div class="mtop-actions"><button class="mtop-ic" data-mode="buyer">${I('eye')}</button></div></div><header class="dtop"><div><h2>${title}</h2><small>Super admin · platforma nazorati</small></div><div class="actions"><button class="btn btn-line" style="height:40px;flex:none;padding:0 14px" data-mode="buyer">${I('eye','i')} <span>Ilovaga qaytish</span></button></div></header>`}
+function adminShell(content,active,title){return `<div class="dash">${adminSide(active)}<div class="dmain">${adminTop(title)}<div class="dcontent">${content}</div>${adminMb(active)}</div></div>`}
+function adminDash(){return adminShell(`<div class="dintro"><div><h1>Platforma holati</h1><p>RASTA bo‘yicha umumiy nazorat</p></div><div class="chips" style="flex:none"><button class="pill on">Bugun</button><button class="pill">7 kun</button><button class="pill">30 kun</button></div></div><div class="kpis">${[['users','Foydalanuvchilar','48 240','+320 bugun'],['shop','Do‘konlar','1 240','+8 bugun'],['box','Faol e‘lonlar','86 400','+540'],['chat','Bugungi murojaat','9 820','+6%']].map(([i,l,v,t])=>`<div class="kpi"><div class="kpi-h"><span>${l}</span><span class="kpi-ic">${I(i,'i')}</span></div><div class="kpi-v">${v}</div><div class="trend">${t}</div></div>`).join('')}</div><div class="dgrid"><section class="panel"><div class="panel-h"><h3>Platforma faolligi</h3><span>So‘nggi 7 kun</span></div><div class="chart">${[52,63,58,74,69,88,94].map(h=>`<i class="bar" style="height:${h}%"></i>`).join('')}</div><div class="chart-x">${['Du','Se','Ch','Pa','Ju','Sh','Ya'].map(d=>`<span>${d}</span>`).join('')}</div></section><aside class="panel"><div class="panel-h"><h3>Zudlik bilan</h3><span>15 ta</span></div><div class="alerts"><button class="alert" data-go="adminMod"><span class="kpi-ic" style="background:#fff3dc;color:var(--warn)">${I('shield','i')}</span><div><b>7 e‘lon moderatsiyada</b><span>Ko‘rib chiqilishi kerak</span></div></button><button class="alert" data-go="adminReports"><span class="kpi-ic" style="background:#fdecef;color:var(--danger)">${I('alert','i')}</span><div><b>3 shikoyat</b><span>Foydalanuvchi murojaati</span></div></button><button class="alert" data-go="adminStores"><span class="kpi-ic" style="background:#eaf1fd;color:var(--info)">${I('shop','i')}</span><div><b>5 do‘kon tasdiq kutmoqda</b><span>Verifikatsiya</span></div></button></div></aside></div>`,'adminDash','Umumiy holat')}
+function adminMod(){const q=[products[9],products[11],products[13]];return adminShell(`<div class="dintro"><div><h1>Moderatsiya</h1><p>Yangi va tahrirlangan e‘lonlarni tasdiqlang yoki rad eting</p></div><div class="chips" style="flex:none"><button class="pill on">Kutilmoqda 7</button><button class="pill">Tasdiqlangan</button><button class="pill">Rad etilgan</button></div></div><div class="tablewrap"><div style="overflow:auto"><table><thead><tr><th>E‘lon</th><th>Do‘kon</th><th>Kategoriya</th><th>Yuborilgan</th><th>Amal</th></tr></thead><tbody>${q.map(p=>{const s=sOf(p);return `<tr><td><div class="tprod"><div class="tart" style="background:${p.bg}">${art(p.kind,p.color,p.bg)}</div><div><b>${p.title}</b><small>${p.price} so‘m</small></div></div></td><td>${s.title}</td><td>${groups[p.id]||'—'}</td><td>${p.time}</td><td><div class="prod-actions"><button class="mini-action primary" data-toast="E‘lon tasdiqlandi · endi public">Tasdiqlash</button><button class="mini-action" data-toast="Rad etildi · sotuvchiga sabab yuborildi">Rad etish</button></div></td></tr>`}).join('')}</tbody></table></div></div>`,'adminMod','Moderatsiya')}
+function adminStores(){const list=Object.values(stores);const sts=[['ok','Tasdiqlangan'],['ok','Tasdiqlangan'],['ok','Tasdiqlangan'],['rv','Tekshiruvda'],['ok','Tasdiqlangan'],['ok','Tasdiqlangan']];return adminShell(`<div class="dintro"><div><h1>Do‘konlar</h1><p>Tasdiqlash, kuzatish va bloklash</p></div><input class="tsearch" placeholder="Do‘kon qidirish" style="flex:none;width:220px"></div><div class="tablewrap"><div style="overflow:auto"><table><thead><tr><th>Do‘kon</th><th>Kategoriya</th><th>Mahsulot</th><th>Obunachi</th><th>Status</th><th>Amal</th></tr></thead><tbody>${list.map((s,i)=>`<tr><td><div class="tprod">${avatar(s.name)}<div><b>${s.title} ${vmark(s.verified)}</b><small>@${s.name}</small></div></div></td><td>${s.cat}</td><td>${s.products}</td><td>${s.followers}</td><td><span class="st ${(sts[i]||sts[0])[0]}">${(sts[i]||sts[0])[1]}</span></td><td><div class="prod-actions"><button class="mini-action" data-toast="Do‘kon profili ochildi">Ko‘rish</button><button class="mini-action" data-toast="Do‘kon vaqtincha bloklandi">Bloklash</button></div></td></tr>`).join('')}</tbody></table></div></div>`,'adminStores','Do‘konlar')}
+function adminUsers(){const u=[['Akmal Karimov','akmal_k','Xaridor','Faol','ok'],['Bekzod K.','bekzod_k','Sotuvchi','Faol','ok'],['Malika S.','malika_s','Sotuvchi','Faol','ok'],['Spam Account','user_9982','Xaridor','Bloklangan','rj']];return adminShell(`<div class="dintro"><div><h1>Foydalanuvchilar</h1><p>Hisoblar, rollar va holat</p></div><input class="tsearch" placeholder="Foydalanuvchi qidirish" style="flex:none;width:220px"></div><div class="tablewrap"><div style="overflow:auto"><table><thead><tr><th>Ism</th><th>Username</th><th>Rol</th><th>Status</th><th>Amal</th></tr></thead><tbody>${u.map(x=>`<tr><td><b>${x[0]}</b></td><td>@${x[1]}</td><td>${x[2]}</td><td><span class="st ${x[4]}">${x[3]}</span></td><td><div class="prod-actions"><button class="mini-action" data-toast="Profil ochildi">Ko‘rish</button><button class="mini-action" data-toast="${x[4]==='rj'?'Blok olib tashlandi':'Foydalanuvchi bloklandi'}">${x[4]==='rj'?'Blokni ochish':'Bloklash'}</button></div></td></tr>`).join('')}</tbody></table></div></div>`,'adminUsers','Foydalanuvchilar')}
+function adminReports(){const reps=[['Firibgarlik shubhasi','Nike Air krossovka','bekzod_k','Yangi','rv'],['Noto‘g‘ri kategoriya','Barista Mini','texnomart','Ko‘rildi','dr'],['Taqiqlangan mahsulot','Shubhali e‘lon','user_2261','Yangi','rv']];return adminShell(`<div class="dintro"><div><h1>Shikoyatlar</h1><p>Foydalanuvchi va tizim signallari</p></div></div><div class="tablewrap"><div style="overflow:auto"><table><thead><tr><th>Sabab</th><th>Obyekt</th><th>Yuboruvchi</th><th>Status</th><th>Amal</th></tr></thead><tbody>${reps.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>@${r[2]}</td><td><span class="st ${r[4]}">${r[3]}</span></td><td><div class="prod-actions"><button class="mini-action primary" data-toast="Shikoyat ko‘rib chiqildi">Ko‘rish</button><button class="mini-action" data-toast="Obyekt olib tashlandi">Olib tashlash</button></div></td></tr>`).join('')}</tbody></table></div></div>`,'adminReports','Shikoyatlar')}
+function catModal(){if(!S.catEdit)return'';const isNew=S.catEdit==='__new__';const name=isNew?'':S.catEdit;const subs=isNew?'':subOptions(name).join(', ');const kinds=['all','phone','house','wrench','pill','food','tshirt','chair','drill','car','torch','bag','watch'];const cur=(catArt[name]||{}).kind||'all';
+ return `<div class="edit-drawer" data-cat-backdrop><aside class="edit-sheet"><div class="edit-head"><div><h2>${isNew?'Yangi kategoriya':'Kategoriyani tahrirlash'}</h2><p>${isNew?'Nom, surat va ichki bo‘limlarni kiriting':'Nomi, surati va ichki bo‘limlari'}</p></div><button data-cat-close>${I('x','i')}</button></div><div class="fgrid"><div class="field full"><label>KATEGORIYA NOMI *</label><input id="cmName" value="${name}" placeholder="masalan: Avto"></div><div class="field full"><label>SURAT (ikonka turi)</label><select id="cmKind">${kinds.map(k=>`<option ${k===cur?'selected':''}>${k}</option>`).join('')}</select></div><div class="field full"><label>ICHKI BO‘LIMLAR (vergul bilan)</label><input id="cmSubs" value="${subs}" placeholder="Sotuv, Ijara"><span class="field-hint">Mijoz kategoriya tanlaganda shu filtrlar chiqadi.</span></div></div><div class="di-note">${I('info','')}<span>O‘zgarish darhol mijoz ilovasida ko‘rinadi va audit logga yoziladi.</span></div><div class="edit-foot">${isNew?'':`<button class="btn btn-line" style="color:var(--danger);border-color:#f3c9d1" data-cat-del="${name}">${I('x','i')} O‘chirish</button>`}<button class="btn btn-line" data-cat-close>Bekor</button><button class="btn btn-grad" data-cat-save="${isNew?'':name}">Saqlash</button></div></aside></div>`}
+function adminCats(){const list=cats.filter(c=>c[0]!=='Barchasi');
+ return adminShell(`<div class="dintro"><div><h1>Kategoriyalar</h1><p>Qo‘shish, tahrirlash, o‘chirish va ichki bo‘limlarni boshqarish</p></div><button class="btn btn-grad" style="flex:none;height:44px;padding:0 16px" data-cat-new>${I('plusb','i')} Kategoriya qo‘shish</button></div><div class="catalog-summary"><div class="sum-card"><i></i><div><b>${list.length}</b><span>Kategoriya</span></div></div><div class="sum-card warn"><i></i><div><b>${list.reduce((n,c)=>n+subOptions(c[0]).length,0)}</b><span>Ichki bo‘lim</span></div></div><div class="sum-card muted-dot"><i></i><div><b>86 400</b><span>Jami e‘lon</span></div></div><div class="sum-card danger"><i></i><div><b>2</b><span>Bo‘sh kategoriya</span></div></div></div><div class="tablewrap"><div style="overflow:auto"><table><thead><tr><th>Kategoriya</th><th>E‘lonlar (est.)</th><th>Ichki bo‘limlar</th><th>Amal</th></tr></thead><tbody>${list.map(([c])=>{const a=catArt[c]||{kind:'all',bg:'#eef2f1'};return `<tr><td><div class="tprod"><div class="tart" style="background:${a.bg}">${art(a.kind,a.color,a.bg)}</div><b>${c}</b></div></td><td>${(Object.values(groups).filter(g=>g===c).length*1200).toLocaleString('ru-RU')}</td><td>${subOptions(c).join(', ')||'—'}</td><td><div class="prod-actions"><button class="mini-action primary" data-cat-edit="${c}">Tahrirlash</button><button class="mini-action" data-cat-del="${c}">O‘chirish</button></div></td></tr>`}).join('')}</tbody></table></div></div>${catModal()}`,'adminCats','Kategoriyalar')}
+function adminAds(){const slots=[['Feed banner','Bosh sahifa, har 6 e‘londan keyin','Faol','ok','12 400','2.1%'],['Explore yuqori','Explore ekrani tepasi','Faol','ok','8 900','1.6%'],['Shorts oralig‘i','Har 5 shortsdan keyin','Pauzada','dr','—','—']];
+ const promoted=[[products[0],'TexnoMart','7 kun','Faol','ok'],[products[9],'Uy Makon','3 kun','Faol','ok'],[products[3],'Usta Market','tugagan','Yakunlangan','dr']];
+ return adminShell(`<div class="dintro"><div><h1>Reklama boshqaruvi</h1><p>Banner slotlar, ko‘tarilgan e‘lonlar va kampaniyalar</p></div><button class="btn btn-grad" style="flex:none;height:44px;padding:0 16px" data-toast="Yangi reklama kampaniyasi oynasi">${I('plusb','i')} Kampaniya</button></div>
+ <div class="campaign-summary"><div class="campaign-kpi"><b>3</b><span>Faol kampaniya</span></div><div class="campaign-kpi"><b>21 300</b><span>Bugungi ko‘rish</span></div><div class="campaign-kpi"><b>1.9%</b><span>O‘rtacha CTR</span></div></div>
+ <div class="section-title"><div><h2>Banner slotlar</h2><p>Reklama qayerda ko‘rinishini boshqaring</p></div></div><div class="tablewrap" style="margin-bottom:16px"><div style="overflow:auto"><table><thead><tr><th>Slot</th><th>Joylashuv</th><th>Status</th><th>Ko‘rish</th><th>CTR</th><th>Amal</th></tr></thead><tbody>${slots.map(s=>`<tr><td><b>${s[0]}</b></td><td>${s[1]}</td><td><span class="st ${s[3]}">${s[2]}</span></td><td>${s[4]}</td><td>${s[5]}</td><td><div class="prod-actions"><button class="mini-action primary" data-toast="Slot sozlamalari ochildi">Sozlash</button><button class="mini-action" data-toast="${s[2]==='Faol'?'Slot pauzaga qo‘yildi':'Slot faollashtirildi'}">${s[2]==='Faol'?'Pauza':'Yoqish'}</button></div></td></tr>`).join('')}</tbody></table></div></div>
+ <div class="section-title"><div><h2>Ko‘tarilgan e‘lonlar</h2><p>Pullik joylashuv — «Reklama» yorlig‘i bilan ko‘rsatiladi</p></div></div><div class="tablewrap"><div style="overflow:auto"><table><thead><tr><th>E‘lon</th><th>Do‘kon</th><th>Muddat</th><th>Status</th><th>Amal</th></tr></thead><tbody>${promoted.map(([p,st,d,s,cl])=>`<tr><td><div class="tprod"><div class="tart" style="background:${p.bg}">${art(p.kind,p.color,p.bg)}</div><div><b>${p.title}</b><small>${p.price} so‘m</small></div></div></td><td>${st}</td><td>${d}</td><td><span class="st ${cl}">${s}</span></td><td><div class="prod-actions"><button class="mini-action primary" data-toast="Kampaniya tafsiloti">Ko‘rish</button><button class="mini-action" data-toast="Ko‘tarish to‘xtatildi">To‘xtatish</button></div></td></tr>`).join('')}</tbody></table></div></div>
+ <div class="di-note" style="margin-top:14px">${I('shield','')}<span>Reklama organik natijalardan aniq ajratiladi: har bir pullik joylashuvda <b>«Reklama»</b> yorlig‘i majburiy. Ilova ichida to‘lov yo‘q — hisob-kitob platforma tashqarisida.</span></div>`,'adminAds','Reklama')}
+function adminSettings(){const flags=[['Shorts (Tomosha)',true],['Saqlangan kolleksiyalar',false],['Mahsulot taqqoslash',false],['Qorong‘i tema',false],['Reklama slotlari',true],['Do‘kon sharhlari',true]];
+ return adminShell(`<div class="dintro"><div><h1>Tizim sozlamalari</h1><p>Limitlar, moderatsiya qoidalari, funksiyalar va hududlar</p></div><button class="btn btn-grad" style="flex:none;height:44px;padding:0 16px" data-toast="Sozlamalar saqlandi · audit logga yozildi">${I('save','i')} Saqlash</button></div>
+ <div class="dgrid"><section class="panel"><div class="panel-h"><h3>E‘lon limitlari</h3><span>Spam va suiiste‘molga qarshi</span></div><div class="fgrid"><div class="field"><label>SHAXSIY: KUNLIK E‘LON</label><input value="5"></div><div class="field"><label>DO‘KON: KUNLIK E‘LON</label><input value="50"></div><div class="field"><label>RASM SONI (MAX)</label><input value="10"></div><div class="field"><label>RASM HAJMI (MB)</label><input value="10"></div><div class="field"><label>E‘LON AMAL MUDDATI (KUN)</label><input value="30"></div><div class="field"><label>KUNLIK XABAR LIMITI</label><input value="100"></div></div></section>
+ <aside class="panel"><div class="panel-h"><h3>Funksiyalar</h3><span>Feature flag</span></div><div class="alerts">${flags.map(([l,on])=>`<button class="alert" data-toast="«${l}» ${on?'o‘chirildi':'yoqildi'} · audit logga yozildi"><span class="kpi-ic" ${on?'':'style="background:#eef0f2;color:#8a8f98"'}>${I(on?'check':'x','i')}</span><div><b>${l}</b><span>${on?'Yoqilgan':'O‘chirilgan'}</span></div></button>`).join('')}</div></aside></div>
+ <div class="dgrid" style="margin-top:14px"><section class="panel"><div class="panel-h"><h3>Moderatsiya qoidalari</h3><span>Avtomatik nazorat</span></div><div class="fgrid"><div class="field full"><label>MODERATSIYA REJIMI</label><div class="variants"><button class="variant on">Oldindan tekshirish</button><button class="variant">Keyin tekshirish</button></div></div><div class="field"><label>AVTO-TEKSHIRUV SLA (SOAT)</label><input value="4"></div><div class="field"><label>SHIKOYAT CHEGARASI (AVTO-YASHIRISH)</label><input value="3"></div><div class="field full"><label>TAQIQLANGAN SO‘ZLAR</label><input value="qalbaki, retseptli dori, qurol"></div><div class="field full"><label>LITSENZIYA TALAB QILADIGAN KATEGORIYALAR</label><input value="Apteka, Ko‘chmas mulk"></div></div></section>
+ <aside class="panel"><div class="panel-h"><h3>Hudud va til</h3><span>Lokalizatsiya</span></div><div class="fgrid"><div class="field full"><label>ASOSIY TIL</label><select><option>O‘zbek (lotin)</option><option>O‘zbek (kirill)</option><option>Rus</option></select></div><div class="field full"><label>VALYUTA</label><select><option>so‘m (UZS)</option></select></div><div class="field full"><label>FAOL HUDUDLAR</label><input value="Toshkent, Samarqand, Buxoro"></div><div class="field full"><label>QO‘LLAB-QUVVATLASH ALOQASI</label><input value="support@rasta.uz"></div></div></aside></div>
+ <div class="di-note" style="margin-top:14px">${I('shield','')}<span>Bu sozlamalarni faqat <b>Super admin</b> o‘zgartira oladi. Har bir o‘zgarish kim/qachon/nima bilan audit logga yoziladi.</span></div>`,'adminSettings','Sozlamalar')}
+function adminStaff(){const staff=[['Akmal Karimov','akmal@rasta.uz','Super admin','ok','hozir onlayn'],['Nodira R.','nodira@rasta.uz','Moderator','ok','12 daq oldin'],['Javohir T.','javohir@rasta.uz','Support','ok','1 soat oldin'],['Kamola S.','kamola@rasta.uz','Analyst','dr','3 kun oldin']];
+ const perms=[['Super admin','To‘liq boshqaruv, rol tayinlash, tizim sozlamalari'],['Moderator','E‘lon moderatsiyasi, shikoyatlar, do‘kon verifikatsiyasi'],['Support','Cheklangan ko‘rish (PII maskalangan), yordam'],['Analyst','Faqat analitika va hisobotlar']];
+ return adminShell(`<div class="dintro"><div><h1>Xodimlar va ruxsatlar</h1><p>Admin rollari va kirish nazorati</p></div><button class="btn btn-grad" style="flex:none;height:44px;padding:0 16px" data-toast="Taklif yuborildi · 2FA sozlash talab qilinadi">${I('plusb','i')} Xodim taklif qilish</button></div>
+ <div class="tablewrap" style="margin-bottom:16px"><div style="overflow:auto"><table><thead><tr><th>Xodim</th><th>Email</th><th>Rol</th><th>2FA</th><th>Oxirgi faollik</th><th>Amal</th></tr></thead><tbody>${staff.map(s=>`<tr><td><div class="tprod"><span class="ava" style="background:#e2eeec;color:var(--brand)">${s[0][0]}</span><b>${s[0]}</b></div></td><td>${s[1]}</td><td><span class="st ${s[3]}">${s[2]}</span></td><td><span class="st ok">Yoqilgan</span></td><td>${s[4]}</td><td><div class="prod-actions"><button class="mini-action primary" data-toast="Rol o‘zgartirish oynasi">Rol</button><button class="mini-action" data-toast="Kirish bloklandi · sessiyalar yopildi">Bloklash</button></div></td></tr>`).join('')}</tbody></table></div></div>
+ <div class="section-title"><div><h2>Rol ruxsatlari</h2><p>Eng kam imtiyoz tamoyili</p></div></div><div class="tablewrap"><div style="overflow:auto"><table><thead><tr><th>Rol</th><th>Ruxsat</th></tr></thead><tbody>${perms.map(p=>`<tr><td><b>${p[0]}</b></td><td>${p[1]}</td></tr>`).join('')}</tbody></table></div></div>`,'adminStaff','Xodimlar')}
+function adminAudit(){const logs=[['15:42','Akmal K.','Super admin','Kategoriya tahrirlandi','Elektronika → ichki bo‘lim qo‘shildi','91.201.x.x'],['15:20','Nodira R.','Moderator','E‘lon tasdiqlandi','Ijaraga 1 xonali kvartira','91.201.x.x'],['14:58','Nodira R.','Moderator','E‘lon rad etildi','Shubhali e‘lon · sabab: taqiq','91.201.x.x'],['14:30','Akmal K.','Super admin','Sozlama o‘zgardi','Kunlik e‘lon limiti 3 → 5','91.201.x.x'],['13:05','Javohir T.','Support','Foydalanuvchi ko‘rildi','@user_9982 (PII maskalangan)','91.201.x.x'],['12:40','Akmal K.','Super admin','Do‘kon bloklandi','@shady_shop · sabab: firibgarlik','91.201.x.x']];
+ return adminShell(`<div class="dintro"><div><h1>Audit log</h1><p>Kim, qachon, nima o‘zgartirgani — o‘zgartirilmaydigan yozuv</p></div><div style="display:flex;gap:9px"><input class="tsearch" placeholder="Xodim yoki amal bo‘yicha qidirish" style="flex:none;width:220px"><button class="btn btn-line" style="flex:none;height:38px;padding:0 14px" data-toast="Audit log CSV eksport qilindi">${I('upload','i')} Eksport</button></div></div>
+ <div class="chips" style="margin-bottom:12px"><button class="pill on">Hammasi</button><button class="pill">Moderatsiya</button><button class="pill">Sozlama</button><button class="pill">Bloklash</button><button class="pill">Kategoriya</button></div>
+ <div class="tablewrap"><div style="overflow:auto"><table><thead><tr><th>Vaqt</th><th>Xodim</th><th>Rol</th><th>Amal</th><th>Tafsilot</th><th>IP</th></tr></thead><tbody>${logs.map(l=>`<tr><td><b>${l[0]}</b></td><td>${l[1]}</td><td>${l[2]}</td><td><b>${l[3]}</b></td><td>${l[4]}</td><td class="muted">${l[5]}</td></tr>`).join('')}</tbody></table></div></div>
+ <div class="di-note" style="margin-top:14px">${I('info','')}<span>Audit yozuvlari <b>immutable</b> — tahrirlab yoki o‘chirib bo‘lmaydi va alohida saqlanadi.</span></div>`,'adminAudit','Audit log')}
+
+const chev=d=>`<svg class="i" viewBox="0 0 24 24" style="width:22px;height:22px">${d==='up'?'<path d="m6 15 6-6 6 6"/>':'<path d="m6 9 6 6 6-6"/>'}</svg>`;
+function reels(){const list=products.filter(p=>S.reelCat==='Barchasi'||groups[p.id]===S.reelCat);
+ const catsBar=`<div class="reel-cats">${cats.map(([c])=>`<button class="reel-cat ${S.reelCat===c?'on':''}" data-reelcat="${c}">${c}</button>`).join('')}</div>`;
+ if(!list.length)return `<div class="reelswrap">${catsBar}<div class="reel-empty"><button class="reel-close" data-reel-close>${I('x','i')}</button><div>${I('compass')}<h3>«${S.reelCat}» bo‘yicha short yo‘q</h3><p>Boshqa kategoriyani tanlang.</p></div></div></div>`;
+ return `<div class="reelswrap">${catsBar}<div class="reels" id="reelScroll">${list.map((p,idx)=>{const s=sOf(p);const liked=S.liked.has(p.id),saved=S.saved.has(p.id),foll=p.store&&S.following.has(p.store),sub=p.store&&S.subscribed.has(p.store);
+  return `<section class="reel" data-reel="${idx}"><div class="reel-media"><div class="slides" data-carousel>${[50,28,72].map((x,i)=>`<div class="slide ${i===0?'on':''}" style="background:radial-gradient(120% 80% at ${x}% 25%,${p.bg},#06090c)">${art(p.kind,p.color,'transparent')}</div>`).join('')}</div><div class="dots reel-dots">${[0,1,2].map(i=>`<i class="${i===0?'on':''}"></i>`).join('')}</div></div><div class="reel-shade"></div><button class="reel-tap left" data-reelslide="-1" aria-label="Oldingi rasm"></button><button class="reel-tap right" data-reelslide="1" aria-label="Keyingi rasm"></button>
+  ${idx===0?`<div class="reel-top"><span class="rt-title">Tomosha</span><button class="reel-close" data-reel-close>${I('x','i')}</button></div>`:`<div class="reel-top"><span class="rt-title"></span><button class="reel-close" data-reel-close>${I('x','i')}</button></div>`}
+  <div class="reel-badges"><span class="badge ${p.type}">${p.type==='store'?'Do‘kon':'Shaxsiy'}</span><span class="badge ${p.cond==='Yangi'?'success':'used'}">${p.cond}</span></div>
+  <div class="info-card"><h4>${I('info','')} Mahsulot ma‘lumoti</h4><p class="info-desc">${descOf(p.id)}</p>${specRows(p.id)}<div class="info-row"><span>Mavjud</span><b>${p.stock}</b></div><div class="info-row"><span>Hudud</span><b>${p.area}</b></div></div>
+  <div class="reel-rail"><button class="${liked?'liked':''}" data-rlike="${p.id}"><span class="rr-ic">${I('heart')}</span><em style="font-style:normal">${p.likes}</em></button><button data-rinfo><span class="rr-ic">${I('info')}</span>Ma‘lumot</button><button class="${saved?'saved':''}" data-rsave="${p.id}"><span class="rr-ic">${I('bookmark')}</span>Saqlash</button><button data-toast="Havola nusxalandi"><span class="rr-ic">${I('send')}</span>Ulashish</button></div>
+  <div class="reel-bottom"><div class="reel-store"><div class="store-ava-wrap" data-store="${p.store||''}">${avatar(p.store||s)}${p.store?`<button class="mini-bell ${sub?'on':''}" data-bell="${p.store}" aria-label="Obuna">${I('bell')}</button>`:''}</div><b data-store="${p.store||''}">${s.title} ${vmark(s.verified)}</b>${p.store?`<button class="reel-follow ${foll?'on':''}" data-follow="${p.store}">${foll?'Kuzatilyapti':'Kuzatish'}</button>`:'<span class="reel-follow">Shaxsiy</span>'}</div><div class="reel-ttl">${p.title}</div><div class="reel-price">${p.price} so‘m</div><button class="reel-cta" data-toast="${s.title} bilan suhbat ochildi">${I('chat','i')} Bog‘lanish</button></div>
+  ${idx===0?`<div class="reel-hint">${chev('up')}<span>Yuqoriga suring · boshqa do‘konlar</span></div>`:''}</section>`}).join('')}</div>
+ <div class="reel-nav"><button data-reel-prev aria-label="Oldingi">${chev('up')}</button><button data-reel-next aria-label="Keyingi">${chev('down')}</button></div></div>`}
+function notifsScreen(){const unread=notifs.filter(n=>n.unread).length;
+ return pageShell(`<div class="page-head"><div><h1>Bildirishnomalar</h1><p>Obuna bo‘lgan do‘konlaringiz faoliyati${unread?` · ${unread} yangi`:''}</p></div>${notifs.length?'<button class="text-btn" data-mark-read>Hammasi o‘qildi</button>':''}</div>${notifs.length?`<div class="notif-group">So‘nggi</div>`+notifs.map(n=>{const s=stores[n.store];const p=pById(n.pid);return `<div class="notif ${n.unread?'unread':''}"><div class="store-ava-wrap" data-store="${n.store}">${avatar(n.store)}</div><div class="notif-thumb" data-open="${n.pid}" style="background:${p?p.bg:'#eee'}">${p?art(p.kind,p.color,p.bg):''}</div><div style="flex:1"><p><b data-store="${n.store}">${s.title}</b> ${vmark(s.verified)&&''} ${n.text}</p><div class="t">${n.time}</div></div><button class="act-btn" data-open="${n.pid}">Ko‘rish</button></div>`}).join(''):`<div class="empty"><span class="empty-ic">${I('bell')}</span><h3>Hozircha bildirishnoma yo‘q</h3><p>Do‘konlarga obuna bo‘lsangiz, yangi mahsulotlar shu yerda ko‘rinadi.</p><button class="btn btn-grad" style="flex:none;padding:0 18px;margin:14px auto 0" data-go="explore">Do‘konlarni topish</button></div>`}`,'notifs')}
+function render(){const scr={feed,explore,product,profile,saved,inbox,notifs:notifsScreen,reels,dashboard,manage,inventory,promotions,leads,create,adminDash,adminMod,adminStores,adminUsers,adminReports,adminCats,adminAds,adminSettings,adminStaff,adminAudit};
+ document.getElementById('app').innerHTML=(scr[S.screen]||feed)();
+ window.scrollTo(0,0);bindInputs();
+ if(S.screen==='reels'){const sc=document.getElementById('reelScroll');if(sc){sc.scrollTop=S.reelStart*sc.clientHeight;}}}
+function bindInputs(){
+ const ex=document.getElementById('exSearch');if(ex){ex.addEventListener('input',e=>{S.q=e.target.value;clearTimeout(window._t);window._t=setTimeout(render,160)})}
+ const ct=document.getElementById('cTitle');if(ct)ct.addEventListener('input',e=>{S.ctitle=e.target.value;const t=document.getElementById('pvTitle');if(t)t.textContent=e.target.value||'Mahsulot nomi'});
+ const cp=document.getElementById('cPrice');if(cp)cp.addEventListener('input',e=>{S.cprice=e.target.value;const t=document.getElementById('pvPrice');if(t)t.textContent=priceText(e.target.value)});
+ const ck=document.getElementById('cKw');if(ck)ck.addEventListener('input',e=>{S.ckeywords=e.target.value;const el=document.getElementById('pvKw');if(el)el.innerHTML=e.target.value.split(',').map(x=>x.trim()).filter(Boolean).slice(0,6).map(x=>`<span>#${x}</span>`).join('')});
+}
+const buyerScreens=['feed','explore','product','profile','saved','inbox','create'];
+const storeScreens=['dashboard','manage','inventory','promotions','leads'];
+const adminScreens=['adminDash','adminMod','adminStores','adminUsers','adminReports','adminCats','adminAds','adminSettings','adminStaff','adminAudit'];
+document.addEventListener('click',e=>{
+ const rClose=e.target.closest('[data-reel-close]');if(rClose){S.screen=S.prevScreen||'feed';S.mode='buyer';render();return}
+ const rNext=e.target.closest('[data-reel-next]');if(rNext){const sc=document.getElementById('reelScroll');if(sc)sc.scrollBy({top:sc.clientHeight,behavior:'smooth'});return}
+ const rPrev=e.target.closest('[data-reel-prev]');if(rPrev){const sc=document.getElementById('reelScroll');if(sc)sc.scrollBy({top:-sc.clientHeight,behavior:'smooth'});return}
+ const rSlide=e.target.closest('[data-reelslide]');if(rSlide){const c=rSlide.closest('.reel').querySelector('[data-carousel]');if(c)slideCarousel(c,+rSlide.dataset.reelslide);return}
+ const rCat=e.target.closest('[data-reelcat]');if(rCat){S.reelCat=rCat.dataset.reelcat;S.reelStart=0;render();return}
+ const rInfo=e.target.closest('[data-rinfo]');if(rInfo){rInfo.closest('.reel').classList.toggle('info-open');return}
+ const rLike=e.target.closest('[data-rlike]');if(rLike){const id=+rLike.dataset.rlike;S.liked.has(id)?S.liked.delete(id):S.liked.add(id);rLike.classList.toggle('liked');return}
+ const rSave=e.target.closest('[data-rsave]');if(rSave){const id=+rSave.dataset.rsave;S.saved.has(id)?S.saved.delete(id):S.saved.add(id);rSave.classList.toggle('saved');toast(S.saved.has(id)?'Saqlandi':'Olib tashlandi');return}
+ const iClose=e.target.closest('[data-info-close]');if(iClose){const m=iClose.closest('.post-media');if(m)m.classList.remove('info-open');return}
+ const inf=e.target.closest('[data-info]');if(inf){const m=inf.closest('.post-media');if(m)m.classList.toggle('info-open');return}
+ const bell=e.target.closest('[data-bell]');if(bell){const n=bell.dataset.bell;const now=!S.subscribed.has(n);now?S.subscribed.add(n):S.subscribed.delete(n);toast(now?(stores[n]?stores[n].title:'Do‘kon')+' — obuna va bildirishnoma yoqildi':'Obuna bekor qilindi');if(S.screen==='reels'){bell.classList.toggle('on',now)}else render();return}
+ const rFol=e.target.closest('[data-follow]');if(rFol&&S.screen==='reels'){const n=rFol.dataset.follow;const now=!S.following.has(n);now?S.following.add(n):S.following.delete(n);rFol.classList.toggle('on',now);rFol.textContent=now?'Kuzatilyapti':'Kuzatish';toast(now?'Kuzatilyapti':'Bekor qilindi');return}
+ const mRead=e.target.closest('[data-mark-read]');if(mRead){notifs.forEach(n=>n.unread=false);render();return}
+ const pDemo=e.target.closest('[data-post-demo]');if(pDemo){notifs.unshift({store:'texnomart',pid:1,text:'yangi mahsulot joyladi: Galaxy Buds Pro',time:'hozir',unread:true,type:'post'});toast('Obunachilarga bildirishnoma yuborildi');render();return}
+ const allSel=e.target.closest('[data-select-all]');if(allSel){const ids=[...document.querySelectorAll('[data-pselect]')].map(x=>+x.dataset.pselect);allSel.checked?ids.forEach(id=>S.selectedProducts.add(id)):ids.forEach(id=>S.selectedProducts.delete(id));render();return}
+ const pSel=e.target.closest('[data-pselect]');if(pSel){const id=+pSel.dataset.pselect;S.selectedProducts.has(id)?S.selectedProducts.delete(id):S.selectedProducts.add(id);render();return}
+ const clearSel=e.target.closest('[data-clear-selection]');if(clearSel){S.selectedProducts.clear();render();return}
+ const editP=e.target.closest('[data-edit-product]');if(editP){S.editingProduct=+editP.dataset.editProduct;render();return}
+ const closeEdit=e.target.closest('[data-close-edit]');if(closeEdit){S.editingProduct=null;render();return}
+ const saveEdit=e.target.closest('[data-save-edit]');if(saveEdit){S.editingProduct=null;render();toast('O‘zgarishlar saqlandi · auditga yozildi');return}
+ const duplicate=e.target.closest('[data-duplicate]');if(duplicate){toast('E‘lon nusxasi qoralama sifatida yaratildi');return}
+ const bulk=e.target.closest('[data-bulk]');if(bulk){const labels={price:'Narxni ommaviy yangilash',promo:'Tanlanganlar aksiyaga qo‘shildi',pause:'Tanlangan e‘lonlar pauzaga qo‘yildi',stock:'Qoldiqni ommaviy yangilash'};toast(labels[bulk.dataset.bulk]);return}
+ const promoTab=e.target.closest('[data-promo-tab]');if(promoTab){S.promoTab=promoTab.dataset.promoTab;render();return}
+ const promoType=e.target.closest('[data-promo-type]');if(promoType){S.promoType=promoType.dataset.promoType;render();return}
+ const focusPromo=e.target.closest('[data-focus-promo]');if(focusPromo){document.getElementById('promoBuilder')?.scrollIntoView({behavior:'smooth'});return}
+ const launchPromo=e.target.closest('[data-launch-promo]');if(launchPromo){toast('Aksiya preview’i tayyor · boshlash uchun tasdiqlang');return}
+ const go=e.target.closest('[data-go]');if(go){const s=go.dataset.go;if(s==='reels'){S.prevScreen=S.screen==='reels'?(S.prevScreen||'feed'):S.screen;S.reelStart=0;S.reelCat=S.cat||'Barchasi'}S.screen=s;S.mode=adminScreens.includes(s)?'admin':storeScreens.includes(s)?'store':'buyer';render();return}
+ const md=e.target.closest('[data-mode]');if(md){S.mode=md.dataset.mode;S.screen=S.mode==='store'?'dashboard':S.mode==='admin'?'adminDash':'feed';render();return}
+ const pft=e.target.closest('[data-pftab]');if(pft){S.pfTab=pft.dataset.pftab;render();return}
+ const st=e.target.closest('[data-store]');if(st&&st.dataset.store){S.storeView=st.dataset.store;S.screen='profile';S.mode='buyer';render();return}
+ const op=e.target.closest('[data-open]');if(op){S.screen='product';S.mode='buyer';render();return}
+ const lk=e.target.closest('[data-like]');if(lk){const id=+lk.dataset.like;S.liked.has(id)?S.liked.delete(id):S.liked.add(id);toast(S.liked.has(id)?'Yoqtirildi':'Yoqtirish olib tashlandi');render();return}
+ const sv=e.target.closest('[data-save]');if(sv){const id=+sv.dataset.save;S.saved.has(id)?S.saved.delete(id):S.saved.add(id);toast(S.saved.has(id)?'Saqlandi':'Saqlanganlardan olib tashlandi');render();return}
+ const fl=e.target.closest('[data-follow]');if(fl){const n=fl.dataset.follow;S.following.has(n)?S.following.delete(n):S.following.add(n);toast(S.following.has(n)?'Kuzatilyapti':'Kuzatish bekor qilindi');render();return}
+ const cty=e.target.closest('[data-ctype]');if(cty){S.ctype=cty.dataset.ctype;const d={product:['Samsung Galaxy A54 256GB','3 200 000','telefon, samsung, android, smartfon'],property:['3 xonali kvartira, Yunusobod','520 000 000','kvartira, uy, ko‘chmas mulk, ijara'],car:['Chevrolet Malibu 2, 2021','245 000 000','avto, mashina, chevrolet, malibu'],service:['Konditsioner ustasi xizmati','Kelishiladi','usta, konditsioner, ta‘mir, xizmat']}[S.ctype];S.ctitle=d[0];S.cprice=d[1];S.ckeywords=d[2];render();return}
+ const cst=e.target.closest('[data-cset]');if(cst){S[cst.dataset.cset]=cst.dataset.val;render();return}
+ const vr=e.target.closest('[data-variant]');if(vr){S.variant=vr.dataset.variant;render();return}
+ const ps=e.target.closest('[data-status]');if(ps){S.pstatus=ps.dataset.status;render();return}
+ const ld=e.target.closest('[data-lead]');if(ld){S.lead=ld.dataset.lead;render();return}
+ const qt=e.target.closest('[data-qty]');if(qt){const el=document.getElementById('q'+qt.dataset.row);el.textContent=Math.max(0,+el.textContent+ +qt.dataset.qty);toast('Qoldiq yangilandi · auditga yozildi');return}
+ const cNew=e.target.closest('[data-cat-new]');if(cNew){S.catEdit='__new__';render();return}
+ const cEdit=e.target.closest('[data-cat-edit]');if(cEdit){S.catEdit=cEdit.dataset.catEdit;render();return}
+ const cClose=e.target.closest('[data-cat-close]');if(cClose){S.catEdit=null;render();return}
+ const cBack=e.target.closest('[data-cat-backdrop]');if(cBack&&e.target===cBack){S.catEdit=null;render();return}
+ const cDel=e.target.closest('[data-cat-del]');if(cDel){const n=cDel.dataset.catDel;cats=cats.filter(c=>c[0]!==n);delete subMap[n];delete catArt[n];if(S.cat===n){S.cat='Barchasi';S.sub=''}S.catEdit=null;render();toast('«'+n+'» o‘chirildi · audit logga yozildi');return}
+ const cSave=e.target.closest('[data-cat-save]');if(cSave){const old=cSave.dataset.catSave;const nm=(document.getElementById('cmName')||{}).value?.trim();if(!nm){toast('Kategoriya nomini kiriting');return}
+  const kind=(document.getElementById('cmKind')||{}).value||'all';const subs=((document.getElementById('cmSubs')||{}).value||'').split(',').map(x=>x.trim()).filter(Boolean);
+  const bgByKind={all:'#eef2f1',phone:'#e7f1f2',house:'#e8eefb',wrench:'#e4f0f4',pill:'#e6f6ec',food:'#fff3d9',tshirt:'#fbeaf0',chair:'#eaf1e7',drill:'#fff3d9',car:'#eaeef5',torch:'#eef1f5',bag:'#fbeaf0',watch:'#e5f3f0'};
+  const artDef={kind,color:(catArt[old]||{}).color||'#0c9b88',bg:bgByKind[kind]||'#eef2f1'};
+  if(old){const i=cats.findIndex(c=>c[0]===old);if(i>-1)cats[i]=[nm,cats[i][1]];if(old!==nm){delete subMap[old];delete catArt[old];Object.keys(groups).forEach(k=>{if(groups[k]===old)groups[k]=nm});if(S.cat===old)S.cat=nm}}
+  else{cats.push([nm,'grid'])}
+  subMap[nm]=subs;catArt[nm]=artDef;S.catEdit=null;render();toast((old?'«'+nm+'» yangilandi':'«'+nm+'» qo‘shildi')+' · audit logga yozildi');return}
+ const cc=e.target.closest('[data-cat]');if(cc){S.cat=cc.dataset.cat;S.sub='';render();return}
+ const sb=e.target.closest('[data-sub]');if(sb){S.sub=sb.dataset.sub;render();return}
+ const pl=e.target.closest('[data-pill]');if(pl){pl.parentNode.querySelectorAll('.pill').forEach(x=>x.classList.remove('on'));pl.classList.add('on');toast('Filtr qo‘llandi');return}
+ const tp=e.target.closest('[data-toast]');if(tp){toast(tp.dataset.toast);return}
+});
+let _tt;function toast(t){const el=document.getElementById('toast');el.innerHTML=I('check','i')+' '+t;el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2200)}
+// Bitta karusel slaydini yo'nalish bo'yicha almashtirish (auto va qo'lda uchun)
+function slideCarousel(c,dir){const sl=[...c.querySelectorAll('.slide')];if(sl.length<2)return;let cur=sl.findIndex(s=>s.classList.contains('on'));if(cur<0)cur=0;const nx=(cur+dir+sl.length)%sl.length;sl[cur].classList.remove('on');sl[nx].classList.add('on');const dots=c.nextElementSibling;if(dots&&dots.classList.contains('dots')){[...dots.children].forEach((d,i)=>d.classList.toggle('on',i===nx));}}
+// Har 5 soniyada mahsulot rasmlari avtomatik slayd bo'ladi
+setInterval(()=>{document.querySelectorAll('[data-carousel]').forEach(c=>slideCarousel(c,1));},5000);
+// Shorts: rasmni qo'lda yon tomonga surib almashtirish
+let _tsx=0,_tsy=0,_tReel=null;
+document.addEventListener('touchstart',e=>{const t=e.touches[0];_tsx=t.clientX;_tsy=t.clientY;_tReel=e.target.closest?e.target.closest('.reel'):null;},{passive:true});
+document.addEventListener('touchend',e=>{if(!_tReel)return;const t=e.changedTouches[0];const dx=t.clientX-_tsx,dy=t.clientY-_tsy;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.3){const c=_tReel.querySelector('[data-carousel]');if(c)slideCarousel(c,dx<0?1:-1);}_tReel=null;},{passive:true});
+render();
+</script>
+</body>
+</html>

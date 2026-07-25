@@ -6,47 +6,61 @@ Bozorlar, supermarketlar va barcha turdagi sotuvchilar o'z do'konlarini ochib, m
 
 > **Asosiy tamoyil:** ilova ichida oldi-sotdi (to'lov) amalga oshirilmaydi. Ilova katalog, do'kon profillari, qidiruv va aloqa vazifasini bajaradi.
 
+> **Yagona manba:** loyihaning rasmiy rejasi — **RASTA_INFRATUZILMA_REJASI.md**, rasmiy dizayn/ilova ko'rinishi — **prototype/rasta-social.html**. Eski reja, wireframe va prototip fayllari chalkashmaslik uchun olib tashlangan.
+
+## 🚀 Ishlaydigan ilova
+
+**[app/](./app/)** — haqiqiy ishlaydigan ilova: server, SQLite baza, autentifikatsiya, e'lon CRUD,
+rasm yuklash, moderatsiya va super admin panel. Ma'lumotlar haqiqatan saqlanadi.
+
+```bash
+cd app
+npm run seed    # namuna ma'lumotlar
+npm start       # http://localhost:3000
+npm test        # 33 ta uchidan-uchiga test
+```
+
+Talab: Node.js 22.5+ (tashqi kutubxona ishlatilmaydi). Sinov hisoblari va batafsil ma'lumot:
+**[app/README.md](./app/README.md)**.
+
+`prototype/rasta-social.html` esa interaktiv **dizayn namunasi** sifatida qoladi (baza ulanmagan).
+
 ## Hujjatlar
 
-- **[RASTA_Loyiha_Rejasi_v2.pdf](./RASTA_Loyiha_Rejasi_v2.pdf)** ⭐ — to'liq reja (v2). To'rt mutaxassis (UI/UX dizayn, mahsulot menejmenti, tizim arxitekturasi, xavfsizlik) tahlili asosida: navigatsiya/menyular, obuna tariflari, do'kon boshqaruv paneli, statistika, texnologiya steki, integratsiyalar, ma'lumotlar bazasi, Trust & Safety, mahalliylashtirish va yo'l xaritasi.
-- [Uzbekiston_Onlayn_Bozor_Loyiha_Rejasi.pdf](./Uzbekiston_Onlayn_Bozor_Loyiha_Rejasi.pdf) — birinchi versiya (v1).
-- `build_pdf.py` / `build_pdf_v2.py` — PDF'larni qayta yaratuvchi skriptlar (sof Python, tashqi kutubxonasiz).
+- **[RASTA_INFRATUZILMA_REJASI.md](./RASTA_INFRATUZILMA_REJASI.md)** ⭐ — kanonik mahsulot va texnik reja: 3D/AR'siz ko'p turdagi do'konlar, rollar, katalog, qidiruv, xavfsizlik, tenant izolatsiyasi, infratuzilma, bosqichlar va qabul mezonlari.
+- **[RASTA_Kategoriyalar.md](./RASTA_Kategoriyalar.md)** — keng, aniq va ierarxik kategoriya tizimi hamda e'lon turi (Do'kon/Shaxsiy) va holat (Yangi/Ishlatilgan) ajratish.
 
-### Dizayn va menyular
+### Spec (implementatsiya uchun)
 
-- **[RASTA_Ekran_Xaritasi.md](./RASTA_Ekran_Xaritasi.md)** — to'liq menyu/ekran xaritasi: 14 ta ekran, har biri uchun maqsad, elementlar, foydalanuvchi amallari va navigatsiya + rollar jadvali.- **[RASTA_Wireframes.md](./RASTA_Wireframes.md)** — 7 ta asosiy ekranning matnli (ASCII) wireframe maketlari + dizayn tizimi (ranglar, brending).
-- **[RASTA_Kategoriyalar.md](./RASTA_Kategoriyalar.md)** — keng, aniq va ierarxik kategoriya tizimi (16 asosiy kategoriya + kichik kategoriyalar) hamda e'lon turi (Do'kon/Shaxsiy) va holat (Yangi/Ishlatilgan) ajratish.
+`.kiro/specs/rasta-mvp/` papkasi kanonik rejaga bo'ysunadi (kod boshlanishidan oldin shu reja asosida yangilanadi):
+- **[requirements.md](./.kiro/specs/rasta-mvp/requirements.md)** — MVP talablari (user stories + qabul mezonlari).
+- **[design.md](./.kiro/specs/rasta-mvp/design.md)** — texnik dizayn (DB sxemasi, komponentlar).
+- **[tasks.md](./.kiro/specs/rasta-mvp/tasks.md)** — kod yozish bosqichlari.
 
-### Spec (MVP qurilish rejasi)
+> **Texnologiya (MVP):** Next.js + TypeScript + Tailwind + Supabase/PostgreSQL. Aniq versiyalar implementatsiya boshlanganda amaldagi barqaror/LTS relizlarga pin qilinadi.
 
-`.kiro/specs/rasta-mvp/` papkasida:
-- **[requirements.md](./.kiro/specs/rasta-mvp/requirements.md)** — MVP talablari (11 ta, user stories + qabul mezonlari).
-- **[design.md](./.kiro/specs/rasta-mvp/design.md)** — texnik dizayn (Next.js + Supabase, DB sxemasi, komponentlar).
-- **[tasks.md](./.kiro/specs/rasta-mvp/tasks.md)** — kod yozish bosqichlari (10 bosqich, ~30 vazifa).
+### Rasmiy dizayn / ilova ko'rinishi
 
-> **Texnologiya (MVP):** Next.js 14 + TypeScript + Tailwind + Supabase, Vercel'da bepul deploy.
-
-### Interaktiv prototip (ilova ko'rinishi)
-
-- **[prototype/index.html](./prototype/index.html)** — ilovaning interaktiv demo ko'rinishi (21 ta ekran: professional SVG ikonkalar, takomillashtirilgan ranglar, aniq kategoriya gridi, **professional do'kon storefront**, **3D mahsulot ko'rinishi**, e'lon turi va Yangi/Ishlatilgan ajratish, kengaytirilgan do'kon boshqaruvi, dark mode).
-- **[prototype/3d-demo.html](./prototype/3d-demo.html)** — **haqiqiy 3D/AR model demo** (Google model-viewer, GLB format). Brauzerda 3D modelni aylantirib, telefonda AR orqali xonangizda ko'rishingiz mumkin.
-- **Ko'rish:** [htmlpreview orqali oching](https://htmlpreview.github.io/?https://github.com/xudush92-cmd/RASTA/blob/main/prototype/index.html) yoki faylni yuklab olib brauzerda oching.
+- **[prototype/rasta-social.html](./prototype/rasta-social.html)** ⭐ — Instagram uslubidagi ijtimoiy marketplace ko'rinishi: feed + stories, **Reels uslubidagi yuqoriga surib tomosha** (boshqa do'kon mahsulotlariga ham o'tadi), rasm ustida **tugma orqali mahsulot ma'lumoti**, do'konga **obuna + qo'ng'iroqcha** (yangi mahsulotda bildirishnoma), bildirishnomalar ekrani, explore gridi, do'kon profili (kuzatish/statistika/grid), DM inbox, saqlanganlar va alohida qorong'i do'kon dashboardi (KPI, SKU/qoldiq, murojaatlar, mahsulot yaratish). Responsive: desktop rail + feed, mobil top bar + bottom tab.
+- **[Brauzerda ko'rish](https://htmlpreview.github.io/?https://github.com/xudush92-cmd/RASTA/blob/main/prototype/rasta-social.html)** — desktop yoki telefonda ochiladi.
 
 ## Asosiy model
 
 RASTA'da e'lonlar **ikki xil va aniq ajratilgan** turda bo'ladi:
 
-- **🏪 Do'kon e'loni (PULLI)** — ro'yxatdan o'tgan, tasdiqlangan do'konlar. Oylik obuna (Boshlang'ich ~49k / Standart ~99k / Premium ~199k so'm), keng boshqaruv paneli, batafsil statistika. E'lonlarida "Do'kon ✓" belgisi.
+- **🏪 Do'kon mahsuloti** — ro'yxatdan o'tgan va tekshiruvdan o'tgan do'konlar, boshqaruv paneli va batafsil statistika. Pilotda trial/manual entitlement beriladi; pullik obuna va reklama muvaffaqiyatli pilotdan keyingi P1 bosqichida. Mahsulotlarda "Do'kon ✓" belgisi.
 - **👤 Shaxsiy e'lon (BEPUL)** — yakka shaxslar uchun oddiy e'lon joylash (cheklangan imkoniyatlar). E'lonlarida "Shaxsiy" belgisi.
 
 Qo'shimcha tamoyillar:
 - **Yangi** va **ishlatilgan** mahsulotlar har doim ajratiladi (alohida tab/filtr) — aralashmaydi.
 - **Kategoriyalar** keng, aniq va ierarxik (asosiy kategoriya → kichik kategoriya). Batafsil: [RASTA_Kategoriyalar.md](./RASTA_Kategoriyalar.md).
-- Ilova ichida xaridor-sotuvchi to'lovi yo'q; yagona to'lov — do'kon obunasi (Payme/Click/Uzum).
+- Ilova ichida xaridor-sotuvchi to'lovi yo'q. Pilotda do'kon trial/manual entitlement bilan ishlaydi; keyinchalik faqat RASTA obuna va reklama xizmatlari uchun to'lov qo'shiladi.
 
 ## Loyiha bosqichlari (qisqa)
 
-1. **MVP** — Auth, do'kon profili, mahsulot joylash, qidiruv, chat
-2. **v2** — Xarita/geolokatsiya, filtrlar, sharh va reyting, push
-3. **v3** — Admin moderatsiya paneli, boost/monetizatsiya, analitika
-4. **v4** — Mikroservis, AI qidiruv va tavsiyalar, masshtablash
+1. **Poydevor** — Auth, tenant/RBAC, audit, dizayn tizimi, monitoring va backup
+2. **MVP katalog** — do'kon yaratish/tekshirish, mahsulot/variant/qoldiq, moderatsiya va storefront
+3. **MVP aloqa** — qidiruv/filtr, chat, murojaat, shikoyat va do'kon analitikasi
+4. **Pilotdan keyin** — obuna/reklama, filiallar, ommaviy import, sharh va kengaytirilgan analytics
+
+Bosqichlar va chiqish mezonlari: [RASTA_INFRATUZILMA_REJASI.md](./RASTA_INFRATUZILMA_REJASI.md#20-bosqichma-bosqich-amalga-oshirish).

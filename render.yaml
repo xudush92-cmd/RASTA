@@ -1,0 +1,26 @@
+# Render.com uchun bepul joylashtirish sozlamasi.
+# Diqqat: bepul rejada doimiy disk yo'q — xizmat qayta ishga tushganda
+# baza tozalanadi va namuna ma'lumotlar qaytadan yuklanadi (demo uchun mos).
+# Doimiy saqlash kerak bo'lsa: pullik rejaga o'tib, quyidagi "disk" blokini yoqing.
+
+services:
+  - type: web
+    name: rasta
+    runtime: node
+    plan: free
+    region: frankfurt
+    rootDir: app
+    buildCommand: 'echo "tashqi kutubxona kerak emas"'
+    startCommand: npm run start:auto
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: '22'
+      - key: RASTA_DATA_DIR
+        value: /opt/render/project/src/app/data
+    # Pullik rejada doimiy saqlash uchun:
+    # disk:
+    #   name: rasta-data
+    #   mountPath: /var/data
+    #   sizeGB: 1
+    # va RASTA_DATA_DIR ni /var/data ga o'zgartiring
