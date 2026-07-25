@@ -1,0 +1,17 @@
+{
+  "name": "RASTA",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "postCreateCommand": "cd app && npm run seed",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "RASTA",
+      "onAutoForward": "openBrowser"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["esbenp.prettier-vscode"]
+    }
+  }
+}

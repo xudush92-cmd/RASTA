@@ -9,6 +9,7 @@
   },
   "scripts": {
     "start": "node --experimental-sqlite src/server.js",
+    "start:auto": "node --experimental-sqlite src/start.js",
     "seed": "node --experimental-sqlite src/seed.js",
     "reset": "node --experimental-sqlite src/seed.js --reset",
     "test": "node --experimental-sqlite test/smoke.js"
